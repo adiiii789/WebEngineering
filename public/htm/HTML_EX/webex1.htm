@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHBW Web Engineering Meine erste Homepage</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/DHBWWebEngineering EX2.css">
+  </head>
+  <body>
+    <div id="headerNav">
+      <header class="row">
+        <img
+          class="col-handy12 col-small12 col-med3 col-large2"
+          src="/images/logodhbw.svg"
+          alt="DHBW Logo">
+        <h1 class="col-handy12 col-small12 col-med9 col-large10">
+          <span class="headertext">DHBW Stuttgart Web Engineering Portal</span>
+        </h1>
+      </header>
+      <nav>
+        <ul class="row">
+          <li class="col-handy12 col-small4 col-med4 col-large4">
+            <a href="#Informatik">Informatik</a>
+          </li>
+          <li class="col-handy12 col-small4 col-med4 col-large4">
+            <a href="#Elektrotechnik">Elektrotechnik</a>
+          </li>
+          <li class="col-handy12 col-small4 col-med4 col-large4">
+            <a href="#Maschinenbau">Maschinenbau</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+    <div id="scrollpart">
+      <section>
+        <div style="position:relative; left:10%; width:80%; max-width:600px;
+                    aspect-ratio:16/9; padding:1rem;">
+          <iframe
+            style="position:absolute; width:100%; height:100%;
+                   left:0; top:0; border:none;"
+            id="myiframe"
+            src="https://youtube.com/embed/2dy9fLZEg9A"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div>
+          Die DHBW Stuttgart steht für eine einzigartige Verbindung von Theorie und Praxis:
+          Zusammen mit rund 2.000 Unternehmen und sozialen Einrichtungen (den Dualen Partnern)
+          werden über 40 anerkannte Bachelor-Studienrichtungen in den Fakultäten Wirtschaft,
+          Technik und Sozialwesen angeboten.
+        </div>
+      </section>
+      <div id="Informatik" class="row">
+        <div class="col-handy12 col-small3 col-med2 col-large2">
+          Informatik
+        </div>
+        <div class="col-handy12 col-small3 col-med4 col-large4">
+          <img src="/images/Erdbeer-Q.jpeg" alt="Informatik Bild">
+        </div>
+        <div class="col-handy12 col-small6 col-med6 col-large6">
+          Informatiker übertragen Vorgänge der realen Welt auf Computersysteme,
+          indem sie die Aufgabenstellung in geeignete Modelle überführen und diese dann
+          auf Softwaresystemen abbilden. Die Vielfalt an Anwendungsmöglichkeiten ist dabei
+          nahezu unbegrenzt und steigt stetig mit der zunehmenden Leistungsfähigkeit der Systeme.
+        </div>
+      </div>
+      <div id="Elektrotechnik" class="row">
+        <div class="col-handy12 col-small3 col-med2 col-large2">
+          Elektrotechnik
+        </div>
+        <div class="col-handy12 col-small3 col-med4 col-large4">
+          <img src="/images/Mandarinen-Q.jpeg" alt="Elektrotechnik Bild">
+        </div>
+        <div class="col-handy12 col-small6 col-med6 col-large6">
+          Die Elektrotechnik bewegt und verändert die Welt:
+          Smartphones, Assistenzsysteme, Smart Home oder Medizintechnik sind aus
+          unserem Leben nicht mehr wegzudenken, die Energiewende ist in aller Munde.
+          Ingenieurinnen und Ingenieure der Elektrotechnik gestalten und entwickeln
+          die Systeme und haben so einen direkten Einfluss auf unser alltägliches Leben.
+          Sie befassen sich nicht nur mit elektrischen und elektronischen Systemen, sondern arbeiten
+          in einem sehr vielfältigen Arbeitsfeld, das von der Entwicklung eines Produkts
+          über das Projektmanagement bis hin zu Marketing und Vertrieb reicht.
+        </div>
+      </div>
+      <div id="Maschinenbau" class="row">
+        <div class="col-handy12 col-small3 col-med2 col-large2">
+          Maschinenbau
+        </div>
+        <div class="col-handy12 col-small3 col-med4 col-large4">
+          <img src="/images/Pizza-Q.jpeg" alt="Maschinenbau Bild">
+        </div>
+        <div class="col-handy12 col-small6 col-med6 col-large6">
+          Der Maschinenbau mit seinen zahlreichen Ausprägungen verknüpft Theorie
+          und Praxis, Naturwissenschaft und Technik. Die umfassende Ausbildung an
+          der Dualen Hochschule Stuttgart ermöglicht es Absolventinnen und Absolventen
+          des Studiengangs, Aufgaben in vielen Tätigkeitsfeldern zu übernehmen.
+        </div>
+      </div>
+    </div>
+    <footer>
+      Copyright &copy; DHBW Stuttgart 2021
+    </footer>
+    <script>
+      function adjustScrollPart() {
+        var headerNav   = document.getElementById('headerNav');
+        var scrollPart  = document.getElementById('scrollpart');
+        if (headerNav && scrollPart) {
+          scrollPart.style.paddingTop = headerNav.offsetHeight + 'px';
+        }
+      }
+      window.addEventListener('load',   adjustScrollPart);
+      window.addEventListener('resize', adjustScrollPart);
+    </script>
+  </body>
+</html>

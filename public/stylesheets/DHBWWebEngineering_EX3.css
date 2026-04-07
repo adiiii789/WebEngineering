@@ -1,0 +1,257 @@
+/* ============================================================
+   DHBW Web Engineering – EX3 Stylesheet
+   CSS 3 Grid (Seitenlayout) + Flexbox (Zeileninhalt)
+   Baut auf EX1/EX2 auf; ersetzt float-basiertes Grid
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. RESET & BOX MODEL
+   ------------------------------------------------------------ */
+* {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------
+   2. CSS 3 GRID – Seitenlayout
+   Der <body> wird zum fixen Grid-Container mit 4 Zeilen:
+   header | navigation | scroller | footer
+   ------------------------------------------------------------ */
+body {
+     position: fixed;
+     width: 100%;
+     height: 100%;
+     display: grid;
+     grid-template-columns: 100%;
+     grid-template-rows: auto auto 1fr auto;
+     grid-template-areas:
+          "header"
+          "navigation"
+          "scroller"
+          "footer";
+     justify-items: stretch;
+     align-items: stretch;
+}
+
+/* Grid-Bereichszuweisungen */
+header  { grid-area: header;     }
+nav     { grid-area: navigation; }
+#scrollpart { grid-area: scroller; }
+footer  { grid-area: footer;     }
+
+/* Scrollbarer Bereich */
+#scrollpart {
+     overflow: auto;
+}
+
+/* ------------------------------------------------------------
+   3. HEADER (Flexbox)
+   Bild links, Text rechts – bei kleinen Screens umgebrochen
+   ------------------------------------------------------------ */
+header {
+     display: flex;
+     flex-flow: row wrap;
+     justify-content: space-between;
+     align-items: center;
+     color: white;
+     background-color: black;
+     padding: 0.6em 1em;
+     width: 100%;
+}
+
+header img {
+     height: 50px;
+     width: auto;
+}
+
+header h1 {
+     flex: 1;
+     padding-left: 1em;
+     font-size: 1.4em;
+}
+
+/* ------------------------------------------------------------
+   4. NAVIGATION (Flexbox)
+   Items rechts ausgerichtet; bei Handy volle Breite (stacked)
+   ------------------------------------------------------------ */
+nav {
+     display: flex;
+     flex-flow: row wrap;
+     justify-content: flex-end;
+     align-items: center;
+     background-color: darkgrey;
+     width: 100%;
+}
+
+nav ul {
+     display: flex;
+     flex-flow: row wrap;
+     justify-content: flex-end;
+     list-style: none;
+     width: 100%;
+     margin: 0;
+     padding: 0;
+}
+
+nav li {
+     padding: 1rem 1.3rem;
+     border-left: 1px solid white;
+     list-style-type: none;
+}
+
+nav li:first-child {
+     margin-right: auto;   /* schiebt Informatik nach links */
+     border-left: none;
+}
+
+nav li:hover {
+     background-color: white;
+}
+
+nav li a {
+     text-decoration: none;
+     color: yellow;
+     font-weight: bold;
+}
+
+a:visited {
+     color: blue;
+}
+
+a:hover, a:active, a:focus {
+     color: darkred;
+     text-decoration: none;
+}
+
+/* ------------------------------------------------------------
+   5. SCROLLBARER BEREICH – YouTube-Sektion
+   ------------------------------------------------------------ */
+section {
+     display: flex;
+     flex-flow: column;
+     max-width: 700px;
+     padding: 1.5em;
+     border-bottom: 2px solid black;
+     background-color: #555;
+     color: white;
+}
+
+section p,
+section div {
+     padding: 0.5em 0;
+}
+
+/* ------------------------------------------------------------
+   6. FAKULTÄTEN (Flexbox)
+   Jede Fakultät hat einen Titel-Banner + Inhaltszeile
+   ------------------------------------------------------------ */
+.fakultaet {
+     border-bottom: 2px solid black;
+     background-color: #e2e4e8;
+}
+
+.fakultaet-titel {
+     background-color: #3a3f5c;
+     color: white;
+     text-align: center;
+     padding: 0.6em 1em;
+     font-weight: bold;
+     width: 100%;
+}
+
+.fakultaet-inhalt {
+     display: flex;
+     flex-flow: row wrap;
+     align-items: flex-start;
+     padding: 1em;
+     gap: 1em;
+}
+
+.fakultaet-inhalt img {
+     flex: 0 0 200px;
+     width: 200px;
+     height: auto;
+     object-fit: cover;
+}
+
+.fakultaet-inhalt p {
+     flex: 1 1 250px;
+     font-size: 0.95em;
+     line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   7. FOOTER
+   ------------------------------------------------------------ */
+footer {
+     color: white;
+     background-color: black;
+     padding: 0.8em 1em;
+     width: 100%;
+}
+
+/* ============================================================
+   8. MEDIA QUERIES – Responsive Anpassungen
+   ============================================================ */
+
+/* Handy: < 450 px – Nav-Items stapeln vertikal, volle Breite  */
+@media only screen and (max-width: 449px) {
+     nav li {
+          flex-basis: 100%;
+          border-left: none;
+          border-bottom: 1px solid white;
+          text-align: center;
+     }
+     nav li:first-child {
+          margin-right: 0;
+     }
+     header {
+          flex-flow: column;
+          align-items: flex-start;
+     }
+     header img {
+          height: 40px;
+     }
+     header h1 {
+          font-size: 1em;
+          padding-left: 0;
+          padding-top: 0.4em;
+     }
+     .fakultaet-inhalt img {
+          flex-basis: 100%;
+          width: 100%;
+     }
+     section {
+          max-width: 100%;
+     }
+}
+
+/* Small Tablet: 450 – 699 px                                  */
+@media only screen and (min-width: 450px) and (max-width: 699px) {
+     header h1 {
+          font-size: 1.2em;
+     }
+     .fakultaet-inhalt img {
+          flex: 0 0 150px;
+          width: 150px;
+     }
+}
+
+/* Medium: 700 – 999 px                                        */
+@media only screen and (min-width: 700px) and (max-width: 999px) {
+     header h1 {
+          font-size: 1.3em;
+     }
+}
+
+/* Large Desktop: >= 1000 px                                   */
+@media only screen and (min-width: 1000px) {
+     header h1 {
+          font-size: 1.5em;
+     }
+     .fakultaet-inhalt img {
+          flex: 0 0 220px;
+          width: 220px;
+     }
+}

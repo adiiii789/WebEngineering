@@ -48,7 +48,7 @@ document.getElementById('xxxxxx').addEventListener("click", dothisnow);
 // Above just gives the name of the function to the event listener, the function dothisnow must be specifed
 // somewhere else
 //
-document.getElementById('yyyyy').addEventListener("click",function() {.. some javascript code ... });
+document.getElementById('PullupServices').addEventListener("click",function() {console.log("Test Message")});
 // Above defines a inline function (anonymous function) as part of the addEventListener second parameter
 // the code to be executed is within {} as part part of the second parameter
 //
@@ -64,7 +64,7 @@ function dothisnow()
   //
   // access the pullup Window
   //
-  var pull = document.getElementById('abc'); // variable pull refers to the HTML element with the id="abc"
+  var pull = document.getElementById('PullupServices'); // variable pull refers to the HTML element with the id="abc"
   //
   // now you can simply modifiy the style attributes using this pull.style.123 notation
   // below are just examples
@@ -104,10 +104,10 @@ function showMenschen()  {
   // alle.Menschen is the array of people
   for (var i = 0; i < alle.Menschen.length; i++) {
     var person = alle.Menschen[i];
-    tabletext += "<tr><td>" + person.Vorname + ....
+    tabletext += "<tr><td>" + person.Vorname + "</td><td>" + person.Nachname + "</td><td>" + person.Gender + "</td><td>" + person.Rolle + "</td></tr>";
   }
 
-  var tableclosing = "</table>"; // the table end just take it
+  var tableclosing = "</table>";
   var fulltext = tableheader + tabletext + tableclosing;
   //
   // save the full text as innerHTML of the popup element named showwindowData

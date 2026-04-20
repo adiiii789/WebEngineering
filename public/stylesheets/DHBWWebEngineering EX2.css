@@ -121,6 +121,94 @@ td img {
      float: left;
 }
 
+/* ── Popup-Grundstil (beide Popups verwenden diese Basis) ── */
+.popup {
+     display: none;          /* standardmäßig unsichtbar         */
+     position: fixed;        /* fixed → über allem anderen        */
+     left: 0;
+     z-index: 200;
+     background: white;
+     border: 2px solid #3a3f5c;
+     border-radius: 4px;
+     box-shadow: 3px 3px 12px rgba(0,0,0,0.4);
+     padding: 0;
+     min-width: 180px;
+}
+
+/* Popup-Titelzeile (dunkel) */
+.popup-header {
+     background-color: #3a3f5c;
+     color: white;
+     padding: 0.5em 1em;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     font-weight: bold;
+}
+
+/* Zurück-Button im Popup */
+.popup-header button {
+     background: transparent;
+     border: 1px solid white;
+     color: white;
+     cursor: pointer;
+     padding: 0.2em 0.6em;
+     border-radius: 3px;
+     font-size: 0.85em;
+}
+.popup-header button:hover {
+     background: rgba(255,255,255,0.2);
+}
+
+/* Inhalt innerhalb des Popups */
+.popup-body {
+     padding: 0.8em 1.2em;
+}
+
+/* Einzelne Einträge im Dienste-Menü */
+.popup-body ul {
+     list-style: none;
+     margin: 0;
+     padding: 0;
+}
+.popup-body ul li {
+     padding: 0.6em 0.4em;
+     border-bottom: 1px solid #ddd;
+     cursor: pointer;
+     color: #3a3f5c;
+     font-weight: bold;
+}
+.popup-body ul li:last-child { border-bottom: none; }
+.popup-body ul li:hover { background-color: #e2e4e8; }
+
+/* Tabellen-Styling im Leute-Popup */
+#showwindow { min-width: 340px; }
+#showwindow table {
+     width: 100%;
+     border-collapse: collapse;
+     font-size: 0.9em;
+}
+#showwindow th {
+     background-color: #3a3f5c;
+     color: white;
+     padding: 0.4em 0.8em;
+     text-align: left;
+}
+#showwindow td {
+     border: 1px solid #ccc;
+     padding: 0.4em 0.8em;
+}
+#showwindow tr:nth-child(odd)  { background-color: #f0f2f5; }
+#showwindow tr:nth-child(even) { background-color: #ffffff; }
+#showwindow tr:hover           { background-color: #d8dce8; }
+
+     /* "Dienste"-Nav-Item: Cursor zeigen, kein Link-Aussehen */
+#PullupServices {
+     cursor: pointer;
+     color: yellow;
+     font-weight: bold;
+}
+
 @media only screen and (min-width: 10px) {
      .col-handy1  { width: 8.33%;  }
      .col-handy2  { width: 16.66%; }

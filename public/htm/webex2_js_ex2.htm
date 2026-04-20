@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHBW Web Engineering Meine erste Homepage</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/DHBWWebEngineering_EX3.css">
+    <style>
+      /* ── Popups ──────────────────────────────────────────── */
+      .popup {
+        display: none;
+        position: fixed;
+        left: 0;
+        z-index: 200;
+        background: white;
+        border: 2px solid #3a3f5c;
+        border-radius: 4px;
+        box-shadow: 3px 3px 12px rgba(0,0,0,0.4);
+        min-width: 220px;
+        max-width: 92vw;
+      }
+      .popup-header {
+        background-color: #3a3f5c;
+        color: white;
+        padding: 0.5em 1em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+      }
+      .popup-header button {
+        background: transparent;
+        border: 1px solid white;
+        color: white;
+        cursor: pointer;
+        padding: 0.2em 0.6em;
+        border-radius: 3px;
+        font-size: 0.85em;
+      }
+      .popup-header button:hover { background: rgba(255,255,255,0.2); }
+      .popup-body { padding: 0.8em 1.2em; }
+
+      /* Menü-Liste im Dienste-Popup */
+      .popup-body ul { list-style: none; margin: 0; padding: 0; }
+      .popup-body ul li {
+        padding: 0.6em 0.4em;
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        color: #3a3f5c;
+        font-weight: bold;
+      }
+      .popup-body ul li:last-child { border-bottom: none; }
+      .popup-body ul li:hover      { background-color: #e2e4e8; }
+
+      /* Wikipedia-Suchzeile: Input + Button nebeneinander */
+      .wiki-search-row {
+        display: flex;
+        gap: 0.4em;
+        padding: 0.6em 0.4em;
+        border-bottom: 1px solid #ddd;
+        align-items: center;
+      }
+      .wiki-search-row input {
+        flex: 1;
+        padding: 0.3em 0.5em;
+        border: 1px solid #aaa;
+        border-radius: 3px;
+        font-size: 0.9em;
+      }
+      .wiki-search-row button {
+        padding: 0.3em 0.7em;
+        background-color: #3a3f5c;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 0.9em;
+        white-space: nowrap;
+      }
+      .wiki-search-row button:hover { background-color: #555e80; }
+
+      /* Daten-Popup: scrollbar bei vielen Einträgen */
+      #showwindow { max-height: 65vh; overflow-y: auto; }
+      #showwindow table   { width: 100%; border-collapse: collapse; font-size: 0.85em; }
+      #showwindow th      { background-color: #3a3f5c; color: white; padding: 0.4em 0.8em; text-align: left; }
+      #showwindow td      { border: 1px solid #ccc; padding: 0.4em 0.8em; vertical-align: top; max-width: 260px; }
+      #showwindow tr:nth-child(odd)  { background-color: #f0f2f5; }
+      #showwindow tr:nth-child(even) { background-color: #ffffff; }
+      #showwindow tr:hover           { background-color: #d8dce8; }
+      #showwindow td a    { color: #3a3f5c; }
+
+      #PullupServices { cursor: pointer; color: yellow; font-weight: bold; }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- GRID 1: HEADER -->
+    <header>
+      <img src="/images/logodhbw.svg" alt="DHBW Logo">
+      <h1>DHBW Stuttgart Web Engineering Portal</h1>
+    </header>
+
+    <!-- GRID 2: NAVIGATION -->
+    <nav>
+      <ul>
+        <li><a href="#Informatik">Informatik</a></li>
+        <li><a href="#Elektrotechnik">Elektrotechnik</a></li>
+        <li><a href="#Maschinenbau">Maschinenbau</a></li>
+        <li id="PullupServices">Dienste</li>
+      </ul>
+    </nav>
+
+    <!-- =====================================================
+         POPUP 1: DIENSTE-MENÜ
+         Enthält: Leute | Wikipedia-Suchzeile | Andere Sachen
+    ===================================================== -->
+    <div id="PullupServices_popup" class="popup">
+      <div class="popup-header">
+        <span>Dienste</span>
+        <button id="btnClosePullup">Zurück</button>
+      </div>
+      <div class="popup-body">
+        <ul>
+          <li id="btnLeute">Leute</li>
+        </ul>
+        <!-- Wikipedia-Suchzeile mit Eingabefeld + Button -->
+        <div class="wiki-search-row">
+          <input id="wikiSearchInput" type="text" placeholder="Wikipedia suchen…" value="">
+          <button id="btnWikipedia">Suchen</button>
+        </div>
+        <ul>
+          <li id="btnAndereSachen">Andere Sachen</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- =====================================================
+         POPUP 2: DATEN-POPUP  (Leute & Wikipedia)
+         .popup-title wird per JS dynamisch gesetzt
+    ===================================================== -->
+    <div id="showwindow" class="popup">
+      <div class="popup-header">
+        <span class="popup-title">Daten</span>
+        <button id="btnCloseShow">Zurück</button>
+      </div>
+      <div class="popup-body">
+        <div id="showwindowData"></div>
+      </div>
+    </div>
+
+    <!-- GRID 3: SCROLLBARER BEREICH -->
+    <div id="scrollpart">
+
+      <section>
+        <div>
+          Die DHBW Stuttgart steht für eine einzigartige Verbindung von Theorie und Praxis:
+          Zusammen mit rund 2.000 Unternehmen und sozialen Einrichtungen (den Dualen Partnern)
+          werden über 40 anerkannte Bachelor-Studienrichtungen in den Fakultäten Wirtschaft,
+          Technik und Sozialwesen angeboten.
+        </div>
+        <div style="position:relative; width:100%; max-width:600px;
+                    aspect-ratio:16/9; padding:1rem; margin-top:0.5em;">
+          <iframe
+            style="position:absolute; width:100%; height:100%; left:0; top:0; border:none;"
+            id="myiframe"
+            src="https://youtube.com/embed/2dy9fLZEg9A"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </section>
+
+      <div class="fakultaet" id="Informatik">
+        <div class="fakultaet-titel">Informatik</div>
+        <div class="fakultaet-inhalt">
+          <img src="/images/Erdbeer-Q.jpeg" alt="Informatik">
+          <p>Informatiker übertragen Vorgänge der realen Welt auf Computersysteme,
+          indem sie die Aufgabenstellung in geeignete Modelle überführen und diese dann
+          auf Softwaresystemen abbilden.</p>
+        </div>
+      </div>
+
+      <div class="fakultaet" id="Elektrotechnik">
+        <div class="fakultaet-titel">Elektrotechnik</div>
+        <div class="fakultaet-inhalt">
+          <img src="/images/Mandarinen-Q.jpeg" alt="Elektrotechnik">
+          <p>Die Elektrotechnik bewegt und verändert die Welt:
+          Smartphones, Assistenzsysteme, Smart Home oder Medizintechnik sind aus
+          unserem Leben nicht mehr wegzudenken.</p>
+        </div>
+      </div>
+
+      <div class="fakultaet" id="Maschinenbau">
+        <div class="fakultaet-titel">Maschinenbau</div>
+        <div class="fakultaet-inhalt">
+          <img src="/images/Pizza-Q.jpeg" alt="Maschinenbau">
+          <p>Der Maschinenbau mit seinen zahlreichen Ausprägungen verknüpft Theorie
+          und Praxis, Naturwissenschaft und Technik.</p>
+        </div>
+      </div>
+
+    </div><!-- /#scrollpart -->
+
+    <!-- GRID 4: FOOTER -->
+    <footer>
+      Copyright &copy; DHBW Stuttgart 2021
+    </footer>
+
+    <script src="/js/myJavaScript.js"></script>
+    <script>document.getElementsByTagName("BODY")[0].onload = Init;</script>
+
+  </body>
+</html>

@@ -1,0 +1,60 @@
+$size:86px;
+body {
+	text-align: center;
+	background-color: hsl(210°, 5%, 8%);
+	color: hsla(210, 20%, 90%, 0.89);
+	font-family: 'Audiowide', cursive;
+	font-weight: 400;
+	overflow: hidden;
+}
+.column,
+.colon {
+	display: inline-block;
+	vertical-align: top;
+	font-size: $size;
+	line-height: $size;
+}
+.column {
+	transition: transform 300ms;
+}
+.colon {
+	transition: transform 300ms;
+	transform: translateY(calc(50vh - # {
+		$size / 2
+	}
+	));
+	&:after {
+		content: ':';
+	}
+}
+.num {
+	transition: opacity 500ms, text-shadow 100ms;
+	opacity: 0.025;
+	&.visible {
+		opacity: 1.0;
+		text-shadow: 1px 1px 0px hsl(210, 50%, 40%);
+	}
+	&.close {
+		opacity: 0.35;
+	}
+	&.far {
+		opacity: 0.15;
+	}
+	&.distant {
+		opacity: 0.1;
+	}
+}
+@font-face {
+  font-family: 'Audiowide';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/l7gdbjpo0cum0ckerWCdmA_OIxo.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Audiowide';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts/l7gdbjpo0cum0ckerWCdlg_O.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>VVS Radar Editor - Pro</title>
+    <style>
+        :root {
+            --color-bg: #1a1a1a;
+            --color-sidebar: #252525;
+            --color-border: #333;
+            --color-text: #eee;
+            --color-accent: #FFD600;
+            --color-wp: #00ffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', monospace; background: var(--color-bg); color: var(--color-text); overflow: hidden; }
+        
+        #root { display: flex; height: 100vh; }
+
+        /* Map Container */
+        #map-area { 
+            flex: 1; 
+            position: relative; 
+            overflow: auto; 
+            background-image: radial-gradient(#333 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        #map-wrapper { position: relative; display: inline-block; }
+        #map-img { display: block; }
+        
+        /* Schutzschicht gegen Imagus & für Klicks */
+        #click-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 50;
+            cursor: crosshair;
+        }
+
+        #overlay { position: absolute; inset: 0; pointer-events: none; z-index: 60; }
+
+        /* Marker Styles */
+        .marker { position: absolute; transform: translate(-50%, -50%); pointer-events: none; }
+        .marker-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 8px rgba(0,0,0,0.8); }
+        .marker-label { position: absolute; left: 15px; top: -5px; white-space: nowrap; font-size: 10px; background: rgba(0,0,0,0.8); padding: 2px 5px; border-radius: 3px; }
+        
+        .waypoint-dot { 
+            position: absolute; width: 8px; height: 8px; background: var(--color-wp); 
+            border: 1px solid white; transform: translate(-50%, -50%); 
+        }
+
+        /* Sidebar Styles */
+        #sidebar { width: 320px; background: var(--color-sidebar); border-left: 1px solid var(--color-border); display: flex; flex-direction: column; z-index: 100; flex-shrink: 0; }
+        #form-area { padding: 20px; border-bottom: 1px solid var(--color-border); display: flex; flex-direction: column; gap: 12px; }
+        
+        input { width: 100%; background: #111; border: 1px solid #444; color: white; padding: 8px; font-family: monospace; font-size: 12px; border-radius: 4px; }
+        input:focus { border-color: var(--color-accent); outline: none; }
+        label { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        
+        #stop-list { flex: 1; overflow-y: auto; background: #202020; }
+        .stop-item { padding: 12px; border-bottom: 1px solid #2a2a2a; cursor: pointer; font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
+        .stop-item:hover { background: #2d2d2d; }
+        .stop-item.selected { border-left: 4px solid var(--color-accent); background: #333; }
+        .stop-del { color: #ff4444; cursor: pointer; font-weight: bold; padding: 5px; }
+
+        .btn { padding: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-family: sans-serif; text-align: center; margin: 0 20px 10px 20px; transition: 0.2s; }
+        .btn-primary { background: var(--color-accent); color: black; }
+        .btn-primary:hover { background: #ffe65d; }
+        
+        #upload-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; }
+        .mode-status { font-size: 11px; color: #aaa; margin-top: 5px; }
+        .active-w { color: var(--color-wp) !important; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<input type="file" id="file-input" style="display:none" accept="image/*">
+
+<div id="root">
+    <div id="map-area">
+        <div id="upload-hint">
+            <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">LINIENNETZPLAN LADEN</button>
+            <div class="mode-status" id="w-hint">Klick: Station | <b>W halten + Klick: Knick (Waypoint)</b></div>
+        </div>
+        
+        <div id="map-wrapper" style="display:none">
+            <img id="map-img">
+            <div id="click-layer"></div>
+            <div id="overlay"></div>
+        </div>
+    </div>
+
+    <div id="sidebar">
+        <div id="form-area">
+            <div id="coord-display" style="color:var(--color-accent); font-size:11px;">Kein Punkt gewählt</div>
+            
+            <label>Name</label>
+            <input type="text" id="inp-name" placeholder="z.B. Hauptbahnhof">
+            
+            <label>VVS Stop-ID</label>
+            <input type="text" id="inp-id" placeholder="de:08111:6056">
+
+            <label>Nur diese Linien (Komma)</label>
+            <input type="text" id="inp-lines" placeholder="U3, U5">
+
+            <label>Next ID Richtung A (Zentrum)</label>
+            <input type="text" id="inp-next-in">
+
+            <label>Next ID Richtung B (Außen)</label>
+            <input type="text" id="inp-next-out">
+
+            <label>Waypoint Status</label>
+            <input type="text" id="inp-wp-status" readonly value="Keiner gesetzt" style="color:gray">
+
+            <button class="btn btn-primary" style="margin: 10px 0 0 0;" onclick="addStop()">STATION SPEICHERN</button>
+        </div>
+
+        <div id="stop-list"></div>
+
+        <button class="btn" style="background:#333; color:white; margin-top:10px;" onclick="exportJSON()">💾 JSON EXPORTIEREN</button>
+        <button class="btn" style="background:#422; color:#f55;" onclick="clearAll()">LÖSCHEN</button>
+    </div>
+</div>
+
+<script>
+    let stops = [];
+    let pending = null;
+    let currentWaypoint = null;
+    let isWPressed = false;
+    const COLORS = ['#E24B4A','#378ADD','#1D9E75','#BA7517','#7F77DD','#D85A30','#639922','#D4537E'];
+
+    const mapImg = document.getElementById('map-img');
+    const mapWrapper = document.getElementById('map-wrapper');
+    const clickLayer = document.getElementById('click-layer');
+    const overlay = document.getElementById('overlay');
+    const fileInput = document.getElementById('file-input');
+
+    // Key Tracking für Waypoints
+    window.addEventListener('keydown', e => { 
+        if(e.key.toLowerCase() === 'w') {
+            isWPressed = true;
+            document.getElementById('w-hint').classList.add('active-w');
+        }
+    });
+    window.addEventListener('keyup', e => { 
+        if(e.key.toLowerCase() === 'w') {
+            isWPressed = false;
+            document.getElementById('w-hint').classList.remove('active-w');
+        }
+    });
+
+    fileInput.addEventListener('change', e => {
+        const f = e.target.files[0];
+        if (!f) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+            mapImg.onload = () => {
+                mapWrapper.style.display = 'inline-block';
+                document.getElementById('upload-hint').style.display = 'none';
+                renderMarkers();
+            };
+            mapImg.src = ev.target.result;
+        };
+        reader.readAsDataURL(f);
+    });
+
+    clickLayer.addEventListener('click', e => {
+        const rect = clickLayer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const pctX = x / rect.width;
+        const pctY = y / rect.height;
+
+        if (isWPressed) {
+            currentWaypoint = { pctX, pctY };
+            document.getElementById('inp-wp-status').value = "Knick gesetzt!";
+            document.getElementById('inp-wp-status').style.color = "cyan";
+        } else {
+            pending = { pctX, pctY };
+            document.getElementById('coord-display').innerHTML = `X: ${(pctX*100).toFixed(2)}% | Y: ${(pctY*100).toFixed(2)}%`;
+        }
+        renderMarkers();
+    });
+
+    function addStop() {
+        const name = document.getElementById('inp-name').value;
+        if (!pending || !name) return alert("Name und Position fehlen!");
+        
+        stops.push({
+            name,
+            stopId: document.getElementById('inp-id').value,
+            lines: document.getElementById('inp-lines').value.split(',').map(l => l.trim()).filter(Boolean),
+            nextIn: document.getElementById('inp-next-in').value,
+            nextOut: document.getElementById('inp-next-out').value,
+            waypointIn: currentWaypoint ? { ...currentWaypoint } : null,
+            waypointOut: currentWaypoint ? { ...currentWaypoint } : null,
+            pctX: pending.pctX,
+            pctY: pending.pctY,
+            color: COLORS[stops.length % COLORS.length]
+        });
+
+        // Reset
+        pending = null;
+        currentWaypoint = null;
+        ["inp-name", "inp-id", "inp-lines", "inp-next-in", "inp-next-out"].forEach(i => document.getElementById(i).value = '');
+        document.getElementById('inp-wp-status').value = "Keiner gesetzt";
+        document.getElementById('inp-wp-status').style.color = "gray";
+        renderList();
+        renderMarkers();
+    }
+
+    function renderMarkers() {
+        overlay.innerHTML = '';
+        const rect = mapImg.getBoundingClientRect();
+        
+        stops.forEach((s) => {
+            // Station
+            const m = document.createElement('div');
+            m.className = 'marker';
+            m.style.left = (s.pctX * rect.width) + 'px';
+            m.style.top = (s.pctY * rect.height) + 'px';
+            m.innerHTML = `<div class="marker-dot" style="background:${s.color}"></div><div class="marker-label">${s.name}</div>`;
+            overlay.appendChild(m);
+
+            // Waypoint (falls vorhanden)
+            if (s.waypointIn) {
+                const wp = document.createElement('div');
+                wp.className = 'waypoint-dot';
+                wp.style.left = (s.waypointIn.pctX * rect.width) + 'px';
+                wp.style.top = (s.waypointIn.pctY * rect.height) + 'px';
+                overlay.appendChild(wp);
+            }
+        });
+
+        // Temp Marker
+        if (pending) {
+            const p = document.createElement('div');
+            p.className = 'marker';
+            p.style.left = (pending.pctX * rect.width) + 'px';
+            p.style.top = (pending.pctY * rect.height) + 'px';
+            p.innerHTML = `<div class="marker-dot" style="background:white; border-color:var(--color-accent)"></div>`;
+            overlay.appendChild(p);
+        }
+        if (currentWaypoint) {
+            const cp = document.createElement('div');
+            cp.className = 'waypoint-dot';
+            cp.style.left = (currentWaypoint.pctX * rect.width) + 'px';
+            cp.style.top = (currentWaypoint.pctY * rect.height) + 'px';
+            overlay.appendChild(cp);
+        }
+    }
+
+    function renderList() {
+        const container = document.getElementById('stop-list');
+        container.innerHTML = stops.map((s, i) => `
+            <div class="stop-item">
+                <div><b>${s.name}</b> <small>${s.lines.join(', ')}</small></div>
+                <div class="stop-del" onclick="stops.splice(${i},1); renderMarkers(); renderList();">✕</div>
+            </div>
+        `).join('');
+    }
+
+    function exportJSON() {
+        const cleanData = stops.map(({color, ...rest}) => rest);
+        const blob = new Blob([JSON.stringify(cleanData, null, 2)], {type: 'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'vvs_netz_daten.json';
+        a.click();
+    }
+
+    function clearAll() { if(confirm('Sicher?')) { stops = []; renderList(); renderMarkers(); } }
+</script>
+</body>
+</html>

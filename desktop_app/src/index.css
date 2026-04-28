@@ -11,5 +11,5 @@ body, html, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Verhindert das Scrollen auf der ganzen Seite */
+  overflow: hidden;
 }

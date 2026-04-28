@@ -16,7 +16,7 @@
     max-width: 105%;
     max-height: 105vh;
     z-index: 1; /* Bild im Hintergrund */
-    opacity: 0.4;
+    opacity: 0.8;
 }
 
 /* Das Canvas exakt über das Bild legen */

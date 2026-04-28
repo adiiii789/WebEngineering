@@ -1,0 +1,123 @@
+[
+  {
+    "name": "Plieningen",
+    "stopId": "de:08111:6555",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:6352",
+    "nextOut": null,
+    "pctX": 0.50604,
+    "pctY": 0.90395
+  },
+  {
+    "name": "Landhaus",
+    "stopId": "de:08111:6352",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:360",
+    "nextOut": "de:08111:6555",
+    "pctX": 0.4877,
+    "pctY": 0.87136
+  },
+  {
+    "name": "Salzäcker",
+    "stopId": "de:08111:360",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:353",
+    "nextOut": "de:08111:6352",
+    "pctX": 0.46958,
+    "pctY": 0.83914
+  },
+  {
+    "name": "Plieninger Straße",
+    "stopId": "de:08111:353",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:354",
+    "nextOut": "de:08111:360",
+    "pctX": 0.45146,
+    "pctY": 0.80692
+  },
+  {
+    "name": "Sigmaringer Straße",
+    "stopId": "de:08111:354",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:6169",
+    "nextOut": "de:08111:353",
+    "pctX": 0.43336,
+    "pctY": 0.77474
+  },
+  {
+    "name": "Möhringen Bahnhof",
+    "stopId": "de:08111:6169",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:170",
+    "nextOut": "de:08111:354",
+    "pctX": 0.4025,
+    "pctY": 0.74288
+  },
+  {
+    "name": "Vaihinger Straße",
+    "stopId": "de:08111:170",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:350",
+    "nextOut": "de:08111:6169",
+    "pctX": 0.3805,
+    "pctY": 0.74288
+  },
+  {
+    "name": "SSB-Zentrum",
+    "stopId": "de:08111:350",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:355",
+    "nextOut": "de:08111:170",
+    "pctX": 0.35159,
+    "pctY": 0.74288
+  },
+  {
+    "name": "Wallgraben",
+    "stopId": "de:08111:355",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:356",
+    "nextOut": "de:08111:350",
+    "pctX": 0.32446,
+    "pctY": 0.74288
+  },
+  {
+    "name": "Jurastr",
+    "stopId": "de:08111:356",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:6002",
+    "nextOut": "de:08111:355",
+    "pctX": 0.29725,
+    "pctY": 0.74288
+  },
+  {
+    "name": "Vaihingen Bf",
+    "stopId": "de:08111:6002",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": null,
+    "nextOut": "de:08111:356",
+    "pctX": 0.26407,
+    "pctY": 0.75102
+  }
+]

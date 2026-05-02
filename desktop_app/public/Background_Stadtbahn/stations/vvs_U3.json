@@ -1,0 +1,168 @@
+[
+  {
+    "name": "Plieningen",
+    "stopId": "de:08111:6555",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:6352",
+    "nextOut": "",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5058748130741295,
+    "pctY": 0.9039118875807064
+  },
+  {
+    "name": "Landhaus",
+    "stopId": "de:08111:6352",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:360",
+    "nextOut": "de:08111:6555",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4875738802250231,
+    "pctY": 0.8713761235599443
+  },
+  {
+    "name": "Salzäcker",
+    "stopId": "de:08111:360",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:353",
+    "nextOut": "de:08111:6352",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4695577867976928,
+    "pctY": 0.8393467527535131
+  },
+  {
+    "name": "Plieninger Straße",
+    "stopId": "de:08111:353",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:354",
+    "nextOut": "de:08111:360",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.45139927365947446,
+    "pctY": 0.8070641853399164
+  },
+  {
+    "name": "Sigmaringer Straße",
+    "stopId": "de:08111:354",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:6169",
+    "nextOut": "de:08111:353",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.43331197037670016,
+    "pctY": 0.7749082162299025
+  },
+  {
+    "name": "Möhringen Bahnhof",
+    "stopId": "de:08111:6169",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:170",
+    "nextOut": "de:08111:354",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.41558071637114574,
+      "pctY": 0.7431320420306368
+    },
+    "waypointOut": {
+      "pctX": 0.41558071637114574,
+      "pctY": 0.7431320420306368
+    },
+    "pctX": 0.402264473403119,
+    "pctY": 0.743005443727054
+  },
+  {
+    "name": "Vaihinger Straße",
+    "stopId": "de:08111:170",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:350",
+    "nextOut": "de:08111:6169",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.38026062807092503,
+    "pctY": 0.743005443727054
+  },
+  {
+    "name": "SSB-Zentrum",
+    "stopId": "de:08111:350",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:355",
+    "nextOut": "de:08111:170",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.35134942676066366,
+    "pctY": 0.743005443727054
+  },
+  {
+    "name": "SSB am Wallgraben",
+    "stopId": "de:08111:355",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:356",
+    "nextOut": "de:08111:350",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3244321014028341,
+    "pctY": 0.743005443727054
+  },
+  {
+    "name": "Jurastraße",
+    "stopId": "de:08111:356",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "de:08111:6002",
+    "nextOut": "de:08111:355",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.29722993662322866,
+    "pctY": 0.743005443727054
+  },
+  {
+    "name": "Vaihingen",
+    "stopId": "de:08111:6002",
+    "lines": [
+      "U3"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:356",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.2687459944456313,
+      "pctY": 0.7432586403342195
+    },
+    "waypointOut": {
+      "pctX": 0.2687459944456313,
+      "pctY": 0.7432586403342195
+    },
+    "pctX": 0.2641173538417717,
+    "pctY": 0.7509811368527661
+  }
+]

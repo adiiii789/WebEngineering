@@ -1,0 +1,548 @@
+[
+  {
+    "name": "Dürrlewang",
+    "stopId": "de:08111:2613",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:2599",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2872047676945364,
+    "pctY": 0.7875680465881757
+  },
+  {
+    "name": "Lapp Kabel",
+    "stopId": "de:08111:2599",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:355",
+    "nextOut": "de:08111:2613",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2994528628309033,
+    "pctY": 0.7657931383719458
+  },
+  {
+    "name": "SSB am Wallgraben",
+    "stopId": "de:08111:355",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:350",
+    "nextOut": "de:08111:2599",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.32003251105421743,
+      "pctY": 0.7295860235472844
+    },
+    "waypointOut": {
+      "pctX": 0.32003251105421743,
+      "pctY": 0.7295860235472844
+    },
+    "pctX": 0.324447522091745,
+    "pctY": 0.7298392201544499
+  },
+  {
+    "name": "SSB Zentrum",
+    "stopId": "de:08111:350",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:170",
+    "nextOut": "de:08111:355",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3515072671604625,
+    "pctY": 0.7298392201544499
+  },
+  {
+    "name": "Vaihinger Straße",
+    "stopId": "de:08111:170",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6169",
+    "nextOut": "de:08111:350",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3802760661450545,
+    "pctY": 0.7298392201544499
+  },
+  {
+    "name": "Möhringen Bahnhof",
+    "stopId": "de:08111:6169",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6168",
+    "nextOut": "de:08111:170",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.40235112133269246,
+    "pctY": 0.7299658184580327
+  },
+  {
+    "name": "Riedsee",
+    "stopId": "de:08111:6168",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6167",
+    "nextOut": "de:08111:6169",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.42442617652033043,
+    "pctY": 0.7299658184580327
+  },
+  {
+    "name": "Sonnenberg",
+    "stopId": "de:08111:6167",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6166",
+    "nextOut": "de:08111:6168",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4464300218525244,
+    "pctY": 0.7299658184580327
+  },
+  {
+    "name": "Peregrinastraße",
+    "stopId": "de:08111:6166",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:2594",
+    "nextOut": "de:08111:6167",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.46864749675105033,
+    "pctY": 0.7299658184580327
+  },
+  {
+    "name": "Degerloch Albstraße",
+    "stopId": "de:08111:2594",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6165",
+    "nextOut": "de:08111:6166",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.49058013222780034,
+    "pctY": 0.7299658184580327
+  },
+  {
+    "name": "Degerloch",
+    "stopId": "de:08111:6165",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:163",
+    "nextOut": "de:08111:2594",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.4966329699405398,
+      "pctY": 0.7298392201544499
+    },
+    "waypointOut": {
+      "pctX": 0.4966329699405398,
+      "pctY": 0.7298392201544499
+    },
+    "pctX": 0.504822103316599,
+    "pctY": 0.7154070135460184
+  },
+  {
+    "name": "Weinsteige",
+    "stopId": "de:08111:163",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6160",
+    "nextOut": "de:08111:6165",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5232298509488713,
+    "pctY": 0.6826813520698822
+  },
+  {
+    "name": "Bopser",
+    "stopId": "de:08111:6160",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:159",
+    "nextOut": "de:08111:163",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5314545892526525,
+      "pctY": 0.6680592480060767
+    },
+    "waypointOut": {
+      "pctX": 0.5314545892526525,
+      "pctY": 0.6680592480060767
+    },
+    "pctX": 0.5313121695417646,
+    "pctY": 0.6275477908596024
+  },
+  {
+    "name": "Dobelstraße",
+    "stopId": "de:08111:159",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6119",
+    "nextOut": "de:08111:6160",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5313121695417646,
+    "pctY": 0.5790606405874161
+  },
+  {
+    "name": "Olgaeck",
+    "stopId": "de:08111:6119",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6075",
+    "nextOut": "de:08111:159",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5313121695417646,
+      "pctY": 0.5481706545132295
+    },
+    "waypointOut": {
+      "pctX": 0.5313121695417646,
+      "pctY": 0.5481706545132295
+    },
+    "pctX": 0.515432371777754,
+    "pctY": 0.5196860362071148
+  },
+  {
+    "name": "Charlottenplatz",
+    "stopId": "de:08111:6075",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6022",
+    "nextOut": "de:08111:6119",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4930368722406181,
+    "pctY": 0.4798708697303456
+  },
+  {
+    "name": "Schlossplatz",
+    "stopId": "de:08111:6022",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6112",
+    "nextOut": "de:08111:6075",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.47687223505483156,
+    "pctY": 0.45113305481706545
+  },
+  {
+    "name": "Hauptbahnhof",
+    "stopId": "de:08111:6112",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:299",
+    "nextOut": "de:08111:6022",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4628082886046429,
+    "pctY": 0.42612988985947586
+  },
+  {
+    "name": "Budapester Platz",
+    "stopId": "de:08111:299",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:297",
+    "nextOut": "de:08111:6112",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.45988868453143916,
+      "pctY": 0.3644765160146854
+    },
+    "waypointOut": {
+      "pctX": 0.45988868453143916,
+      "pctY": 0.3644765160146854
+    },
+    "pctX": 0.4682202376183864,
+    "pctY": 0.34333459931636917
+  },
+  {
+    "name": "Milchhof",
+    "stopId": "de:08111:297",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:296",
+    "nextOut": "de:08111:299",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.4682202376183864,
+      "pctY": 0.32345866565388026
+    },
+    "waypointOut": {
+      "pctX": 0.4682202376183864,
+      "pctY": 0.32345866565388026
+    },
+    "pctX": 0.4755548527291177,
+    "pctY": 0.3105456386884416
+  },
+  {
+    "name": "Mitternachtstraße",
+    "stopId": "de:08111:296",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6295",
+    "nextOut": "de:08111:297",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4845985043705049,
+    "pctY": 0.2944676541334346
+  },
+  {
+    "name": "Nordbahnhof",
+    "stopId": "de:08111:6295",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6114",
+    "nextOut": "de:08111:296",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.494425464421776,
+    "pctY": 0.2769970882390176
+  },
+  {
+    "name": "Löwentor",
+    "stopId": "de:08111:6114",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:2494",
+    "nextOut": "de:08111:6295",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5215920242736595,
+    "pctY": 0.22869983542220534
+  },
+  {
+    "name": "Züricher Straße",
+    "stopId": "de:08111:2494",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:2493",
+    "nextOut": "de:08111:6114",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.537792266387168,
+    "pctY": 0.19989872135713382
+  },
+  {
+    "name": "Rietmüllerhaus",
+    "stopId": "de:08111:2493",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:2473",
+    "nextOut": "de:08111:2494",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5547046070551165,
+    "pctY": 0.16983162425623502
+  },
+  {
+    "name": "Hallschlag",
+    "stopId": "de:08111:2473",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:2260",
+    "nextOut": "de:08111:2493",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5731835645428328,
+    "pctY": 0.1369793644765161
+  },
+  {
+    "name": "Bottroper Straße",
+    "stopId": "de:08111:2260",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:274",
+    "nextOut": "de:08111:2473",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5753910700615965,
+      "pctY": 0.1338144068869477
+    },
+    "waypointOut": {
+      "pctX": 0.5753910700615965,
+      "pctY": 0.1338144068869477
+    },
+    "pctX": 0.5986766927917824,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Wagreinäcker",
+    "stopId": "de:08111:274",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6273",
+    "nextOut": "de:08111:2260",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6285848320782597,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Max-Eyth-See",
+    "stopId": "de:08111:6273",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:272",
+    "nextOut": "de:08111:274",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6547188490262053,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Hofen",
+    "stopId": "de:08111:272",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:271",
+    "nextOut": "de:08111:6273",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6828467419265827,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Auwiesen",
+    "stopId": "de:08111:271",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08111:6270",
+    "nextOut": "de:08111:272",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7108322151160721,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Mühlhausen",
+    "stopId": "de:08111:6270",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08118:3570",
+    "nextOut": "de:08111:271",
+    "travelTimeNext": 240,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7388176883055615,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Hornbach",
+    "stopId": "de:08118:3570",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08118:3571",
+    "nextOut": "de:08111:6270",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7670880009168269,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Mühle",
+    "stopId": "de:08118:3571",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08118:3572",
+    "nextOut": "de:08118:3570",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7950734741063163,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Brücklenstraße",
+    "stopId": "de:08118:3572",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "de:08118:3573",
+    "nextOut": "de:08118:3571",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8232013670066938,
+    "pctY": 0.13343461197619952
+  },
+  {
+    "name": "Remseck",
+    "stopId": "de:08118:3573",
+    "lines": [
+      "U12"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08118:3572",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8504747416417432,
+    "pctY": 0.13343461197619952
+  }
+]

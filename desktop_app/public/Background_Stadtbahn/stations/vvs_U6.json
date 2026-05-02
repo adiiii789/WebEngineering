@@ -487,7 +487,7 @@
     "lines": [
       "U6"
     ],
-    "nextIn": "de:08111:6157",
+    "nextIn": "de:08111:152",
     "nextOut": "de:08111:154",
     "travelTimeNext": 60,
     "waypointIn": null,
@@ -497,7 +497,7 @@
   },
   {
     "name": "Feuerbach Pfostenwäldle",
-    "stopId": "de:08111:6157",
+    "stopId": "de:08111:152",
     "lines": [
       "U6"
     ],
@@ -516,7 +516,7 @@
       "U6"
     ],
     "nextIn": "de:08111:6149",
-    "nextOut": "de:08111:6157",
+    "nextOut": "de:08111:152",
     "travelTimeNext": 60,
     "waypointIn": null,
     "waypointOut": null,
@@ -587,12 +587,12 @@
   },
   {
     "name": "Salamanderweg",
-    "stopId": "de:08111:144",
+    "stopId": "de:08111:145",
     "lines": [
       "U6"
     ],
     "nextIn": "de:08111:144",
-    "nextOut": "de:08111:145",
+    "nextOut": "de:08111:146",
     "travelTimeNext": 60,
     "waypointIn": null,
     "waypointOut": null,
@@ -606,7 +606,7 @@
       "U6"
     ],
     "nextIn": "de:08118:143",
-    "nextOut": "de:08111:144",
+    "nextOut": "de:08111:145",
     "travelTimeNext": 60,
     "waypointIn": null,
     "waypointOut": null,

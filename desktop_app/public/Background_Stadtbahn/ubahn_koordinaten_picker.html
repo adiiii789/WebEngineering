@@ -1,205 +1,449 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>VVS Radar Editor - Pro Simulation</title>
-    <style>
-        :root { --color-bg: #1a1a1a; --color-sidebar: #252525; --color-accent: #FFD600; --color-wp: #00ffff; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--color-bg); color: #eee; overflow: hidden; }
-        #root { display: flex; height: 100vh; }
-        #map-area { flex: 1; position: relative; overflow: auto; background: #111; }
-        #map-wrapper { position: relative; display: inline-block; }
-        #map-img { display: block; }
-        #click-layer { position: absolute; inset: 0; z-index: 50; cursor: crosshair; }
-        #overlay { position: absolute; inset: 0; pointer-events: none; z-index: 60; }
-        .marker { position: absolute; transform: translate(-50%, -50%); }
-        .marker-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; background: orange; }
-        .marker-label { position: absolute; left: 15px; top: -5px; white-space: nowrap; font-size: 10px; background: rgba(0,0,0,0.8); padding: 2px 5px; border-radius: 3px; }
-        .waypoint-dot { position: absolute; width: 10px; height: 10px; background: var(--color-wp); border: 2px solid white; transform: translate(-50%, -50%); }
-        #sidebar { width: 320px; background: var(--color-sidebar); border-left: 1px solid #333; display: flex; flex-direction: column; }
-        #form-area { padding: 20px; display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid #333; }
-        input { width: 100%; background: #111; border: 1px solid #444; color: white; padding: 8px; font-size: 12px; border-radius: 4px; }
-        label { font-size: 9px; color: #888; text-transform: uppercase; margin-bottom: -2px; margin-top: 5px; }
-        #stop-list { flex: 1; overflow-y: auto; background: #181818; }
-        .stop-item { padding: 10px; border-bottom: 1px solid #2a2a2a; font-size: 11px; }
-        .btn { padding: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 5px 20px; }
-        .btn-primary { background: var(--color-accent); color: black; }
-        .status-wp { font-size: 10px; color: var(--color-wp); font-weight: bold; margin-top: 5px; }
-    </style>
+<meta charset="UTF-8">
+<title>VVS Radar Editor v2</title>
+<style>
+:root{--bg:#111;--sidebar:#1c1c1c;--panel:#232323;--border:#2e2e2e;--accent:#FFD600;--wp:#00ffff;--text:#e8e8e8;--muted:#666;--ok:#4caf50;--del:#e53935;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);overflow:hidden;user-select:none;}
+#root{display:flex;height:100vh;}
+/* MAP */
+#map-area { flex: 1; position: relative; overflow: auto; background: #111; }
+#map-wrapper { position: relative; display: inline-block; }
+#map-img { display: block; }
+#click-layer{position:absolute;inset:0;z-index:50;cursor:crosshair;}
+#svg-overlay{position:absolute;inset:0;pointer-events:none;z-index:55;overflow:visible;}
+#marker-overlay{position:absolute;inset:0;pointer-events:none;z-index:60;}
+/* UPLOAD HINT */
+#upload-hint{text-align:center;}
+#upload-hint p{font-size:11px;color:var(--muted);margin-top:12px;line-height:1.8;}
+kbd{background:#2a2a2a;border:1px solid #444;border-radius:3px;padding:1px 5px;font-size:10px;}
+/* SIDEBAR */
+#sidebar{width:300px;background:var(--sidebar);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+#sidebar-header{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+#sidebar-header h2{font-size:13px;letter-spacing:3px;color:var(--accent);}
+#chain-badge{font-size:9px;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:3px 8px;color:var(--muted);}
+/* FORM */
+#form-area{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:6px;}
+.field-row{display:flex;flex-direction:column;gap:3px;}
+.field-row label{font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;}
+.field-row input{background:#0f0f0f;border:1px solid var(--border);color:var(--text);padding:7px 9px;font-size:12px;font-family:inherit;border-radius:4px;transition:border .15s;}
+.field-row input:focus{outline:none;border-color:var(--accent);}
+.field-row input.prefilled{border-color:#333;color:#888;}
+#coord-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;}
+#coord-display{font-size:10px;color:var(--muted);}
+#mode-badge{font-size:9px;padding:2px 8px;border-radius:10px;background:#2a1f00;color:var(--accent);border:1px solid #3a2f00;display:none;}
+#mode-badge.wp{background:#002a2a;color:var(--wp);border-color:#003a3a;display:inline;}
+#chain-display{font-size:10px;color:#555;padding:6px 0 2px;display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.chain-id{background:#1a1a1a;border:1px solid #2e2e2e;border-radius:3px;padding:2px 6px;color:#777;}
+.chain-arrow{color:#333;}
+.chain-id.current{color:var(--accent);border-color:#3a3000;}
+.btn{padding:9px;border:none;border-radius:4px;cursor:pointer;font-weight:bold;font-family:inherit;font-size:11px;letter-spacing:1px;transition:all .15s;}
+.btn-primary{background:var(--accent);color:#000;}
+.btn-primary:hover{filter:brightness(1.1);}
+.btn-primary:disabled{background:#333;color:#666;cursor:default;}
+.btn-secondary{background:#1e1e1e;color:#aaa;border:1px solid #333;}
+.btn-secondary:hover{background:#252525;color:var(--text);}
+/* STOP LIST */
+#stop-list{flex:1;overflow-y:auto;background:#161616;}
+#stop-list::-webkit-scrollbar{width:4px;}
+#stop-list::-webkit-scrollbar-thumb{background:#2e2e2e;}
+.stop-item{padding:10px 14px;border-bottom:1px solid #1e1e1e;display:flex;justify-content:space-between;align-items:center;transition:background .1s;}
+.stop-item:hover{background:#1c1c1c;}
+.stop-info{flex:1;min-width:0;}
+.stop-name{font-size:12px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.stop-meta{font-size:9px;color:var(--muted);margin-top:2px;}
+.stop-idx{font-size:18px;font-weight:bold;color:#2a2a2a;margin-right:10px;min-width:24px;text-align:right;}
+.stop-del{background:none;border:none;color:#333;cursor:pointer;font-size:14px;padding:2px 6px;border-radius:3px;transition:all .1s;}
+.stop-del:hover{background:#2a1a1a;color:var(--del);}
+/* FOOTER */
+#sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;}
+/* MARKERS */
+.m-dot{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid #000;transform:translate(-50%,-50%);}
+.m-dot.pending{background:#fff;opacity:.7;}
+.m-dot.wp{background:var(--wp);width:8px;height:8px;}
+.m-label{position:absolute;left:10px;top:-8px;white-space:nowrap;font-size:10px;font-family:'Courier New',monospace;background:rgba(0,0,0,.85);padding:2px 5px;border-radius:2px;border-left:2px solid var(--accent);}
+.m-num{position:absolute;left:-16px;top:-8px;font-size:8px;color:var(--muted);}
+/* SNAP LINES */
+.snap-line{stroke:#fff;stroke-width:.8;stroke-dasharray:4,4;opacity:.35;pointer-events:none;}
+.preview-line{stroke:var(--accent);stroke-width:1;stroke-dasharray:6,4;opacity:.5;pointer-events:none;}
+</style>
 </head>
 <body>
-
 <input type="file" id="file-input" style="display:none" accept="image/*">
-
 <div id="root">
-    <div id="map-area">
-        <div id="upload-hint" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center;">
-            <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">NETZPLAN LADEN</button>
-            <p style="font-size:11px; color:#666; margin-top:10px;">Shift: Snap | W: Knick | Strg+Z: Rückgängig</p>
-        </div>
-        <div id="map-wrapper" style="display:none">
-            <img id="map-img">
-            <div id="click-layer"></div>
-            <div id="overlay"></div>
-        </div>
+  <div id="map-area">
+    <div id="upload-hint">
+      <button class="btn btn-primary" onclick="document.getElementById('file-input').click()">▲ NETZPLAN LADEN</button>
+      <p>
+        <kbd>Klick</kbd> Station setzen &nbsp;
+        <kbd>W</kbd> Waypoint (Knick)<br>
+        <kbd>Shift</kbd> Achsen-Snapping &nbsp;
+        <kbd>Strg+Z</kbd> Rückgängig
+      </p>
+    </div>
+    <div id="map-wrapper">
+      <img id="map-img">
+      <div id="click-layer"></div>
+      <svg id="svg-overlay"></svg>
+      <div id="marker-overlay"></div>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div id="sidebar-header">
+      <h2>VVS EDITOR</h2>
+      <span id="chain-badge">0 Stationen</span>
     </div>
 
-    <div id="sidebar">
-        <div id="form-area">
-            <div id="coord-display" style="color:var(--color-accent); font-size:11px;">Punkt setzen...</div>
-            
-            <label>Name</label><input type="text" id="inp-name" tabindex="1">
-            <label>VVS ID (Aktuell)</label><input type="text" id="inp-id" tabindex="2">
-            <label>Linien</label><input type="text" id="inp-lines" tabindex="3">
-            <label>Fahrzeit zur nächsten (Sekunden)</label><input type="number" id="inp-travel" tabindex="4" placeholder="z.B. 120">
-            <label>Nächste Station ID (Prediction)</label><input type="text" id="inp-next-in" tabindex="5">
-            <label>Vorherige ID (Auto-Chain)</label><input type="text" id="inp-next-out" tabindex="6" readonly style="color:#777">
-            
-            <div id="wp-msg" class="status-wp" style="display:none;">✓ Knickpunkt (Waypoint) aktiv</div>
-            
-            <button class="btn btn-primary" onclick="addStop()" style="margin-top: 15px;">STATION SPEICHERN</button>
-        </div>
-        <div id="stop-list"></div>
-        <button class="btn" style="background:#333; color:white;" onclick="exportJSON()">💾 JSON EXPORT</button>
+    <div id="form-area">
+      <div id="coord-bar">
+        <span id="coord-display">↙ Klick auf Karte um Punkt zu setzen</span>
+        <span id="mode-badge">WAYPOINT</span>
+      </div>
+
+      <div id="chain-display"><span style="color:#333;font-size:9px;">KETTE —</span></div>
+
+      <div class="field-row">
+        <label>Name der Station</label>
+        <input type="text" id="inp-name" tabindex="1" placeholder="z.B. Unteraichen" autocomplete="off">
+      </div>
+      <div class="field-row">
+        <label>VVS Stop-ID</label>
+        <input type="text" id="inp-id" tabindex="2" placeholder="de:08116:174" autocomplete="off">
+      </div>
+      <div class="field-row">
+        <label>Fahrzeit zur nächsten (Min)</label>
+        <input type="number" id="inp-travel" tabindex="3" placeholder="z.B. 1" autocomplete="off">
+      </div>
+      <div class="field-row">
+        <label>Linien (optional, Komma-sep.)</label>
+        <input type="text" id="inp-lines" tabindex="4" placeholder="U5, U6 …" autocomplete="off">
+      </div>
+
+      <button class="btn btn-primary" id="save-btn" onclick="addStop()" style="margin-top:8px;" disabled>
+        ＋ STATION SPEICHERN
+      </button>
     </div>
+
+    <div id="stop-list"></div>
+
+    <div id="sidebar-footer">
+      <button class="btn btn-secondary" style="flex:1;" onclick="exportJSON()">💾 JSON Export</button>
+      <button class="btn btn-secondary" onclick="clearAll()" style="color:#944;">✕ Leeren</button>
+    </div>
+  </div>
 </div>
 
 <script>
-    let stops = [];
-    let pending = null;
-    let currentWaypoint = null;
-    let isWPressed = false;
-    let isShiftPressed = false;
+let stops = [];
+let pending = null;
+let pendingWP = null;
+let isW = false, isShift = false;
+let mousePos = null;
 
-    const mapImg = document.getElementById('map-img');
-    const clickLayer = document.getElementById('click-layer');
-    const overlay = document.getElementById('overlay');
+const mapImg  = document.getElementById('map-img');
+const clickL  = document.getElementById('click-layer');
+const svgOvl  = document.getElementById('svg-overlay');
+const mrkOvl  = document.getElementById('marker-overlay');
+const savBtn  = document.getElementById('save-btn');
+const modeBdg = document.getElementById('mode-badge');
 
-    window.addEventListener('keydown', e => {
-        const k = e.key.toLowerCase();
-        if(k === 'w') isWPressed = true;
-        if(k === 'shift') isShiftPressed = true;
-        if(e.ctrlKey && k === 'z') {
-            e.preventDefault();
-            if(currentWaypoint) { currentWaypoint = null; document.getElementById('wp-msg').style.display = 'none'; }
-            else if(pending) pending = null;
-            else stops.pop();
-            renderMarkers(); renderList();
-        }
-    });
-    window.addEventListener('keyup', e => {
-        const k = e.key.toLowerCase();
-        if(k === 'w') isWPressed = false;
-        if(k === 'shift') isShiftPressed = false;
-    });
-
-    document.getElementById('file-input').addEventListener('change', e => {
-        const reader = new FileReader();
-        reader.onload = ev => {
-            mapImg.onload = () => { document.getElementById('map-wrapper').style.display = 'inline-block'; document.getElementById('upload-hint').style.display = 'none'; };
-            mapImg.src = ev.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    });
-
-    clickLayer.addEventListener('click', e => {
-        const rect = clickLayer.getBoundingClientRect();
-        let x = e.clientX - rect.left, y = e.clientY - rect.top;
-        if (isShiftPressed && (pending || stops.length > 0)) {
-            const ref = pending || stops[stops.length - 1];
-            const rx = ref.pctX * rect.width, ry = ref.pctY * rect.height;
-            const dx = x - rx, dy = y - ry;
-            if (Math.abs(dy) < Math.abs(dx) * 0.45) y = ry;
-            else if (Math.abs(dx) < Math.abs(dy) * 0.45) x = rx;
-            else { const s = (Math.abs(dx)+Math.abs(dy))/2; x = rx+s*Math.sign(dx); y = ry+s*Math.sign(dy); }
-        }
-        const px = x / rect.width, py = y / rect.height;
-        if (isWPressed) { currentWaypoint = { pctX: px, pctY: py }; document.getElementById('wp-msg').style.display = 'block'; }
-        else { pending = { pctX: px, pctY: py }; }
-        renderMarkers();
-    });
-
-    function addStop() {
-        const id = document.getElementById('inp-id').value;
-        const name = document.getElementById('inp-name').value;
-        const lines = document.getElementById('inp-lines').value;
-        const nextIn = document.getElementById('inp-next-in').value;
-        const nextOut = document.getElementById('inp-next-out').value;
-        const travel = document.getElementById('inp-travel').value;
-        
-        if (!pending || !id) return alert("ID fehlt!");
-
-        stops.push({
-            name, stopId: id,
-            lines: lines.split(',').map(l => l.trim()).filter(Boolean),
-            nextIn: nextIn,
-            nextOut: nextOut,
-            travelTimeNext: parseInt(travel) || 120, // Zeit in Sek
-            waypointIn: currentWaypoint ? {...currentWaypoint} : null,
-            waypointOut: currentWaypoint ? {...currentWaypoint} : null,
-            pctX: pending.pctX, pctY: pending.pctY
-        });
-
-        // Prediction & Chain
-        const predictedId = nextIn;
-        const currentSavedId = id;
-
-        pending = null; 
-        currentWaypoint = null;
-        document.getElementById('wp-msg').style.display = 'none';
-        
-        document.getElementById('inp-name').value = "";
-        document.getElementById('inp-id').value = predictedId; // Vorhersage wird neue Aktuelle
-        document.getElementById('inp-next-out').value = currentSavedId; // Alte Aktuelle wird neue Vorherige
-        document.getElementById('inp-next-in').value = ""; 
-        document.getElementById('inp-lines').value = lines;
-        document.getElementById('inp-travel').value = ""; // Reisezeit meist unterschiedlich
-
-        renderList(); renderMarkers();
-        document.getElementById('inp-name').focus();
+// ——— Keyboard ———
+window.addEventListener('keydown', e => {
+  if(e.key.toLowerCase() === 'w'){ isW = true; modeBdg.className = 'wp'; }
+  if(e.key === 'Shift') isShift = true;
+  if(e.ctrlKey && e.key.toLowerCase() === 'z'){
+    e.preventDefault();
+    if(pendingWP){ pendingWP = null; }
+    else if(pending){ pending = null; }
+    else if(stops.length > 0){
+      stops.pop();
+      updateChainLinks();
     }
+    renderAll();
+    updateChainUI();
+  }
+});
+window.addEventListener('keyup', e => {
+  if(e.key.toLowerCase() === 'w'){ isW = false; if(!pendingWP) modeBdg.className = ''; }
+  if(e.key === 'Shift') isShift = false;
+});
 
-    function renderMarkers() {
-        overlay.innerHTML = '';
-        const rect = mapImg.getBoundingClientRect();
-        stops.forEach(s => {
-            const d = document.createElement('div'); d.className = 'marker';
-            d.style.left = (s.pctX * rect.width)+'px'; d.style.top = (s.pctY * rect.height)+'px';
-            d.innerHTML = `<div class="marker-dot"></div><div class="marker-label">${s.name}</div>`;
-            overlay.appendChild(d);
-            if(s.waypointIn) {
-                const wp = document.createElement('div'); wp.className = 'waypoint-dot';
-                wp.style.left = (s.waypointIn.pctX * rect.width)+'px'; wp.style.top = (s.waypointIn.pctY * rect.height)+'px';
-                overlay.appendChild(wp);
-            }
-        });
-        if(pending) {
-            const p = document.createElement('div'); p.className = 'marker';
-            p.style.left = (pending.pctX * rect.width)+'px'; p.style.top = (pending.pctY * rect.height)+'px';
-            p.innerHTML = `<div class="marker-dot" style="background:white"></div>`; overlay.appendChild(p);
-        }
-        if(currentWaypoint) {
-            const cp = document.createElement('div'); cp.className = 'waypoint-dot';
-            cp.style.left = (currentWaypoint.pctX * rect.width)+'px'; cp.style.top = (currentWaypoint.pctY * rect.height)+'px';
-            overlay.appendChild(cp);
-        }
-    }
+// ——— File Upload ———
+document.getElementById('file-input').addEventListener('change', e => {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    mapImg.onload = () => {
+      document.getElementById('map-wrapper').style.display = 'inline-block';
+      document.getElementById('upload-hint').style.display = 'none';
+      syncSVGSize();
+    };
+    mapImg.src = ev.target.result;
+  };
+  reader.readAsDataURL(e.target.files[0]);
+});
 
-    function renderList() {
-        document.getElementById('stop-list').innerHTML = stops.slice().reverse().map((s) => `
-            <div class="stop-item">
-                <b>${s.name}</b><br>
-                <small>ID: ${s.stopId} | ⏱: ${s.travelTimeNext}s</small>
-            </div>
-        `).join('');
-    }
+function syncSVGSize(){
+  const r = mapImg.getBoundingClientRect();
+  svgOvl.setAttribute('viewBox', `0 0 ${r.width} ${r.height}`);
+  svgOvl.style.width  = r.width  + 'px';
+  svgOvl.style.height = r.height + 'px';
+}
+window.addEventListener('resize', () => { syncSVGSize(); renderAll(); });
 
-    function exportJSON() {
-        const blob = new Blob([JSON.stringify(stops, null, 2)], {type: 'application/json'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-        a.download = `vvs_radar_simulation_config.json`; a.click();
+// ——— Mouse on map ———
+clickL.addEventListener('mousemove', e => {
+  const r = clickL.getBoundingClientRect();
+  let x = e.clientX - r.left, y = e.clientY - r.top;
+  if(isShift) [x, y] = snapToAxis(x, y, r);
+  mousePos = { pctX: x/r.width, pctY: y/r.height };
+  updateCoordBar(x, y);
+  renderSnapLines(x, y, r);
+  renderPreviewLine();
+});
+clickL.addEventListener('mouseleave', () => { mousePos = null; clearSnapLines(); renderPreviewLine(); });
+
+clickL.addEventListener('click', e => {
+  const r = clickL.getBoundingClientRect();
+  let x = e.clientX - r.left, y = e.clientY - r.top;
+  if(isShift) [x, y] = snapToAxis(x, y, r);
+
+  const px = x/r.width, py = y/r.height;
+
+  if(isW){
+    pendingWP = { pctX: px, pctY: py };
+    modeBdg.className = 'wp';
+  } else {
+    pending = { pctX: px, pctY: py };
+    updateSaveBtn();
+  }
+  renderAll();
+});
+
+// ——— Snapping ———
+function snapToAxis(x, y, r){
+  const ref = pending || (stops.length > 0 ? pxOf(stops[stops.length-1], r) : null);
+  if(!ref) return [x, y];
+  const rx = typeof ref.pctX !== 'undefined' ? ref.pctX*r.width  : ref.x;
+  const ry = typeof ref.pctY !== 'undefined' ? ref.pctY*r.height : ref.y;
+  const dx = Math.abs(x-rx), dy = Math.abs(y-ry);
+  const DIAG = 0.42;
+  if(dy < dx*DIAG)       return [x, ry];
+  if(dx < dy*DIAG)       return [rx, y];
+  const s = (dx+dy)/2;
+  return [rx + s*Math.sign(x-rx), ry + s*Math.sign(y-ry)];
+}
+
+function pxOf(stop, r){ return { x: stop.pctX*r.width, y: stop.pctY*r.height }; }
+
+let snapLineEls = [];
+function renderSnapLines(x, y, r){
+  snapLineEls.forEach(el => el.remove()); snapLineEls = [];
+  if(!isShift) return;
+  const ref = pending || (stops.length > 0 ? pxOf(stops[stops.length-1], r) : null);
+  if(!ref) return;
+  const rx = typeof ref.pctX !== 'undefined' ? ref.pctX*r.width  : ref.x;
+  const ry = typeof ref.pctY !== 'undefined' ? ref.pctY*r.height : ref.y;
+
+  const lh = makeSVGLine(0, ry, r.width, ry); lh.classList.add('snap-line'); svgOvl.appendChild(lh); snapLineEls.push(lh);
+  const lv = makeSVGLine(rx, 0, rx, r.height); lv.classList.add('snap-line'); svgOvl.appendChild(lv); snapLineEls.push(lv);
+  const dl = Math.max(r.width, r.height)*2;
+  const ld1 = makeSVGLine(rx-dl, ry-dl, rx+dl, ry+dl); ld1.classList.add('snap-line'); svgOvl.appendChild(ld1); snapLineEls.push(ld1);
+  const ld2 = makeSVGLine(rx-dl, ry+dl, rx+dl, ry-dl); ld2.classList.add('snap-line'); svgOvl.appendChild(ld2); snapLineEls.push(ld2);
+}
+function clearSnapLines(){ snapLineEls.forEach(el => el.remove()); snapLineEls = []; }
+
+let previewLineEl = null;
+function renderPreviewLine(){
+  if(previewLineEl){ previewLineEl.remove(); previewLineEl = null; }
+  if(!mousePos || stops.length === 0) return;
+  const r = mapImg.getBoundingClientRect();
+  const last = stops[stops.length-1];
+  const x1 = last.pctX*r.width, y1 = last.pctY*r.height;
+  const x2 = mousePos.pctX*r.width, y2 = mousePos.pctY*r.height;
+  previewLineEl = makeSVGLine(x1, y1, x2, y2);
+  previewLineEl.classList.add('preview-line');
+  svgOvl.appendChild(previewLineEl);
+}
+
+function makeSVGLine(x1,y1,x2,y2){
+  const l = document.createElementNS('http://www.w3.org/2000/svg','line');
+  l.setAttribute('x1',x1); l.setAttribute('y1',y1);
+  l.setAttribute('x2',x2); l.setAttribute('y2',y2);
+  return l;
+}
+
+// ——— Add Stop ———
+function addStop(){
+  const name   = document.getElementById('inp-name').value.trim();
+  const id     = document.getElementById('inp-id').value.trim();
+  const travel = parseInt(document.getElementById('inp-travel').value * 60) || 120;
+  const lines  = document.getElementById('inp-lines').value.split(',').map(l=>l.trim()).filter(Boolean);
+
+  if(!pending || !id || !name){ return alert('Name, ID und Punkt auf Karte erforderlich!'); }
+
+  const prev = stops.length > 0 ? stops[stops.length-1] : null;
+
+  const stop = {
+    name, stopId: id,
+    lines,
+    nextIn: '',
+    nextOut: prev ? prev.stopId : '',
+    travelTimeNext: travel,
+    waypointIn:  pendingWP ? {...pendingWP} : null,
+    waypointOut: pendingWP ? {...pendingWP} : null,
+    pctX: pending.pctX, pctY: pending.pctY
+  };
+
+  if(prev) prev.nextIn = id;
+
+  stops.push(stop);
+
+  const prevLines = document.getElementById('inp-lines').value;
+
+  pending = null; pendingWP = null;
+  modeBdg.className = '';
+
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-id').value = '';
+  document.getElementById('inp-travel').value = '';
+  document.getElementById('inp-lines').value = prevLines;
+
+  updateSaveBtn();
+  renderAll();
+  renderList();
+  updateChainUI();
+  document.getElementById('inp-name').focus();
+}
+
+function updateChainLinks(){
+  for(let i=0; i<stops.length; i++){
+    stops[i].nextOut = i > 0 ? stops[i-1].stopId : '';
+    stops[i].nextIn  = i < stops.length-1 ? stops[i+1].stopId : '';
+  }
+}
+
+function updateSaveBtn(){
+  const hasPoint = !!pending;
+  const hasId    = document.getElementById('inp-id').value.trim() !== '';
+  const hasName  = document.getElementById('inp-name').value.trim() !== '';
+  savBtn.disabled = !(hasPoint && hasId && hasName);
+}
+['inp-name','inp-id','inp-travel'].forEach(id =>
+  document.getElementById(id).addEventListener('input', updateSaveBtn)
+);
+
+// ——— Render ———
+function renderAll(){
+  mrkOvl.innerHTML = '';
+  previewLineEl && previewLineEl.remove(); previewLineEl = null;
+
+  const r = mapImg.getBoundingClientRect();
+  if(!r.width) return;
+
+  syncSVGSize();
+  renderPreviewLine();
+
+  for(let i=1; i<stops.length; i++){
+    const a = stops[i-1], b = stops[i];
+    const x1=a.pctX*r.width, y1=a.pctY*r.height;
+    const x2=b.pctX*r.width, y2=b.pctY*r.height;
+    const wp = b.waypointIn;
+    if(wp){
+      const px = wp.pctX*r.width, py = wp.pctY*r.height;
+      const l1 = makeSVGLine(x1,y1,px,py); l1.style.stroke='var(--accent)'; l1.style.strokeWidth='1.5'; l1.style.opacity='.25'; svgOvl.appendChild(l1);
+      const l2 = makeSVGLine(px,py,x2,y2); l2.style.stroke='var(--accent)'; l2.style.strokeWidth='1.5'; l2.style.opacity='.25'; svgOvl.appendChild(l2);
+    } else {
+      const ln = makeSVGLine(x1,y1,x2,y2); ln.style.stroke='var(--accent)'; ln.style.strokeWidth='1.5'; ln.style.opacity='.22'; svgOvl.appendChild(ln);
     }
+  }
+
+  stops.forEach((s, i) => {
+    const x = s.pctX*r.width, y = s.pctY*r.height;
+    const wrap = document.createElement('div'); wrap.style.cssText=`position:absolute;left:${x}px;top:${y}px;`;
+    wrap.innerHTML = `
+      <span class="m-num">${i+1}</span>
+      <div class="m-dot"></div>
+      <div class="m-label">${s.name}</div>`;
+    mrkOvl.appendChild(wrap);
+    if(s.waypointIn){
+      const wx=s.waypointIn.pctX*r.width, wy=s.waypointIn.pctY*r.height;
+      const wd=document.createElement('div'); wd.style.cssText=`position:absolute;left:${wx}px;top:${wy}px;`;
+      wd.innerHTML=`<div class="m-dot wp"></div>`; mrkOvl.appendChild(wd);
+    }
+  });
+
+  if(pending){
+    const x=pending.pctX*r.width, y=pending.pctY*r.height;
+    const p=document.createElement('div'); p.style.cssText=`position:absolute;left:${x}px;top:${y}px;`;
+    p.innerHTML=`<div class="m-dot pending"></div>`; mrkOvl.appendChild(p);
+  }
+  if(pendingWP){
+    const x=pendingWP.pctX*r.width, y=pendingWP.pctY*r.height;
+    const wp=document.createElement('div'); wp.style.cssText=`position:absolute;left:${x}px;top:${y}px;`;
+    wp.innerHTML=`<div class="m-dot wp"></div>`; mrkOvl.appendChild(wp);
+  }
+}
+
+function renderList(){
+  document.getElementById('chain-badge').textContent = `${stops.length} Station${stops.length===1?'':'en'}`;
+  document.getElementById('stop-list').innerHTML = stops.slice().reverse().map((s,ri)=>{
+    const i = stops.length-1-ri;
+    return `<div class="stop-item">
+      <span class="stop-idx">${i+1}</span>
+      <div class="stop-info">
+        <div class="stop-name">${s.name}</div>
+        <div class="stop-meta">${s.stopId} &nbsp;·&nbsp; ⏱ ${s.travelTimeNext}s${s.lines.length?` &nbsp;·&nbsp; ${s.lines.join(', ')}`:''}
+        ${s.nextOut ? `<br>← ${s.nextOut}` : ''} ${s.nextIn ? `→ ${s.nextIn}` : ''}
+        </div>
+      </div>
+      <button class="stop-del" onclick="deleteStop(${i})" title="Löschen">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function updateChainUI(){
+  const tail = stops.slice(-3);
+  let html = '';
+  if(stops.length === 0){ html='<span style="color:#333;font-size:9px;">KETTE —</span>'; }
+  else {
+    html = tail.map((s,i)=>{
+      const isLast = i===tail.length-1;
+      return `${i>0?'<span class="chain-arrow">→</span>':''}<span class="chain-id${isLast?' current':''}">${s.stopId}</span>`;
+    }).join('');
+    if(stops.length > 3) html = '<span class="chain-arrow">…</span>' + html;
+    html += '<span class="chain-arrow">→</span><span class="chain-id" style="color:#444;font-style:italic">?</span>';
+  }
+  document.getElementById('chain-display').innerHTML = html;
+}
+
+function deleteStop(idx){
+  stops.splice(idx, 1);
+  updateChainLinks();
+  renderAll(); renderList(); updateChainUI();
+}
+
+function clearAll(){
+  if(stops.length === 0 && !pending) return;
+  if(confirm('Alle Stationen löschen?')){ stops=[]; pending=null; pendingWP=null; renderAll(); renderList(); updateChainUI(); }
+}
+
+function updateCoordBar(x, y){
+  const r = mapImg.getBoundingClientRect();
+  document.getElementById('coord-display').textContent =
+    `x: ${(x/r.width*100).toFixed(1)}% · y: ${(y/r.height*100).toFixed(1)}%`;
+}
+
+function exportJSON(){
+  updateChainLinks();
+  const blob = new Blob([JSON.stringify(stops, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='vvs_radar_config.json'; a.click();
+}
+
+updateChainUI();
 </script>
 </body>
 </html>

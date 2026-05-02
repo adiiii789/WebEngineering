@@ -13,3 +13,4 @@ body, html, #root {
   padding: 0;
   overflow: hidden;
 }
+.taskbar-icons::-webkit-scrollbar { display: none; }

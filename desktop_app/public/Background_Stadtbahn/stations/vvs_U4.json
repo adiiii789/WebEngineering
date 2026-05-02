@@ -1,0 +1,340 @@
+[
+  {
+    "name": "Untertürkheim",
+    "stopId": "de:08111:6085",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:84",
+    "nextOut": "",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6764461303006836,
+    "pctY": 0.4265518739021553
+  },
+  {
+    "name": "Wasenstraße",
+    "stopId": "de:08111:84",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:83",
+    "nextOut": "de:08111:6085",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6764461303006836,
+    "pctY": 0.5064860613289657
+  },
+  {
+    "name": "Inselstraße",
+    "stopId": "de:08111:83",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:82",
+    "nextOut": "de:08111:84",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6599254438376772,
+    "pctY": 0.5064860613289657
+  },
+  {
+    "name": "Im Degen",
+    "stopId": "de:08111:82",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:81",
+    "nextOut": "de:08111:83",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6457546826043224,
+    "pctY": 0.5064860613289657
+  },
+  {
+    "name": "Brendle",
+    "stopId": "de:08111:81",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:80",
+    "nextOut": "de:08111:82",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6314415016600797,
+    "pctY": 0.5064860613289657
+  },
+  {
+    "name": "Wangener-/ Landhausstraße",
+    "stopId": "de:08111:80",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:79",
+    "nextOut": "de:08111:81",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.617270740426725,
+    "pctY": 0.5064860613289657
+  },
+  {
+    "name": "Gaisburg",
+    "stopId": "de:08111:79",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:78",
+    "nextOut": "de:08111:80",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5948396707323044,
+      "pctY": 0.5064860613289657
+    },
+    "waypointOut": {
+      "pctX": 0.5948396707323044,
+      "pctY": 0.5064860613289657
+    },
+    "pctX": 0.5927745849244286,
+    "pctY": 0.5029413088286492
+  },
+  {
+    "name": "Ostheim Leo-Vetter-Bad",
+    "stopId": "de:08111:78",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6060",
+    "nextOut": "de:08111:79",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5839089579216513,
+    "pctY": 0.4871798200325991
+  },
+  {
+    "name": "Ostendplatz",
+    "stopId": "de:08111:6060",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:77",
+    "nextOut": "de:08111:78",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5750077259911521,
+    "pctY": 0.47135503208475754
+  },
+  {
+    "name": "Bergfriedhof",
+    "stopId": "de:08111:77",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:76",
+    "nextOut": "de:08111:6060",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5686344439289147,
+    "pctY": 0.4406549434659451
+  },
+  {
+    "name": "Karl-Olga-Krankenhaus",
+    "stopId": "de:08111:76",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:26",
+    "nextOut": "de:08111:77",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5576681261905397,
+    "pctY": 0.42115880471420436
+  },
+  {
+    "name": "Stöckach",
+    "stopId": "de:08111:26",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:25",
+    "nextOut": "de:08111:76",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5458116852591148,
+      "pctY": 0.40008018716767957
+    },
+    "waypointOut": {
+      "pctX": 0.5458116852591148,
+      "pctY": 0.40008018716767957
+    },
+    "pctX": 0.5390823539196575,
+    "pctY": 0.4117905302490822
+  },
+  {
+    "name": "Neckartor",
+    "stopId": "de:08111:25",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6024",
+    "nextOut": "de:08111:26",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5285432953139465,
+    "pctY": 0.43052707917932653
+  },
+  {
+    "name": "Staatsgalerie",
+    "stopId": "de:08111:6024",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6075",
+    "nextOut": "de:08111:25",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5178974219250695,
+    "pctY": 0.44945352556494506
+  },
+  {
+    "name": "Charlottenplatz",
+    "stopId": "de:08111:6075",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6074",
+    "nextOut": "de:08111:6024",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4916921951216799,
+    "pctY": 0.4960417012833904
+  },
+  {
+    "name": "Rathaus",
+    "stopId": "de:08111:6074",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6056",
+    "nextOut": "de:08111:6075",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.47791308809326716,
+    "pctY": 0.520538473026649
+  },
+  {
+    "name": "Rotebühlplatz",
+    "stopId": "de:08111:6056",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:55",
+    "nextOut": "de:08111:6074",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.46303022830547247,
+      "pctY": 0.5368696541888214
+    },
+    "waypointOut": {
+      "pctX": 0.46303022830547247,
+      "pctY": 0.5368696541888214
+    },
+    "pctX": 0.42863586812602367,
+    "pctY": 0.4868633242736422
+  },
+  {
+    "name": "Berliner Platz (hs)",
+    "stopId": "de:08111:55",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6073",
+    "nextOut": "de:08111:6056",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.4124000210847931,
+      "pctY": 0.4569861246281175
+    },
+    "waypointOut": {
+      "pctX": 0.4124000210847931,
+      "pctY": 0.4569861246281175
+    },
+    "pctX": 0.4124000210847931,
+    "pctY": 0.45242858569913913
+  },
+  {
+    "name": "Berliner Platz",
+    "stopId": "de:08111:6073",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6072",
+    "nextOut": "de:08111:55",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3933157798258029,
+    "pctY": 0.4138161031064059
+  },
+  {
+    "name": "Rosenberg-/ Seidenstraße",
+    "stopId": "de:08111:6072",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6071",
+    "nextOut": "de:08111:6073",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.3684991452035712,
+      "pctY": 0.36969659430782376
+    },
+    "waypointOut": {
+      "pctX": 0.3684991452035712,
+      "pctY": 0.36969659430782376
+    },
+    "pctX": 0.3376296728686,
+    "pctY": 0.3700130900667806
+  },
+  {
+    "name": "Russische Kirche",
+    "stopId": "de:08111:6071",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "de:08111:6070",
+    "nextOut": "de:08111:6072",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.30658215850980025,
+    "pctY": 0.3700130900667806
+  },
+  {
+    "name": "Hölderlinplatz",
+    "stopId": "de:08111:6070",
+    "lines": [
+      "U4"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:6071",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2758907108134391,
+    "pctY": 0.3700130900667806
+  }
+]

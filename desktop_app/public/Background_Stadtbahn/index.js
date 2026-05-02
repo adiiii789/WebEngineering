@@ -1,615 +1,33 @@
 /**
  * STUTTGART STADTBAHN RADAR
- * Fixes: Doppelte Züge, Linien-bewusstes Station-Lookup, Trip-Deduplication, Zeitfenster
+ * Fahrplan-basierte Positionsberechnung + API-Delay-Korrektur
+ *
+ * Fixes:
+ *  - Kurzläufer: Chain wird am tatsächlichen API-Ziel abgeschnitten
+ *  - "U"-Problem: transportation.number als Fallback für Linienname
  */
 
 // ─── KONFIGURATION ────────────────────────────────────────────────────────────
 
-// Wird per loadStations() aus den JSON-Dateien befüllt (siehe STATION_FILES in index.html)
 let stations = [];
+let schedule = [];
 
-// Bisherige hardcodierte Stationen als Fallback, falls keine JSON-Dateien angegeben –
-// kann gelöscht werden sobald alle Linien als .json vorliegen.
-const STATIONS_FALLBACK = [
-  {
-    "name": "Plieningen",
-    "stopId": "de:08111:6555",
-    "lines": ["U3"],
-    "nextIn": "de:08111:6352",
-    "nextOut": null,
-    "pctX": 0.50604,
-    "pctY": 0.90395
-  },
-  {
-    "name": "Landhaus",
-    "stopId": "de:08111:6352",
-    "lines": ["U3"],
-    "nextIn": "de:08111:360",
-    "nextOut": "de:08111:6555",
-    "pctX": 0.4877,
-    "pctY": 0.87136
-  },
-  {
-    "name": "Salzäcker",
-    "stopId": "de:08111:360",
-    "lines": ["U3"],
-    "nextIn": "de:08111:353",
-    "nextOut": "de:08111:6352",
-    "pctX": 0.46958,
-    "pctY": 0.83914
-  },
-  {
-    "name": "Plieninger Straße",
-    "stopId": "de:08111:353",
-    "lines": ["U3"],
-    "nextIn": "de:08111:354",
-    "nextOut": "de:08111:360",
-    "pctX": 0.45146,
-    "pctY": 0.80692
-  },
-  {
-    "name": "Sigmaringer Straße",
-    "stopId": "de:08111:354",
-    "lines": ["U3"],
-    "nextIn": "de:08111:6169",
-    "nextOut": "de:08111:353",
-    "pctX": 0.43336,
-    "pctY": 0.77474
-  },
-  {
-    "name": "Möhringen Bahnhof",
-    "stopId": "de:08111:6169",
-    "lines": ["U3"],
-    "nextIn": "de:08111:170",
-    "nextOut": "de:08111:354",
-    "pctX": 0.4025,
-    "pctY": 0.74288
-  },
-  {
-    "name": "Vaihinger Straße",
-    "stopId": "de:08111:170",
-    "lines": ["U3"],
-    "nextIn": "de:08111:350",
-    "nextOut": "de:08111:6169",
-    "pctX": 0.3805,
-    "pctY": 0.74288
-  },
-  {
-    "name": "SSB-Zentrum",
-    "stopId": "de:08111:350",
-    "lines": ["U3"],
-    "nextIn": "de:08111:355",
-    "nextOut": "de:08111:170",
-    "pctX": 0.35159,
-    "pctY": 0.74288
-  },
-  {
-    "name": "Wallgraben",
-    "stopId": "de:08111:355",
-    "lines": ["U3"],
-    "nextIn": "de:08111:356",
-    "nextOut": "de:08111:350",
-    "pctX": 0.32446,
-    "pctY": 0.74288
-  },
-  {
-    "name": "Jurastr",
-    "stopId": "de:08111:356",
-    "lines": ["U3"],
-    "nextIn": "de:08111:6002",
-    "nextOut": "de:08111:355",
-    "pctX": 0.29725,
-    "pctY": 0.74288
-  },
-  {
-    "name": "Vaihingen Bf",
-    "stopId": "de:08111:6002",
-    "lines": ["U3"],
-    "nextIn": null,
-    "nextOut": "de:08111:356",
-    "pctX": 0.26407,
-    "pctY": 0.75102
-  },
-  {
-    "name": "Flughafen/Messe",
-    "stopId": "de:08116:2103",
-    "lines": ["U6"],
-    "nextIn": "de:08116:7182",
-    "nextOut": "",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.33687007789690593,
-    "pctY": 0.9185762116842322
-  },
-  {
-    "name": "Messe West",
-    "stopId": "de:08116:7182",
-    "lines": ["U6"],
-    "nextIn": "de:08116:7180",
-    "nextOut": "de:08116:2103",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.33687007789690593,
-    "pctY": 0.8987002780217432
-  },
-  {
-    "name": "Stadionstraße",
-    "stopId": "de:08116:7180",
-    "lines": ["U6"],
-    "nextIn": "de:08111:363",
-    "nextOut": "de:08116:7182",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.3369590902162109,
-    "pctY": 0.8806283701853083
-  },
-  {
-    "name": "Schelmenwasen",
-    "stopId": "de:08111:363",
-    "lines": ["U6"],
-    "nextIn": "de:08111:2586",
-    "nextOut": "de:08116:7180",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.33694128775234994,
-    "pctY": 0.8629995564114128
-  },
-  {
-    "name": "EnBW City",
-    "stopId": "de:08111:2586",
-    "lines": ["U6"],
-    "nextIn": "de:08111:2584",
-    "nextOut": "de:08111:363",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.33694128775234994,
-    "pctY": 0.8452757939098303
-  },
-  {
-    "name": "Europaplatz",
-    "stopId": "de:08111:2584",
-    "lines": ["U6"],
-    "nextIn": "de:08111:364",
-    "nextOut": "de:08111:2586",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.33694128775234994,
-    "pctY": 0.8275520314082478
-  },
-  {
-    "name": "Fasanenhof",
-    "stopId": "de:08111:364",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6171",
-    "nextOut": "de:08111:2584",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.33694128775234994,
-    "pctY": 0.8095750722995
-  },
-  {
-    "name": "Möhringen Freibad",
-    "stopId": "de:08111:6171",
-    "lines": ["U6"],
-    "nextIn": "de:08111:183",
-    "nextOut": "de:08111:364",
-    "waypointIn": { "pctX": 0.33672765818601796, "pctY": 0.7943832758695721 },
-    "waypointOut": { "pctX": 0.33672765818601796, "pctY": 0.7943832758695721 },
-    "pctX": 0.3389351637047817,
-    "pctY": 0.7908385233692556
-  },
-  {
-    "name": "Rohrer Weg",
-    "stopId": "de:08111:183",
-    "lines": ["U6"],
-    "nextIn": "de:08111:170",
-    "nextOut": "de:08111:6171",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.3523582214559745,
-    "pctY": 0.7669747431439107
-  },
-  {
-    "name": "Vaihinger Straße",
-    "stopId": "de:08111:170",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6169",
-    "nextOut": "de:08111:183",
-    "waypointIn": { "pctX": 0.3771748560782062, "pctY": 0.723108430952494 },
-    "waypointOut": { "pctX": 0.3771748560782062, "pctY": 0.723108430952494 },
-    "pctX": 0.38030808971774194,
-    "pctY": 0.723108430952494
-  },
-  {
-    "name": "Möhringen Bahnhof",
-    "stopId": "de:08111:6169",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6168",
-    "nextOut": "de:08111:170",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.40224072519449194,
-    "pctY": 0.723108430952494
-  },
-  {
-    "name": "Riedsee",
-    "stopId": "de:08111:6168",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6167",
-    "nextOut": "de:08111:6169",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.42426831873531295,
-    "pctY": 0.723108430952494
-  },
-  {
-    "name": "Sonnenberg",
-    "stopId": "de:08111:6167",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6166",
-    "nextOut": "de:08111:6168",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.4464976503529339,
-    "pctY": 0.723108430952494
-  },
-  {
-    "name": "Peregrina Straße",
-    "stopId": "de:08111:6166",
-    "lines": ["U6"],
-    "nextIn": "de:08111:2594",
-    "nextOut": "de:08111:6167",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.4685727055405718,
-    "pctY": 0.723108430952494
-  },
-  {
-    "name": "Degerloch Albstraße",
-    "stopId": "de:08111:2594",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6165",
-    "nextOut": "de:08111:6166",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.4905884423622979,
-    "pctY": 0.723108430952494
-  },
-  {
-    "name": "Degerloch",
-    "stopId": "de:08111:6165",
-    "lines": ["U6"],
-    "nextIn": "de:08111:163",
-    "nextOut": "de:08111:2594",
-    "waypointIn": { "pctX": 0.49501531011892047, "pctY": 0.723108430952494 },
-    "waypointOut": { "pctX": 0.49501531011892047, "pctY": 0.723108430952494 },
-    "pctX": 0.5022075055187638,
-    "pctY": 0.7105751988978035
-  },
-  {
-    "name": "Weinsteige",
-    "stopId": "de:08111:163",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6160",
-    "nextOut": "de:08111:6165",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.5205262408317312,
-    "pctY": 0.6780077853011457
-  },
-  {
-    "name": "Bopser",
-    "stopId": "de:08111:6160",
-    "lines": ["U6"],
-    "nextIn": "de:08111:159",
-    "nextOut": "de:08111:163",
-    "waypointIn": { "pctX": 0.5238196966460158, "pctY": 0.672089314608653 },
-    "waypointOut": { "pctX": 0.5238196966460158, "pctY": 0.672089314608653 },
-    "pctX": 0.5236060670796838,
-    "pctY": 0.627653310051114
-  },
-  {
-    "name": "Dobelstraße",
-    "stopId": "de:08111:159",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6119",
-    "nextOut": "de:08111:6160",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.5236060670796838,
-    "pctY": 0.5791661597789277
-  },
-  {
-    "name": "Olgaeck",
-    "stopId": "de:08111:6119",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6075",
-    "nextOut": "de:08111:159",
-    "waypointIn": { "pctX": 0.5238909065014598, "pctY": 0.5628349477089664 },
-    "waypointOut": { "pctX": 0.5238909065014598, "pctY": 0.5628349477089664 },
-    "pctX": 0.5073702200384533,
-    "pctY": 0.5339705344921034
-  },
-  {
-    "name": "Charlottenplatz",
-    "stopId": "de:08111:6075",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6022",
-    "nextOut": "de:08111:6119",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.4846186712240974,
-    "pctY": 0.49352237649742053
-  },
-  {
-    "name": "Schlossplatz",
-    "stopId": "de:08111:6022",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6112",
-    "nextOut": "de:08111:6075",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.46881008331553087,
-    "pctY": 0.46541755310205407
-  },
-  {
-    "name": "Hauptbahnhof",
-    "stopId": "de:08111:6112",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6116",
-    "nextOut": "de:08111:6022",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.45485295164850814,
-    "pctY": 0.4406042855998386
-  },
-  {
-    "name": "Stadtbibliothek",
-    "stopId": "de:08111:6116",
-    "lines": ["U6"],
-    "nextIn": "de:08111:115",
-    "nextOut": "de:08111:6112",
-    "waypointIn": { "pctX": 0.44859834108853164, "pctY": 0.4291471391256013 },
-    "waypointOut": { "pctX": 0.44859834108853164, "pctY": 0.4291471391256013 },
-    "pctX": 0.4485271312330877,
-    "pctY": 0.34306029268934357
-  },
-  {
-    "name": "Pragfriedhof",
-    "stopId": "de:08111:115",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6114",
-    "nextOut": "de:08111:6116",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.4485271312330877,
-    "pctY": 0.28634425268427965
-  },
-  {
-    "name": "Löwentorbrücke",
-    "stopId": "de:08111:6114",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6113",
-    "nextOut": "de:08111:115",
-    "waypointIn": { "pctX": 0.4484559213776437, "pctY": 0.27583660894080736 },
-    "waypointOut": { "pctX": 0.4484559213776437, "pctY": 0.27583660894080736 },
-    "pctX": 0.4635524107317703,
-    "pctY": 0.24874457197410274
-  },
-  {
-    "name": "Pragsattel",
-    "stopId": "de:08111:6113",
-    "lines": ["U6"],
-    "nextIn": "de:08111:158",
-    "nextOut": "de:08111:6114",
-    "waypointIn": { "pctX": 0.488891262550737, "pctY": 0.20329578098790194 },
-    "waypointOut": { "pctX": 0.488891262550737, "pctY": 0.20329578098790194 },
-    "pctX": 0.48874884283984904,
-    "pctY": 0.19367430991561432
-  },
-  {
-    "name": "Maybachstraße",
-    "stopId": "de:08111:158",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6157",
-    "nextOut": "de:08111:6113",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.4662465285195471,
-    "pctY": 0.1937376090674057
-  },
-  {
-    "name": "Feuerbach",
-    "stopId": "de:08111:6157",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6180",
-    "nextOut": "de:08111:158",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.43784565291648864,
-    "pctY": 0.1937376090674057
-  },
-  {
-    "name": "Wilhelm-Geiger-Platz",
-    "stopId": "de:08111:6180",
-    "lines": ["U6"],
-    "nextIn": "de:08111:154",
-    "nextOut": "de:08111:6157",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.40739158299508654,
-    "pctY": 0.1937376090674057
-  },
-  {
-    "name": "Föhrich",
-    "stopId": "de:08111:154",
-    "lines": ["U6"],
-    "nextIn": "de:08111:153",
-    "nextOut": "de:08111:6180",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.37737662892544327,
-    "pctY": 0.1937376090674057
-  },
-  {
-    "name": "Sportpark Feuerbach",
-    "stopId": "de:08111:153",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6157",
-    "nextOut": "de:08111:154",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.3471005836426511,
-    "pctY": 0.1937376090674057
-  },
-  {
-    "name": "Feuerbach Pfostenwäldle",
-    "stopId": "de:08111:6157",
-    "lines": ["U6"],
-    "nextIn": "de:08111:151",
-    "nextOut": "de:08111:153",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.3169787974046233,
-    "pctY": 0.1937376090674057
-  },
-  {
-    "name": "Landauer Straße",
-    "stopId": "de:08111:151",
-    "lines": ["U6"],
-    "nextIn": "de:08111:6149",
-    "nextOut": "de:08111:6157",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.29040566460491885,
-    "pctY": 0.1937376090674057
-  },
-  {
-    "name": "Weilimdorf Löwen-Markt",
-    "stopId": "de:08111:6149",
-    "lines": ["U6"],
-    "nextIn": "de:08111:148",
-    "nextOut": "de:08111:151",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.2638206403156822,
-    "pctY": 0.1937376090674057
-  },
-  {
-    "name": "Rastatter Straße",
-    "stopId": "de:08111:148",
-    "lines": ["U6"],
-    "nextIn": "de:08111:147",
-    "nextOut": "de:08111:6149",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.23715254945190664,
-    "pctY": 0.19354771161203158
-  },
-  {
-    "name": "Wolfbusch",
-    "stopId": "de:08111:147",
-    "lines": ["U6"],
-    "nextIn": "de:08111:146",
-    "nextOut": "de:08111:148",
-    "waypointIn": { "pctX": 0.23391250102920494, "pctY": 0.19380090821919704 },
-    "waypointOut": { "pctX": 0.23391250102920494, "pctY": 0.19380090821919704 },
-    "pctX": 0.22294618329082996,
-    "pctY": 0.2134236452745205
-  },
-  {
-    "name": "Bergheimer Hof",
-    "stopId": "de:08111:146",
-    "lines": ["U6"],
-    "nextIn": "de:08111:145",
-    "nextOut": "de:08111:147",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.20884663191291924,
-    "pctY": 0.23849010938390144
-  },
-  {
-    "name": "Salamanderweg",
-    "stopId": "de:08111:145",
-    "lines": ["U6"],
-    "nextIn": "de:08111:144",
-    "nextOut": "de:08111:146",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.19442663618551057,
-    "pctY": 0.2641262658594047
-  },
-  {
-    "name": "Giebel",
-    "stopId": "de:08111:144",
-    "lines": ["U6"],
-    "nextIn": "de:08118:143",
-    "nextOut": "de:08111:145",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.18025587495215586,
-    "pctY": 0.28931932827236834
-  },
-  {
-    "name": "Breitwiesen",
-    "stopId": "de:08118:143",
-    "lines": ["U6"],
-    "nextIn": "de:08116:2970",
-    "nextOut": "de:08111:144",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.16604951748368849,
-    "pctY": 0.31457567438322886
-  },
-  {
-    "name": "Siedlung",
-    "stopId": "de:08116:2970",
-    "lines": ["U6"],
-    "nextIn": "de:08118:7140",
-    "nextOut": "de:08118:143",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.1518075463948898,
-    "pctY": 0.33989533509977526
-  },
-  {
-    "name": "Gerlingen",
-    "stopId": "de:08118:7140",
-    "lines": ["U6"],
-    "nextIn": null,
-    "nextOut": "de:08116:2970",
-    "waypointIn": null,
-    "waypointOut": null,
-    "pctX": 0.13614137819721125,
-    "pctY": 0.36774696188797634
-  }
-]; // Ende STATIONS_FALLBACK
-
-// ─── KONSTANTEN ───────────────────────────────────────────────────────────────
-
-// FIX 1: Vollständigere Richtungserkennung
-const INBOUND_DESTINATIONS = [
-    "hauptbahnhof", "stadtmitte", "charlottenplatz", "schlossplatz",
-    "vaihingen", "ostfildern", "fasanenhof", "dürener", "prien",
-    "nellingen", "innenstadt", "stadtbibliothek", "pragsattel",
-    "feuerbach", "gerlingen"
-];
+const LOOKAHEAD_MS   =  900_000;
+const TRAVEL_TIME_MS =  110_000;
+const DELAY_TTL_MS   =   40_000;
 
 const LINE_COLORS = {
-    "U1": "#e30613", "U2": "#009640", "U3": "#955C36",
-    "U4": "#af5836", "U5": "#007abf", "U6": "#E6007E",
-    "U7": "#f39200", "U8": "#007abf", "U9": "#af5836",
-    "U11": "#e30613", "U12": "#f39200", "U13": "#009640",
-    "U14": "#af5836", "U15": "#e30613", "U19": "#007abf",
-    "U21": "#e30613", "U24": "#009640"
+    "U1": "#D3A170", "U2": "#EC6625", "U3": "#955C36",
+    "U4": "#8164A9", "U5": "#00B1EB", "U6": "#E6007E",
+    "U7": "#00A984", "U8": "#C6BD80", "U9": "#FFD500",
+    "U11": "#9D9C9C", "U12": "#96C1E9", "U13": "#F3A4B9",
+    "U14": "#6EB63E", "U15": "#004F9F", "U16": "#CBC100",
+    "U19": "#FBB900"
 };
 
-// Zeitfenster: Abfahrten die älter als X ms oder weiter als Y ms entfernt sind, ignorieren
-const WINDOW_PAST_MS   = 600_000;  // 10 Minuten in die Vergangenheit
-const WINDOW_FUTURE_MS = 900_000;  // 15 Minuten in die Zukunft
-const TRAVEL_TIME_MS   = 110_000;  // Standard-Fahrzeit zwischen Stationen
+const KNOWN_LINES = new Set(Object.keys(LINE_COLORS));
 
-// ─── CANVAS SETUP ─────────────────────────────────────────────────────────────
+// ─── DOM ──────────────────────────────────────────────────────────────────────
 
 const canvas = document.getElementById('mapCanvas');
 const ctx    = canvas.getContext('2d');
@@ -617,185 +35,247 @@ const img    = document.getElementById('mapImage');
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
 
-// FIX 2: Map speichert jetzt das "beste" (aktuellste) Sighting pro Trip
-// key: tripId  →  value: simulation object
 let activeSimulations = new Map();
 
-// ─── API ──────────────────────────────────────────────────────────────────────
+// key: "terminusStopId_line_minute" → { delayMs, actualDest, fetchedAt }
+const delayCache = new Map();
 
-async function fetchVVS(stopId) {
+// ─── HILFSFUNKTIONEN ──────────────────────────────────────────────────────────
+
+function findStation(stopId, line) {
+    if (!stopId) return null;
+    return stations.find(s => s.stopId === stopId && s.lines?.includes(line))
+        ?? stations.find(s => s.stopId === stopId)
+        ?? null;
+}
+
+function getTravelTime(station) {
+    return (station.travelTimeNext != null && station.travelTimeNext > 0)
+        ? station.travelTimeNext * 1000
+        : TRAVEL_TIME_MS;
+}
+
+function parseDepTime(timeStr) {
+    const [h, m]   = timeStr.split(':').map(Number);
+    const now      = Date.now();
+    const midnight = new Date();
+    midnight.setHours(0, 0, 0, 0);
+    let depMs = midnight.getTime() + h * 3_600_000 + m * 60_000;
+    if (depMs - now >  12 * 3_600_000) depMs -= 86_400_000;
+    if (now - depMs >  12 * 3_600_000) depMs += 86_400_000;
+    return depMs;
+}
+
+function getItdDate() {
+    const d = new Date();
+    return d.getFullYear().toString()
+        + (d.getMonth() + 1).toString().padStart(2, '0')
+        + d.getDate().toString().padStart(2, '0');
+}
+
+function getItdTime() {
+    const d = new Date();
+    return d.getHours().toString().padStart(2, '0')
+        + d.getMinutes().toString().padStart(2, '0');
+}
+
+/**
+ * Baut die Stationskette ab der Endhaltestelle auf.
+ * cutoffName: Chain endet an der Station deren Name das tatsächliche
+ * Fahrziel enthält (Kurzläufer / Depot-Fahrten).
+ */
+function buildStationChain(terminusStopId, line, direction, cutoffName = null) {
+    const chain   = [];
+    const visited = new Set();
+    let current   = findStation(terminusStopId, line);
+
+    if (!current) {
+        console.warn(`⚠️ Terminus nicht gefunden: ${terminusStopId} (${line})`);
+        return chain;
+    }
+
+    while (current && !visited.has(current.stopId)) {
+        chain.push(current);
+        visited.add(current.stopId);
+
+        // FIX Kurzläufer: Chain am tatsächlichen API-Ziel abschneiden
+        if (cutoffName && current.name.toLowerCase().includes(cutoffName.toLowerCase())) {
+            break;
+        }
+
+        const nextId = direction === 'inbound' ? current.nextIn : current.nextOut;
+        if (!nextId) break;
+        current = findStation(nextId, line);
+    }
+
+    return chain;
+}
+
+function buildCumMs(chain) {
+    const cumMs = [0];
+    for (let i = 0; i < chain.length - 1; i++) {
+        cumMs.push(cumMs[i] + getTravelTime(chain[i]));
+    }
+    return cumMs;
+}
+
+// ─── API: DELAY + TATSÄCHLICHES ZIEL ─────────────────────────────────────────
+
+/**
+ * Holt Delay UND tatsächliches Fahrziel von der VVS-API.
+ *
+ * FIX "U"-Problem: disassembledName gibt bei Depot-/Sonderfahrten
+ * manchmal nur "U" zurück. transportation.number enthält die echte
+ * Ziffer → wird zu "U7" rekonstruiert.
+ *
+ * FIX Kurzläufer: gibt actualDest zurück damit buildStationChain
+ * den Chain am echten Ziel abschneiden kann.
+ */
+async function fetchDelay(terminusStopId, line, plannedDepMs) {
+    const cacheKey = `${terminusStopId}_${line}_${Math.round(plannedDepMs / 60_000)}`;
+    const cached   = delayCache.get(cacheKey);
+
+    if (cached && Date.now() - cached.fetchedAt < DELAY_TTL_MS) {
+        return { delayMs: cached.delayMs, actualDest: cached.actualDest };
+    }
+
     try {
-        // limit=30 statt 10: stellt sicher dass auch bei belebten Stationen
-        // alle relevanten Linien in der Antwort enthalten sind
-        const url = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST?outputFormat=rapidJSON&type_dm=any&name_dm=${stopId}&mode=direct&useRealtime=1&limit=30&t=${Date.now()}`;
+        const url = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST?outputFormat=rapidJSON`
+            + `&type_dm=any&name_dm=${terminusStopId}&mode=direct&useRealtime=1`
+            + `&itdDate=${getItdDate()}&itdTime=${getItdTime()}&t=${Date.now()}`;
+
         const res  = await fetch(url);
         const data = await res.json();
         const list = data.stopEvents || data.departures || [];
 
-        return list
-            .filter(e => e?.transportation?.disassembledName)
-            .map(e => {
-                const plannedMs = new Date(
-                    e.departureTimePlanned || e.arrivalTimePlanned
-                ).getTime();
+        for (const e of list) {
+            // FIX: disassembledName kann "U" sein bei Depot-/Sonderfahrten.
+            // number enthält dann z.B. "7" → ergibt "U7"
+            const rawName = e?.transportation?.disassembledName || '';
+            const number  = e?.transportation?.number || '';
+            const apiLine = rawName.length > 1
+                ? rawName
+                : (number ? `U${number}` : rawName);
 
-                return {
-                    line: e.transportation.disassembledName,
-                    dest: (e.transportation.destination?.name || '').toLowerCase(),
-                    time: new Date(
-                        e.departureTimeEstimated ||
-                        e.departureTimePlanned   ||
-                        e.arrivalTimeEstimated   ||
-                        e.arrivalTimePlanned
-                    ),
-                    tripId: e.transportation.id
-                        ? `${e.transportation.disassembledName}_${e.transportation.id}`
-                        : `${e.transportation.disassembledName}_${e.transportation.destination?.name}_${Math.round(plannedMs / 300_000)}`
-                };
-            });
-    } catch {
-        console.warn(`API-Fehler bei ${stopId}`);
-        return [];
+            if (apiLine !== line) continue;
+
+            const planned   = new Date(e.departureTimePlanned  || e.arrivalTimePlanned).getTime();
+            const estimated = new Date(e.departureTimeEstimated || e.departureTimePlanned).getTime();
+
+            if (Math.abs(planned - plannedDepMs) < 180_000) {
+                const delayMs    = estimated - planned;
+                const actualDest = e.transportation?.destination?.name || null;
+
+                delayCache.set(cacheKey, { delayMs, actualDest, fetchedAt: Date.now() });
+
+                if (delayMs !== 0)
+                    console.log(`🕐 ${line}: ${Math.round(delayMs / 1000)}s Verspätung`);
+
+                return { delayMs, actualDest };
+            }
+        }
+    } catch (err) {
+        console.warn(`❌ Delay-Fetch fehlgeschlagen: ${terminusStopId} (${line})`, err);
     }
+
+    delayCache.set(cacheKey, { delayMs: 0, actualDest: null, fetchedAt: Date.now() });
+    return { delayMs: 0, actualDest: null };
 }
 
-// ─── HILFSFUNKTIONEN ──────────────────────────────────────────────────────────
-
-/**
- * FIX 4: Linien-bewusstes Stationssuche
- * Stationen wie "Vaihinger Straße" existieren für U3 UND U6 mit gleicher stopId –
- * ohne Linienbeschränkung würde immer der erste Eintrag gefunden.
- */
-function findNextStation(nextStopId, line) {
-    if (!nextStopId) return null;
-    // Zuerst: exakter Match mit richtiger Linie
-    return stations.find(s => s.stopId === nextStopId && s.lines?.includes(line))
-        // Fallback: nur stopId (für Fälle ohne Linieninfo)
-        ?? stations.find(s => s.stopId === nextStopId)
-        ?? null;
-}
-
-function getTravelTime(stationA) {
-    return stationA.travelTimeNext != null
-        ? stationA.travelTimeNext * 1000   // Sekunden → Millisekunden
-        : TRAVEL_TIME_MS;
-}
-
-// ─── HAUPTLOGIK ───────────────────────────────────────────────────────────────
+// ─── KERN: FAHRPLAN → SIMULATIONEN ───────────────────────────────────────────
 
 async function updateEntireNetwork() {
-    console.log("📡 Synchronisiere mit VVS...");
-    const now = Date.now();
+    console.log("📡 Aktualisiere Fahrplan-Simulationen...");
+    const now      = Date.now();
+    const freshIds = new Set();
 
-    // FIX 5: Erst ALLE Sightings sammeln, dann das aktuellste pro Trip behalten
-    // key: tripId  →  {dep, station, isInbound, nextStation, score}
-    const bestSighting = new Map();
+    for (const entry of schedule) {
+        const { line, terminusStopId, direction, departures } = entry;
+        if (!KNOWN_LINES.has(line)) continue;
 
-    for (const station of stations) {
-        const departures = await fetchVVS(station.stopId);
+        // Vollständige Kette einmal bauen für Gesamtdauer-Check
+        const fullChain = buildStationChain(terminusStopId, line, direction);
+        if (fullChain.length < 2) {
+            console.warn(`⚠️ Kette zu kurz: ${line} ${direction} ab ${terminusStopId}`);
+            continue;
+        }
+        const fullCumMs       = buildCumMs(fullChain);
+        const totalDurationMs = fullCumMs[fullCumMs.length - 1];
 
-        for (const dep of departures) {
-            // Nur Abfahrten der zugewiesenen Linien dieser Station
-            if (!station.lines?.includes(dep.line)) continue;
+        for (const depStr of departures) {
+            const tripId    = `${line}_${direction}_${depStr}`;
+            const plannedMs = parseDepTime(depStr);
 
-            const depTime = dep.time.getTime();
+            if (now > plannedMs + totalDurationMs + 60_000) continue;
+            if (plannedMs > now + LOOKAHEAD_MS) continue;
 
-            // Zeitfenster
-            if (depTime < now - WINDOW_PAST_MS || depTime > now + WINDOW_FUTURE_MS) continue;
+            // Delay + tatsächliches Ziel holen
+            const { delayMs, actualDest } = await fetchDelay(terminusStopId, line, plannedMs);
 
-            // Richtung bestimmen – falls primäre Richtung kein nextStation liefert,
-            // automatisch die andere Richtung probieren
-            let isInbound = INBOUND_DESTINATIONS.some(t => dep.dest.includes(t));
-            let nextId    = isInbound ? station.nextIn : station.nextOut;
-            let nextStation = findNextStation(nextId, dep.line);
+            // Nur als Kurzläufer behandeln wenn das Ziel NICHT die Endstation selbst ist
+            const terminusStation = fullChain[fullChain.length - 1];
+            const isShortRunner = actualDest
+                && !terminusStation.name.toLowerCase().includes(actualDest.toLowerCase())
+                && !actualDest.toLowerCase().includes(terminusStation.name.toLowerCase());
 
-            if (!nextStation) {
-                // Andere Richtung versuchen
-                isInbound  = !isInbound;
-                nextId     = isInbound ? station.nextIn : station.nextOut;
-                nextStation = findNextStation(nextId, dep.line);
-            }
+            const chain = isShortRunner
+                ? buildStationChain(terminusStopId, line, direction, actualDest)
+                : fullChain;
 
-            if (!nextStation) {
-                console.debug(`⚠️ Kein Segment: ${dep.line} → "${dep.dest}" @ ${station.name}`);
+            if (isShortRunner)
+                console.log(`🔀 ${line} Kurzläufer bis "${actualDest}" (Terminus wäre: ${terminusStation.name})`);
+
+            if (chain.length < 2) continue;
+
+            const cumMs             = buildCumMs(chain);
+            const effectiveDuration = cumMs[cumMs.length - 1];
+            const actualDepMs       = plannedMs + delayMs;
+            const elapsed           = now - actualDepMs;
+
+            // Noch nicht abgefahren
+            if (elapsed < 0) {
+                freshIds.add(tripId);
+                activeSimulations.set(tripId, {
+                    line, direction, chain, cumMs, actualDepMs,
+                    startStation: chain[0],
+                    endStation:   chain[1],
+                    startTime:    actualDepMs,
+                    duration:     cumMs[1] - cumMs[0],
+                    waypoint:     direction === 'inbound' ? chain[0].waypointIn : chain[0].waypointOut
+                });
                 continue;
             }
 
-            // Nur Abfahrten berücksichtigen wo der Zug bereits abgefahren ist
-            // (+ 15 Sek Toleranz für Echtzeit-Ungenauigkeiten der API).
-            // Zukünftige Stationen werden ignoriert – der Zug ist dort noch nicht.
-            if (depTime > now + 15_000) continue;
+            // Endstation schon erreicht
+            if (elapsed >= effectiveDuration) continue;
 
-            // Score: je später die Abfahrt (je weiter vorne auf der Route), desto besser
-            const score = depTime;
-
-            const existing = bestSighting.get(dep.tripId);
-            if (!existing || score > existing.score) {
-                bestSighting.set(dep.tripId, { dep, station, isInbound, nextStation, score });
+            // Aktuelles Segment
+            let segIdx = 0;
+            for (let i = 0; i < cumMs.length - 1; i++) {
+                if (elapsed >= cumMs[i] && elapsed < cumMs[i + 1]) { segIdx = i; break; }
             }
-        }
 
-        // Kleine Pause, damit die API nicht überlastet wird
-        await new Promise(r => setTimeout(r, 50));
-    }
-
-    // ── Simulationen aktualisieren ────────────────────────────────────────────
-
-    const freshIds = new Set();
-
-    bestSighting.forEach(({ dep, station, isInbound, nextStation }, tripId) => {
-        freshIds.add(tripId);
-        const depTime = dep.time.getTime();
-        const waypoint = isInbound ? station.waypointIn : station.waypointOut;
-
-        if (!activeSimulations.has(tripId)) {
-            // Neuen Zug hinzufügen
+            freshIds.add(tripId);
             activeSimulations.set(tripId, {
-                line:         dep.line,
-                isInbound,
-                startStation: station,
-                endStation:   nextStation,
-                startTime:    depTime,
-                duration:     getTravelTime(station),
-                waypoint
+                line, direction, chain, cumMs, actualDepMs,
+                startStation: chain[segIdx],
+                endStation:   chain[segIdx + 1],
+                startTime:    actualDepMs + cumMs[segIdx],
+                duration:     cumMs[segIdx + 1] - cumMs[segIdx],
+                waypoint:     direction === 'inbound'
+                    ? chain[segIdx].waypointIn
+                    : chain[segIdx].waypointOut
             });
-        } else {
-            // Bestehendes Sighting nur updaten wenn der Zug
-            // zur nächsten Strecke weitergezogen ist (neues Stationspaar)
-            const sim = activeSimulations.get(tripId);
-            const hasMoved   = sim.startStation.stopId !== station.stopId;
-            const isFinished = (now - sim.startTime) > sim.duration * 0.95;
-
-            if (hasMoved && isFinished) {
-                activeSimulations.set(tripId, {
-                    line:         dep.line,
-                    isInbound,
-                    startStation: station,
-                    endStation:   nextStation,
-                    startTime:    depTime,
-                    duration:     getTravelTime(station),
-                    waypoint
-                });
-            }
         }
-    });
 
-    // Veraltete Simulationen entfernen:
-    // - Nicht mehr in der API UND älter als 2× Fahrzeit → Geist-Zug
-    // - Älter als 30 Minuten → definitiv veraltet
-    for (const [id, sim] of activeSimulations) {
-        const elapsed   = now - sim.startTime;
-        const isMissing = !freshIds.has(id);
-        const isGhost   = isMissing && elapsed > sim.duration * 2;
-        const isStale   = elapsed > 30 * 60 * 1000;
-
-        if (isGhost || isStale) {
-            activeSimulations.delete(id);
-            if (isGhost) console.debug(`🗑 Geist-Zug entfernt: ${id.substring(0, 50)}`);
-        }
+        await new Promise(r => setTimeout(r, 30));
     }
 
-    console.log(`✅ ${activeSimulations.size} aktive Züge`);
+    for (const id of activeSimulations.keys()) {
+        if (!freshIds.has(id)) activeSimulations.delete(id);
+    }
+
+    console.log(`✅ ${activeSimulations.size} Züge aktiv`);
 }
 
 // ─── RENDERING ────────────────────────────────────────────────────────────────
@@ -806,107 +286,113 @@ function draw() {
     const now = Date.now();
 
     for (const [id, train] of activeSimulations) {
-        const elapsed  = now - train.startTime;
-        const progress = elapsed / train.duration;
+        const progress = (now - train.startTime) / train.duration;
 
-        // Segment abgeschlossen → nächstes Segment laden (Chaining)
+        if (progress < 0) continue;
+
         if (progress >= 1.0) {
-            const advanced = advanceSegment(id, train);
-            if (!advanced) {
-                // Endstation erreicht, kein weiteres Segment → entfernen
-                activeSimulations.delete(id);
-            }
-            continue; // Neu geladenes Segment wird im nächsten Frame gezeichnet
+            if (!advanceSegment(id, train)) activeSimulations.delete(id);
+            continue;
         }
 
-        if (progress < 0) continue; // Zug noch nicht abgefahren
-
-        // Nur am echten Streckenanfang sanft einblenden, kein vorzeitiges Ausblenden
-        const alpha = progress < 0.08 ? progress / 0.08 : 1.0;
-
-        const t   = Math.min(1, Math.max(0, progress));
-        const pos = getPosition(train.startStation, train.endStation, train.waypoint, t);
-        drawMarker(pos.x * canvas.width, pos.y * canvas.height, train.line, alpha);
+        const isFirstSeg = train.startStation.stopId === train.chain[0].stopId;
+        const alpha      = isFirstSeg ? Math.min(1, progress / 0.1) : 1.0;
+        const t          = Math.min(1, Math.max(0, progress));
+        const pos        = getPosition(train.startStation, train.endStation, train.waypoint, t);
+        if (pos) drawMarker(pos.x * canvas.width, pos.y * canvas.height, train.line, alpha);
     }
 }
 
-/**
- * Zug auf das nächste Segment weiterschalten.
- * Gibt true zurück wenn ein nächstes Segment gefunden wurde, sonst false.
- */
 function advanceSegment(id, sim) {
-    const { endStation, line, isInbound, startTime, duration } = sim;
-    const nextStopId  = isInbound ? endStation.nextIn : endStation.nextOut;
-    const nextStation = findNextStation(nextStopId, line);
+    const { chain, cumMs, actualDepMs, direction } = sim;
 
-    if (!nextStation) return false; // Endstation der Linie
+    const elapsed = sim.startTime - actualDepMs;
+    let curIdx = 0;
+    for (let i = 0; i < cumMs.length - 1; i++) {
+        if (Math.abs(cumMs[i] - elapsed) < 1000) { curIdx = i; break; }
+    }
 
-    const waypoint = isInbound ? endStation.waypointIn : endStation.waypointOut;
+    const nextIdx = curIdx + 1;
+    if (nextIdx >= chain.length - 1) return false;
 
     activeSimulations.set(id, {
-        line,
-        isInbound,
-        startStation: endStation,
-        endStation:   nextStation,
-        // startTime vom Ende des vorherigen Segments übernehmen → nahtloser Übergang
-        startTime:    startTime + duration,
-        duration:     getTravelTime(endStation),
-        waypoint
+        ...sim,
+        startStation: chain[nextIdx],
+        endStation:   chain[nextIdx + 1],
+        startTime:    actualDepMs + cumMs[nextIdx],
+        duration:     cumMs[nextIdx + 1] - cumMs[nextIdx],
+        waypoint:     direction === 'inbound'
+            ? chain[nextIdx].waypointIn
+            : chain[nextIdx].waypointOut
     });
-
     return true;
+}
+
+function getPosition(sA, sB, wp, t) {
+    const hasWp = wp && (wp.pctX !== 0 || wp.pctY !== 0);
+    if (!hasWp) {
+        return { x: sA.pctX + (sB.pctX - sA.pctX) * t, y: sA.pctY + (sB.pctY - sA.pctY) * t };
+    }
+    if (t < 0.5) {
+        const lt = t * 2;
+        return { x: sA.pctX + (wp.pctX - sA.pctX) * lt, y: sA.pctY + (wp.pctY - sA.pctY) * lt };
+    }
+    const lt = (t - 0.5) * 2;
+    return { x: wp.pctX + (sB.pctX - wp.pctX) * lt, y: wp.pctY + (sB.pctY - wp.pctY) * lt };
 }
 
 function drawMarker(x, y, line, alpha) {
     const color = LINE_COLORS[line] || "#999";
     ctx.save();
-    ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
-
-    ctx.shadowBlur  = 15;
-    ctx.shadowColor = color;
-
-    ctx.fillStyle = color;
+    ctx.globalAlpha  = Math.max(0, Math.min(1, alpha));
+    ctx.shadowBlur   = 15;
+    ctx.shadowColor  = color;
+    ctx.fillStyle    = color;
     ctx.beginPath();
     ctx.arc(x, y, 7, 0, Math.PI * 2);
     ctx.fill();
-
     ctx.shadowBlur   = 0;
     ctx.strokeStyle  = "white";
     ctx.lineWidth    = 2;
     ctx.stroke();
-
-    ctx.fillStyle = "white";
-    ctx.font      = "bold 10px Arial";
+    ctx.fillStyle    = "white";
+    ctx.font         = "bold 10px Arial";
     ctx.fillText(line, x + 10, y + 4);
-
     ctx.restore();
 }
 
-// ─── POSITION (Waypoint-Routing) ──────────────────────────────────────────────
+// ─── DIAGNOSE ─────────────────────────────────────────────────────────────────
 
-function getPosition(sA, sB, wp, t) {
-    if (!wp) {
-        return {
-            x: sA.pctX + (sB.pctX - sA.pctX) * t,
-            y: sA.pctY + (sB.pctY - sA.pctY) * t
-        };
-    }
-    if (t < 0.5) {
-        const st = t * 2;
-        return {
-            x: sA.pctX + (wp.pctX - sA.pctX) * st,
-            y: sA.pctY + (wp.pctY - sA.pctY) * st
-        };
-    } else {
-        const st = (t - 0.5) * 2;
-        return {
-            x: wp.pctX + (sB.pctX - wp.pctX) * st,
-            y: wp.pctY + (sB.pctY - wp.pctY) * st
-        };
-    }
-}
+window.runDiagnostic = function() {
+    console.group("🔍 RADAR DIAGNOSE");
+    console.log(`Stationen: ${stations.length}, Fahrplan-Einträge: ${schedule.length}`);
 
-// ─── RESIZE & START ───────────────────────────────────────────────────────────
+    schedule.forEach(entry => {
+        const chain = buildStationChain(entry.terminusStopId, entry.line, entry.direction);
+        const cumMs = buildCumMs(chain);
+        const total = Math.round(cumMs[cumMs.length - 1] / 60_000);
+        if (chain.length < 2) {
+            console.error(`🔴 ${entry.line} ${entry.direction}: Kette bricht ab!`);
+        } else {
+            console.log(`🟢 ${entry.line} ${entry.direction}: ${chain.length} St., ${total} Min`);
+            console.log(`   ${chain[0].name} → ${chain[chain.length - 1].name}`);
+        }
+    });
+
+    const now = Date.now();
+    let drawn = 0, waiting = 0;
+    activeSimulations.forEach(sim => {
+        ((now - sim.startTime) / sim.duration < 0) ? waiting++ : drawn++;
+    });
+    console.log(`\nSimulationen: ${activeSimulations.size} total, ${drawn} aktiv, ${waiting} wartend`);
+
+    console.group("🔀 Kurzläufer im Cache:");
+    delayCache.forEach((v, k) => { if (v.actualDest) console.log(`  ${k} → "${v.actualDest}"`); });
+    console.groupEnd();
+    console.groupEnd();
+};
+
+// ─── START ────────────────────────────────────────────────────────────────────
 
 function resize() {
     canvas.width  = img.clientWidth;
@@ -914,36 +400,104 @@ function resize() {
 }
 
 /**
- * Lädt alle JSON-Dateien aus STATION_FILES (definiert in index.html) und merged sie.
- * Jede Datei kann ein reines Array sein: [ {...}, {...} ]
- * oder ein Objekt mit stations-Key:      { "stations": [ {...}, {...} ] }
+ * Gibt den Fahrplan-Typ für heute zurück: "saturday" | "sunday" | "weekday"
+ * Feiertage in Baden-Württemberg werden wie Sonntag behandelt.
  */
-async function loadStations() {
-    const files = (typeof STATION_FILES !== 'undefined') ? STATION_FILES : [];
+function getScheduleType() {
+    const today = new Date();
+    const dow   = today.getDay(); // 0=So, 6=Sa
 
-    if (files.length === 0) {
-        console.warn("⚠️ Keine STATION_FILES definiert – nutze hardcodierten Fallback.");
-        stations = STATIONS_FALLBACK;
-        return;
-    }
+    if (dow === 0) return "sunday";
+    if (dow === 6) return "saturday";
 
-    const results = await Promise.all(
-        files.map(path =>
-            fetch(path)
-                .then(r => r.json())
-                .catch(() => { console.warn(`⚠️ Konnte ${path} nicht laden`); return []; })
-        )
-    );
-    stations = results.flatMap(r => Array.isArray(r) ? r : (r.stations ?? []));
-    console.log(`✅ ${stations.length} Stationen aus ${files.length} Datei(en) geladen`);
+    // Feiertage BW (bundesweite + landesspezifische)
+    const mm  = today.getMonth() + 1;
+    const dd  = today.getDate();
+    const y   = today.getFullYear();
+
+    // Feste Feiertage
+    const fixed = [
+        [1,  1],  // Neujahr
+        [1,  6],  // Heilige Drei Könige (BW)
+        [5,  1],  // Tag der Arbeit
+        [10, 3],  // Tag der Deutschen Einheit
+        [11, 1],  // Allerheiligen (BW)
+        [12, 25], // 1. Weihnachtstag
+        [12, 26], // 2. Weihnachtstag
+    ];
+    if (fixed.some(([m, d]) => m === mm && d === dd)) return "sunday";
+
+    // Bewegliche Feiertage (Oster-Algorithmus nach Gauss)
+    const easter = getEasterDate(y);
+    const movable = [
+        addDays(easter, -2),  // Karfreitag
+        addDays(easter,  0),  // Ostersonntag
+        addDays(easter,  1),  // Ostermontag
+        addDays(easter, 39),  // Christi Himmelfahrt
+        addDays(easter, 49),  // Pfingstsonntag
+        addDays(easter, 50),  // Pfingstmontag
+        addDays(easter, 60),  // Fronleichnam (BW)
+    ];
+    if (movable.some(d => d.getMonth() + 1 === mm && d.getDate() === dd)) return "sunday";
+
+    return "weekday";
 }
 
-window.onload = async () => {
+function getEasterDate(y) {
+    const a = y % 19, b = Math.floor(y / 100), c = y % 100;
+    const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+    const g = Math.floor((b - f + 1) / 3), h = (19*a + b - d - g + 15) % 30;
+    const i = Math.floor(c / 4), k = c % 4;
+    const l = (32 + 2*e + 2*i - h - k) % 7;
+    const m = Math.floor((a + 11*h + 22*l) / 451);
+    const month = Math.floor((h + l - 7*m + 114) / 31);
+    const day   = ((h + l - 7*m + 114) % 31) + 1;
+    return new Date(y, month - 1, day);
+}
+
+function addDays(date, days) {
+    const d = new Date(date);
+    d.setDate(d.getDate() + days);
+    return d;
+}
+
+async function init() {
+    const stationFiles = (typeof STATION_FILES !== 'undefined') ? STATION_FILES : [];
+    const scheduleFiles = (typeof SCHEDULE_FILES !== 'undefined') ? SCHEDULE_FILES : null;
+    // Rückwärtskompatibel: altes SCHEDULE_FILE (einzelne Datei) weiterhin unterstützen
+    const legacyFile   = (typeof SCHEDULE_FILE  !== 'undefined') ? SCHEDULE_FILE  : null;
+
+    if (stationFiles.length) {
+        const results = await Promise.all(
+            stationFiles.map(p => fetch(p).then(r => r.json()).catch(() => []))
+        );
+        stations = results.flatMap(r => Array.isArray(r) ? r : (r.stations ?? []));
+        console.log(`✅ ${stations.length} Stationen geladen`);
+    }
+
+    // Fahrplan-Typ bestimmen und passende Datei laden
+    const type         = getScheduleType();
+    const scheduleFile = scheduleFiles?.[type] ?? legacyFile;
+
+    const typeLabel = { weekday: "Werktag", saturday: "Samstag", sunday: "Sonn-/Feiertag" };
+    console.log(`📅 Fahrplan-Typ: ${typeLabel[type]}`);
+
+    if (scheduleFile) {
+        try {
+            schedule = await fetch(scheduleFile).then(r => r.json());
+            console.log(`✅ Fahrplan geladen (${typeLabel[type]}): ${schedule.length} Einträge`);
+        } catch(e) {
+            console.error("❌ Fahrplan konnte nicht geladen werden:", e);
+        }
+    } else {
+        console.warn("⚠️ Kein Fahrplan für heute konfiguriert.");
+    }
+
     resize();
-    await loadStations();          // ← JSON-Dateien laden, dann erst loslegen
     await updateEntireNetwork();
     setInterval(draw, 40);
     setInterval(updateEntireNetwork, 40_000);
-};
+}
 
+window.onload   = init;
 window.onresize = resize;

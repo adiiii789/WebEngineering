@@ -1,0 +1,360 @@
+[
+  {
+    "name": "Leinfelden Neuer Markt",
+    "stopId": "de:08116:2069",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08116:175",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2835576443779819,
+    "pctY": 0.8801114065071528
+  },
+  {
+    "name": "Leinfelden Bahnhof",
+    "stopId": "de:08116:175",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08116:174",
+    "nextOut": "de:08116:2069",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.29594815922523676,
+    "pctY": 0.8580833016837575
+  },
+  {
+    "name": "Unteraichen",
+    "stopId": "de:08116:174",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08116:7173",
+    "nextOut": "de:08116:175",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3100833155308695,
+    "pctY": 0.8329535384225851
+  },
+  {
+    "name": "Frank",
+    "stopId": "de:08116:7173",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6171",
+    "nextOut": "de:08116:174",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.32318592893256426,
+    "pctY": 0.8096594505633624
+  },
+  {
+    "name": "Möhringen Freibad",
+    "stopId": "de:08111:6171",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:183",
+    "nextOut": "de:08116:7173",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.33635975218970304,
+    "pctY": 0.7862387644005571
+  },
+  {
+    "name": "Rohrer Weg",
+    "stopId": "de:08111:183",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:170",
+    "nextOut": "de:08111:6171",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3499252296517838,
+    "pctY": 0.7621217875680466
+  },
+  {
+    "name": "Vaihinger Straße",
+    "stopId": "de:08111:170",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6169",
+    "nextOut": "de:08111:183",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.37559638253934347,
+      "pctY": 0.7164830991264717
+    },
+    "waypointOut": {
+      "pctX": 0.37559638253934347,
+      "pctY": 0.7164830991264717
+    },
+    "pctX": 0.38026062807092503,
+    "pctY": 0.716546398278263
+  },
+  {
+    "name": "Möhringen Bahnhof",
+    "stopId": "de:08111:6169",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6168",
+    "nextOut": "de:08111:170",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.402264473403119,
+    "pctY": 0.716546398278263
+  },
+  {
+    "name": "Riedsee",
+    "stopId": "de:08111:6168",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6167",
+    "nextOut": "de:08111:6169",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.42433952859075696,
+    "pctY": 0.716546398278263
+  },
+  {
+    "name": "Sonnenberg",
+    "stopId": "de:08111:6167",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6166",
+    "nextOut": "de:08111:6168",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.44641458377839494,
+    "pctY": 0.716546398278263
+  },
+  {
+    "name": "Peregrina Straße",
+    "stopId": "de:08111:6166",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:2594",
+    "nextOut": "de:08111:6167",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4685608488214769,
+    "pctY": 0.716546398278263
+  },
+  {
+    "name": "Degerloch Albstraße",
+    "stopId": "de:08111:2594",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6165",
+    "nextOut": "de:08111:6166",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4906359040091149,
+    "pctY": 0.716546398278263
+  },
+  {
+    "name": "Degerloch",
+    "stopId": "de:08111:6165",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:163",
+    "nextOut": "de:08111:2594",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.4936979277932066,
+      "pctY": 0.716546398278263
+    },
+    "waypointOut": {
+      "pctX": 0.4936979277932066,
+      "pctY": 0.716546398278263
+    },
+    "pctX": 0.49960834579505803,
+    "pctY": 0.7056589441701481
+  },
+  {
+    "name": "Weinsteige",
+    "stopId": "de:08111:163",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6160",
+    "nextOut": "de:08111:6165",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5179092786441644,
+    "pctY": 0.673123180149386
+  },
+  {
+    "name": "Bopser",
+    "stopId": "de:08111:6160",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:159",
+    "nextOut": "de:08111:163",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5199743644520401,
+      "pctY": 0.6694518293454867
+    },
+    "waypointOut": {
+      "pctX": 0.5199743644520401,
+      "pctY": 0.6694518293454867
+    },
+    "pctX": 0.5199031545965962,
+    "pctY": 0.6276743891631852
+  },
+  {
+    "name": "Dobelstraße",
+    "stopId": "de:08111:159",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6119",
+    "nextOut": "de:08111:6160",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5199031545965962,
+    "pctY": 0.579567033801747
+  },
+  {
+    "name": "Olgaeck",
+    "stopId": "de:08111:6119",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6075",
+    "nextOut": "de:08111:159",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5199031545965962,
+      "pctY": 0.5662742119255602
+    },
+    "waypointOut": {
+      "pctX": 0.5199031545965962,
+      "pctY": 0.5662742119255602
+    },
+    "pctX": 0.5045930356761376,
+    "pctY": 0.5388023800481073
+  },
+  {
+    "name": "Charlottenplatz",
+    "stopId": "de:08111:6075",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6022",
+    "nextOut": "de:08111:6119",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4817702770063377,
+    "pctY": 0.4992404101785036
+  },
+  {
+    "name": "Schlossplatz",
+    "stopId": "de:08111:6022",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6112",
+    "nextOut": "de:08111:6075",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4662109235918251,
+    "pctY": 0.4701860995062666
+  },
+  {
+    "name": "Hauptbahnhof",
+    "stopId": "de:08111:6112",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:6116",
+    "nextOut": "de:08111:6022",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4519333475753044,
+    "pctY": 0.44480313963792883
+  },
+  {
+    "name": "Stadtbibliothek",
+    "stopId": "de:08111:6116",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:115",
+    "nextOut": "de:08111:6112",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.44474115217546106,
+      "pctY": 0.4320167109760729
+    },
+    "waypointOut": {
+      "pctX": 0.44474115217546106,
+      "pctY": 0.4320167109760729
+    },
+    "pctX": 0.4447767571031831,
+    "pctY": 0.3430814027092037
+  },
+  {
+    "name": "Pragfriedhof",
+    "stopId": "de:08111:115",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "de:08111:2235",
+    "nextOut": "de:08111:6116",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4447767571031831,
+    "pctY": 0.28636536270413976
+  },
+  {
+    "name": "Killesberg",
+    "stopId": "de:08111:2235",
+    "lines": [
+      "U5"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:115",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.4447767571031831,
+      "pctY": 0.2772502848461831
+    },
+    "waypointOut": {
+      "pctX": 0.4447767571031831,
+      "pctY": 0.2772502848461831
+    },
+    "pctX": 0.32948800113935767,
+    "pctY": 0.27687048993543484
+  }
+]

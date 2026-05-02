@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google-recaptcha/react": "^2.4.2",
     "@tailwindcss/postcss": "^4.2.4",
+    "dotenv": "^17.4.2",
     "framer-motion": "^12.38.0",
     "lucide-react": "^1.9.0",
     "react": "^19.2.5",
-    "react-dom": "^19.2.5"
+    "react-dom": "^19.2.5",
+    "react-google-recaptcha": "^3.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

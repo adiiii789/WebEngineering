@@ -1,0 +1,376 @@
+[
+  {
+    "name": "Hedelfingen",
+    "stopId": "de:08111:227",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:226",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7529872673440504,
+    "pctY": 0.6379035073664387
+  },
+  {
+    "name": "Stadtwerke Stuttgart",
+    "stopId": "de:08111:226",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:225",
+    "nextOut": "de:08111:227",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7274158013000249,
+    "pctY": 0.5924420441867642
+  },
+  {
+    "name": "Wangen Marktplatz",
+    "stopId": "de:08111:225",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:84",
+    "nextOut": "de:08111:226",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.704842277124279,
+    "pctY": 0.5523103819510381
+  },
+  {
+    "name": "Wasenstraße",
+    "stopId": "de:08111:84",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:6085",
+    "nextOut": "de:08111:225",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6800256511946566,
+    "pctY": 0.5081908886063505
+  },
+  {
+    "name": "Untertürkheim Bahnhof",
+    "stopId": "de:08111:6085",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:268",
+    "nextOut": "de:08111:84",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6800256511946566,
+    "pctY": 0.42116724254059057
+  },
+  {
+    "name": "Schlotterbeckstraße",
+    "stopId": "de:08111:268",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:267",
+    "nextOut": "de:08111:6085",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6800256511946566,
+    "pctY": 0.39483479539538235
+  },
+  {
+    "name": "Eszet",
+    "stopId": "de:08111:267",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:265",
+    "nextOut": "de:08111:268",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6800256511946566,
+    "pctY": 0.3738194770006488
+  },
+  {
+    "name": "Blick",
+    "stopId": "de:08111:265",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:264",
+    "nextOut": "de:08111:267",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6800256511946566,
+    "pctY": 0.35229776539158436
+  },
+  {
+    "name": "Kienbachstraße",
+    "stopId": "de:08111:264",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:1604",
+    "nextOut": "de:08111:265",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6800256511946566,
+    "pctY": 0.3312824469968509
+  },
+  {
+    "name": "Ebitzweg",
+    "stopId": "de:08111:1604",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:32",
+    "nextOut": "de:08111:264",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6800256511946566,
+    "pctY": 0.3017850422620743
+  },
+  {
+    "name": "Uff-Kirchhof",
+    "stopId": "de:08111:32",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:6332",
+    "nextOut": "de:08111:1604",
+    "travelTimeNext": 180,
+    "waypointIn": {
+      "pctX": 0.6800256511946566,
+      "pctY": 0.26735030368757123
+    },
+    "waypointOut": {
+      "pctX": 0.6800256511946566,
+      "pctY": 0.26735030368757123
+    },
+    "pctX": 0.6453037100334686,
+    "pctY": 0.26709710708040574
+  },
+  {
+    "name": "Bad Cannstatt Wilhelmsplatz",
+    "stopId": "de:08111:6332",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:30",
+    "nextOut": "de:08111:32",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5949583422345652,
+      "pctY": 0.26709710708040574
+    },
+    "waypointOut": {
+      "pctX": 0.5949583422345652,
+      "pctY": 0.26709710708040574
+    },
+    "pctX": 0.5891903439436018,
+    "pctY": 0.2770983730634416
+  },
+  {
+    "name": "Mercedesstraße",
+    "stopId": "de:08111:30",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:254",
+    "nextOut": "de:08111:6332",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5728120771914833,
+    "pctY": 0.30621598288746993
+  },
+  {
+    "name": "Wilhelma",
+    "stopId": "de:08111:254",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:6253",
+    "nextOut": "de:08111:30",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5703909421063875,
+      "pctY": 0.3105203252092828
+    },
+    "waypointOut": {
+      "pctX": 0.5703909421063875,
+      "pctY": 0.3105203252092828
+    },
+    "pctX": 0.5604215623442285,
+    "pctY": 0.2927965627077003
+  },
+  {
+    "name": "Rosensteinbrücke",
+    "stopId": "de:08111:6253",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:263",
+    "nextOut": "de:08111:254",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5493128248949655,
+    "pctY": 0.27304722734879416
+  },
+  {
+    "name": "Glockenstraße",
+    "stopId": "de:08111:263",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:262",
+    "nextOut": "de:08111:6253",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5405540126753543,
+    "pctY": 0.2574756360081181
+  },
+  {
+    "name": "Rosensteinpark",
+    "stopId": "de:08111:262",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:6261",
+    "nextOut": "de:08111:263",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5321156448052411,
+    "pctY": 0.24247373703356437
+  },
+  {
+    "name": "Löwentor",
+    "stopId": "de:08111:6261",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:6113",
+    "nextOut": "de:08111:262",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.522893968525244,
+    "pctY": 0.22607925671960052
+  },
+  {
+    "name": "Pragsattel",
+    "stopId": "de:08111:6113",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:158",
+    "nextOut": "de:08111:6261",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.49700918607135236,
+      "pctY": 0.1800607733672774
+    },
+    "waypointOut": {
+      "pctX": 0.49700918607135236,
+      "pctY": 0.1800607733672774
+    },
+    "pctX": 0.49262977996154667,
+    "pctY": 0.17999747421548615
+  },
+  {
+    "name": "Maybachstraße",
+    "stopId": "de:08111:158",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:6157",
+    "nextOut": "de:08111:6113",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4662821334472691,
+    "pctY": 0.17999747421548615
+  },
+  {
+    "name": "Feuerbach Bahnhof",
+    "stopId": "de:08111:6157",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:6180",
+    "nextOut": "de:08111:158",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4377269814142277,
+    "pctY": 0.17999747421548615
+  },
+  {
+    "name": "Wilhelm-Geiger-Platz",
+    "stopId": "de:08111:6180",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:154",
+    "nextOut": "de:08111:6157",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4074627928505305,
+    "pctY": 0.17999747421548615
+  },
+  {
+    "name": "Föhrich",
+    "stopId": "de:08111:154",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:153",
+    "nextOut": "de:08111:6180",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3773410239977213,
+    "pctY": 0.17999747421548615
+  },
+  {
+    "name": "Sportpark Feuerbach",
+    "stopId": "de:08111:153",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "de:08111:152",
+    "nextOut": "de:08111:154",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.34700562557858006,
+    "pctY": 0.17999747421548615
+  },
+  {
+    "name": "Feuerbach Pfostenwäldle",
+    "stopId": "de:08111:152",
+    "lines": [
+      "U13"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:153",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.31780958484654276,
+    "pctY": 0.17999747421548615
+  }
+]

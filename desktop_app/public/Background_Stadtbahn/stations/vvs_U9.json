@@ -1,0 +1,430 @@
+[
+  {
+    "name": "Botnang",
+    "stopId": "de:08111:6503",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:6210",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.13893042797123123,
+    "pctY": 0.5066464109380935
+  },
+  {
+    "name": "Eltinger Straße",
+    "stopId": "de:08111:6210",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:211",
+    "nextOut": "de:08111:6503",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.16724821092192285,
+    "pctY": 0.5066464109380935
+  },
+  {
+    "name": "Millöcherstraße",
+    "stopId": "de:08111:211",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:212",
+    "nextOut": "de:08111:6210",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.19701393049751212,
+    "pctY": 0.5066464109380935
+  },
+  {
+    "name": "Beethovenstraße",
+    "stopId": "de:08111:212",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:6213",
+    "nextOut": "de:08111:211",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.22670844021765738,
+    "pctY": 0.5066464109380935
+  },
+  {
+    "name": "Lindpaintnerstraße",
+    "stopId": "de:08111:6213",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:216",
+    "nextOut": "de:08111:212",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.25640295863041196,
+    "pctY": 0.5066464109380935
+  },
+  {
+    "name": "Herderplatz",
+    "stopId": "de:08111:216",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:217",
+    "nextOut": "de:08111:6213",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2860262584951132,
+    "pctY": 0.5066464109380935
+  },
+  {
+    "name": "Vogelsang",
+    "stopId": "de:08111:217",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:218",
+    "nextOut": "de:08111:216",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.31700254561325036,
+    "pctY": 0.5066464109380935
+  },
+  {
+    "name": "Arndt-/Spittastraße",
+    "stopId": "de:08111:218",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:6206",
+    "nextOut": "de:08111:217",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.3363004164385726,
+      "pctY": 0.5066464109380935
+    },
+    "waypointOut": {
+      "pctX": 0.3363004164385726,
+      "pctY": 0.5066464109380935
+    },
+    "pctX": 0.3384367121018924,
+    "pctY": 0.503101658437777
+  },
+  {
+    "name": "Schwab-/ Bebelstraße",
+    "stopId": "de:08111:6206",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:6219",
+    "nextOut": "de:08111:218",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.35499300349262086,
+    "pctY": 0.47366755285479173
+  },
+  {
+    "name": "Schloss-/ Johannesstraße",
+    "stopId": "de:08111:6219",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:6073",
+    "nextOut": "de:08111:6206",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.37151368995562734,
+    "pctY": 0.4442967464235979
+  },
+  {
+    "name": "Berliner Platz (lh)",
+    "stopId": "de:08111:6073",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:229",
+    "nextOut": "de:08111:6219",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3925917984744401,
+    "pctY": 0.40682366401700376
+  },
+  {
+    "name": "Börsenplatz",
+    "stopId": "de:08111:229",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:6112",
+    "nextOut": "de:08111:6073",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.4131358417700322,
+      "pctY": 0.37030005343338557
+    },
+    "waypointOut": {
+      "pctX": 0.4131358417700322,
+      "pctY": 0.37030005343338557
+    },
+    "pctX": 0.4275202238771096,
+    "pctY": 0.3701734396759083
+  },
+  {
+    "name": "Hauptbahnhof",
+    "stopId": "de:08111:6112",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:6024",
+    "nextOut": "de:08111:229",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.4675401626366339,
+      "pctY": 0.3701734396759083
+    },
+    "waypointOut": {
+      "pctX": 0.4675401626366339,
+      "pctY": 0.3701734396759083
+    },
+    "pctX": 0.4808564056046607,
+    "pctY": 0.3938473224458792
+  },
+  {
+    "name": "Staatsgalerie",
+    "stopId": "de:08111:6024",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:25",
+    "nextOut": "de:08111:6112",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5018989178883607,
+      "pctY": 0.43125712115457654
+    },
+    "waypointOut": {
+      "pctX": 0.5018989178883607,
+      "pctY": 0.43125712115457654
+    },
+    "pctX": 0.5047829170338425,
+    "pctY": 0.4262564881630586
+  },
+  {
+    "name": "Neckartor",
+    "stopId": "de:08111:25",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:26",
+    "nextOut": "de:08111:6024",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5153931854949975,
+    "pctY": 0.4073933409292316
+  },
+  {
+    "name": "Stöckach",
+    "stopId": "de:08111:26",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:76",
+    "nextOut": "de:08111:25",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5260390588838745,
+    "pctY": 0.38846689454361305
+  },
+  {
+    "name": "Karl-Olga-Krankenhaus",
+    "stopId": "de:08111:76",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:77",
+    "nextOut": "de:08111:26",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5351183154529836,
+      "pctY": 0.37232561083681465
+    },
+    "waypointOut": {
+      "pctX": 0.5351183154529836,
+      "pctY": 0.37232561083681465
+    },
+    "pctX": 0.5601841845692694,
+    "pctY": 0.4170148120015192
+  },
+  {
+    "name": "Bergfriedhof",
+    "stopId": "de:08111:77",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:222",
+    "nextOut": "de:08111:76",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5710792924522003,
+    "pctY": 0.4363843524496771
+  },
+  {
+    "name": "Raitelsberg",
+    "stopId": "de:08111:222",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:6223",
+    "nextOut": "de:08111:77",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.585962152239995,
+    "pctY": 0.4628433978984682
+  },
+  {
+    "name": "Schlachthof",
+    "stopId": "de:08111:6223",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:80",
+    "nextOut": "de:08111:222",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6004177528951257,
+    "pctY": 0.48854285352576277
+  },
+  {
+    "name": "Wangener-/ Landhausstraße",
+    "stopId": "de:08111:80",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:81",
+    "nextOut": "de:08111:6223",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.6144460944175923,
+      "pctY": 0.513482719331561
+    },
+    "waypointOut": {
+      "pctX": 0.6144460944175923,
+      "pctY": 0.513482719331561
+    },
+    "pctX": 0.6173656984907961,
+    "pctY": 0.5132295227243955
+  },
+  {
+    "name": "Brendle",
+    "stopId": "de:08111:81",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:82",
+    "nextOut": "de:08111:80",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6314652498687068,
+    "pctY": 0.5132295227243955
+  },
+  {
+    "name": "Im Degen",
+    "stopId": "de:08111:82",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:83",
+    "nextOut": "de:08111:81",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6456360458724988,
+    "pctY": 0.5132295227243955
+  },
+  {
+    "name": "Inselstraße",
+    "stopId": "de:08111:83",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:84",
+    "nextOut": "de:08111:82",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6598780169612974,
+    "pctY": 0.5132295227243955
+  },
+  {
+    "name": "Wasenstraße",
+    "stopId": "de:08111:84",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:225",
+    "nextOut": "de:08111:83",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6778941103886278,
+    "pctY": 0.5132295227243955
+  },
+  {
+    "name": "Wangen Marktplatz",
+    "stopId": "de:08111:225",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:226",
+    "nextOut": "de:08111:84",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7023190908059176,
+    "pctY": 0.5566527408532725
+  },
+  {
+    "name": "Stadtwerke Stuttgart",
+    "stopId": "de:08111:226",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "de:08111:227",
+    "nextOut": "de:08111:225",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7248926149816635,
+    "pctY": 0.5967844030889986
+  },
+  {
+    "name": "Hedelfingen",
+    "stopId": "de:08111:227",
+    "lines": [
+      "U9"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:226",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7479290032177953,
+    "pctY": 0.6377389542980124
+  }
+]

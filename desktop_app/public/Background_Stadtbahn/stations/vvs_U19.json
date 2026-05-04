@@ -1,0 +1,154 @@
+[
+  {
+    "name": "NeckarPark (Stadion)",
+    "stopId": "de:08111:6330",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:2343",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6276199176747311,
+    "pctY": 0.38561843271300167
+  },
+  {
+    "name": "Cannstatter Wasen",
+    "stopId": "de:08111:2343",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:6332",
+    "nextOut": "de:08111:6330",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.608108417283077,
+    "pctY": 0.3509304975313331
+  },
+  {
+    "name": "Bad Cannstatt Wilhelmsplatz",
+    "stopId": "de:08111:6332",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:323",
+    "nextOut": "de:08111:2343",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5883476823973688,
+      "pctY": 0.31579946828712496
+    },
+    "waypointOut": {
+      "pctX": 0.5883476823973688,
+      "pctY": 0.31579946828712496
+    },
+    "pctX": 0.5997768641961297,
+    "pctY": 0.2956070388656792
+  },
+  {
+    "name": "Daimlerplatz",
+    "stopId": "de:08111:323",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:322",
+    "nextOut": "de:08111:6332",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6344560637973545,
+    "pctY": 0.2339536650208887
+  },
+  {
+    "name": "Kursaal",
+    "stopId": "de:08111:322",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:321",
+    "nextOut": "de:08111:323",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6569227905751531,
+    "pctY": 0.1940118693327478
+  },
+  {
+    "name": "Gnesener Straße",
+    "stopId": "de:08111:321",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:6320",
+    "nextOut": "de:08111:322",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.6591659010216389,
+      "pctY": 0.19002402276989175
+    },
+    "waypointOut": {
+      "pctX": 0.6591659010216389,
+      "pctY": 0.19002402276989175
+    },
+    "pctX": 0.6912103533566546,
+    "pctY": 0.189897455374098
+  },
+  {
+    "name": "Obere Ziegelei",
+    "stopId": "de:08111:6320",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:2492",
+    "nextOut": "de:08111:321",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7312302921161788,
+    "pctY": 0.189897455374098
+  },
+  {
+    "name": "Hauptfriedhof",
+    "stopId": "de:08111:2492",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:2490",
+    "nextOut": "de:08111:6320",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7711790210202593,
+    "pctY": 0.189897455374098
+  },
+  {
+    "name": "Steinhaldenfeld",
+    "stopId": "de:08111:2490",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "de:08111:2484",
+    "nextOut": "de:08111:2492",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8111989597797835,
+    "pctY": 0.189897455374098
+  },
+  {
+    "name": "Neugereut",
+    "stopId": "de:08111:2484",
+    "lines": [
+      "U19"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:2490",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8504355901294239,
+    "pctY": 0.189897455374098
+  }
+]

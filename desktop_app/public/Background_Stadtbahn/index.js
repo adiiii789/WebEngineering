@@ -22,7 +22,7 @@ const LINE_COLORS = {
     "U7": "#00A984", "U8": "#C6BD80", "U9": "#FFD500",
     "U11": "#9D9C9C", "U12": "#96C1E9", "U13": "#F3A4B9",
     "U14": "#6EB63E", "U15": "#004F9F", "U16": "#CBC100",
-    "U19": "#FBB900"
+    "U19": "#FBB900", "ZACKE":"#FBB900", "Seilbahn": "#FBB900"
 };
 
 const KNOWN_LINES = new Set(Object.keys(LINE_COLORS));
@@ -122,26 +122,24 @@ function buildCumMs(chain) {
 // ─── API: DELAY + TATSÄCHLICHES ZIEL ─────────────────────────────────────────
 
 /**
- * Holt Delay UND tatsächliches Fahrziel von der VVS-API.
+ * Holt ALLE Abfahrten an einem Terminus in einem einzigen API-Call
+ * und gibt eine Map zurück: plannedMinute → { delayMs, actualDest }
  *
- * FIX "U"-Problem: disassembledName gibt bei Depot-/Sonderfahrten
- * manchmal nur "U" zurück. transportation.number enthält die echte
- * Ziffer → wird zu "U7" rekonstruiert.
- *
- * FIX Kurzläufer: gibt actualDest zurück damit buildStationChain
- * den Chain am echten Ziel abschneiden kann.
+ * Statt pro Abfahrt einen Call zu machen, wird der gesamte Response
+ * gecacht und alle Züge dieser Linie daraus abgeglichen.
  */
-async function fetchDelay(terminusStopId, line, plannedDepMs) {
-    const cacheKey = `${terminusStopId}_${line}_${Math.round(plannedDepMs / 60_000)}`;
+async function fetchTerminusData(terminusStopId, line) {
+    const cacheKey = `terminus_${terminusStopId}_${line}`;
     const cached   = delayCache.get(cacheKey);
-
     if (cached && Date.now() - cached.fetchedAt < DELAY_TTL_MS) {
-        return { delayMs: cached.delayMs, actualDest: cached.actualDest };
+        return cached.trips;
     }
+
+    const trips = new Map(); // plannedMinute → { delayMs, actualDest }
 
     try {
         const url = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST?outputFormat=rapidJSON`
-            + `&type_dm=any&name_dm=${terminusStopId}&mode=direct&useRealtime=1`
+            + `&type_dm=any&name_dm=${terminusStopId}&mode=direct&useRealtime=1&limit=30`
             + `&itdDate=${getItdDate()}&itdTime=${getItdTime()}&t=${Date.now()}`;
 
         const res  = await fetch(url);
@@ -149,51 +147,104 @@ async function fetchDelay(terminusStopId, line, plannedDepMs) {
         const list = data.stopEvents || data.departures || [];
 
         for (const e of list) {
-            // FIX: disassembledName kann "U" sein bei Depot-/Sonderfahrten.
-            // number enthält dann z.B. "7" → ergibt "U7"
             const rawName = e?.transportation?.disassembledName || '';
             const number  = e?.transportation?.number || '';
-            const apiLine = rawName.length > 1
-                ? rawName
-                : (number ? `U${number}` : rawName);
-
+            const apiLine = rawName.length > 1 ? rawName : (number ? `U${number}` : rawName);
             if (apiLine !== line) continue;
 
-            const planned   = new Date(e.departureTimePlanned  || e.arrivalTimePlanned).getTime();
+            const planned   = new Date(e.departureTimePlanned || e.arrivalTimePlanned).getTime();
             const estimated = new Date(e.departureTimeEstimated || e.departureTimePlanned).getTime();
+            const delayMs   = estimated - planned;
+            const actualDest = e.transportation?.destination?.name || null;
 
-            if (Math.abs(planned - plannedDepMs) < 180_000) {
-                const delayMs    = estimated - planned;
-                const actualDest = e.transportation?.destination?.name || null;
+            // Key: geplante Minute (eindeutig genug für eine Linie)
+            const key = Math.round(planned / 60_000);
+            trips.set(key, { delayMs, actualDest });
 
-                delayCache.set(cacheKey, { delayMs, actualDest, fetchedAt: Date.now() });
-
-                if (delayMs !== 0)
-                    console.log(`🕐 ${line}: ${Math.round(delayMs / 1000)}s Verspätung`);
-
-                return { delayMs, actualDest };
-            }
+            if (delayMs !== 0)
+                console.log(`🕐 ${line}: ${Math.round(delayMs / 1000)}s Verspätung`);
         }
     } catch (err) {
-        console.warn(`❌ Delay-Fetch fehlgeschlagen: ${terminusStopId} (${line})`, err);
+        console.warn(`❌ Fetch fehlgeschlagen: ${terminusStopId} (${line})`, err);
     }
 
-    delayCache.set(cacheKey, { delayMs: 0, actualDest: null, fetchedAt: Date.now() });
+    delayCache.set(cacheKey, { trips, fetchedAt: Date.now() });
+    return trips;
+}
+
+function getDelayForDep(trips, plannedDepMs) {
+    const key = Math.round(plannedDepMs / 60_000);
+    // Exakter Treffer
+    if (trips.has(key)) return trips.get(key);
+    // ±2 Minuten Toleranz für leicht verspätete Züge
+    for (let d = 1; d <= 2; d++) {
+        if (trips.has(key + d)) return trips.get(key + d);
+        if (trips.has(key - d)) return trips.get(key - d);
+    }
     return { delayMs: 0, actualDest: null };
 }
 
 // ─── KERN: FAHRPLAN → SIMULATIONEN ───────────────────────────────────────────
+
+/**
+ * Für Event-Linien (U11 etc.) ohne festen Fahrplan:
+ * API-Abfrage an der Endhaltestelle – wenn Abfahrten vorhanden,
+ * werden die Abfahrtszeiten direkt als Fahrplan verwendet.
+ * Kein schedule.json-Eintrag nötig, nur stations.json.
+ */
+async function resolveEventLine(entry, now) {
+    const { line, terminusStopId, direction } = entry;
+    const trips = await fetchTerminusData(terminusStopId, line);
+    if (trips.size === 0) return []; // Linie fährt heute nicht
+
+    console.log(`🎪 ${line} aktiv (Event-Linie, ${trips.size} Abfahrten gefunden)`);
+
+    // trips-Keys sind plannedMinutes → zurück in HH:MM wandeln für Kompatibilität
+    const departures = [];
+    for (const [minuteKey] of trips) {
+        const h = Math.floor((minuteKey % (24 * 60)) / 60);
+        const m = minuteKey % 60;
+        departures.push(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`);
+    }
+    return departures;
+}
 
 async function updateEntireNetwork() {
     console.log("📡 Aktualisiere Fahrplan-Simulationen...");
     const now      = Date.now();
     const freshIds = new Set();
 
+    // FIX GESCHWINDIGKEIT: Alle Terminus-Calls parallel statt sequentiell
+    // Vorher: N Linien × M Abfahrten × ~200ms = viele Sekunden
+    // Jetzt:  N Linien parallel, ein Call pro Linie = ~200-400ms gesamt
+    const uniqueTermini = [...new Set(
+        schedule.filter(e => KNOWN_LINES.has(e.line))
+                .map(e => `${e.terminusStopId}|${e.line}`)
+    )];
+
+    const terminusDataMap = new Map();
+    let completed = 0;
+    await Promise.all(
+        uniqueTermini.map(async key => {
+            const [stopId, line] = key.split('|');
+            const trips = await fetchTerminusData(stopId, line);
+            terminusDataMap.set(key, trips);
+            completed++;
+            setLoadingProgress(completed / uniqueTermini.length);
+        })
+    );
+
     for (const entry of schedule) {
-        const { line, terminusStopId, direction, departures } = entry;
+        const { line, terminusStopId, direction } = entry;
         if (!KNOWN_LINES.has(line)) continue;
 
-        // Vollständige Kette einmal bauen für Gesamtdauer-Check
+        // Event-Linien (U11 etc.): Abfahrten dynamisch aus API holen
+        const departures = entry.conditional
+            ? await resolveEventLine(entry, now)
+            : entry.departures;
+
+        if (!departures || departures.length === 0) continue;
+
         const fullChain = buildStationChain(terminusStopId, line, direction);
         if (fullChain.length < 2) {
             console.warn(`⚠️ Kette zu kurz: ${line} ${direction} ab ${terminusStopId}`);
@@ -201,6 +252,7 @@ async function updateEntireNetwork() {
         }
         const fullCumMs       = buildCumMs(fullChain);
         const totalDurationMs = fullCumMs[fullCumMs.length - 1];
+        const trips           = terminusDataMap.get(`${terminusStopId}|${line}`) ?? new Map();
 
         for (const depStr of departures) {
             const tripId    = `${line}_${direction}_${depStr}`;
@@ -209,12 +261,11 @@ async function updateEntireNetwork() {
             if (now > plannedMs + totalDurationMs + 60_000) continue;
             if (plannedMs > now + LOOKAHEAD_MS) continue;
 
-            // Delay + tatsächliches Ziel holen
-            const { delayMs, actualDest } = await fetchDelay(terminusStopId, line, plannedMs);
+            // Delay aus gecachtem Batch-Result holen – kein extra API-Call
+            const { delayMs, actualDest } = getDelayForDep(trips, plannedMs);
 
-            // Nur als Kurzläufer behandeln wenn das Ziel NICHT die Endstation selbst ist
             const terminusStation = fullChain[fullChain.length - 1];
-            const isShortRunner = actualDest
+            const isShortRunner   = actualDest
                 && !terminusStation.name.toLowerCase().includes(actualDest.toLowerCase())
                 && !actualDest.toLowerCase().includes(terminusStation.name.toLowerCase());
 
@@ -223,7 +274,7 @@ async function updateEntireNetwork() {
                 : fullChain;
 
             if (isShortRunner)
-                console.log(`🔀 ${line} Kurzläufer bis "${actualDest}" (Terminus wäre: ${terminusStation.name})`);
+                console.log(`🔀 ${line} Kurzläufer bis "${actualDest}"`);
 
             if (chain.length < 2) continue;
 
@@ -232,7 +283,6 @@ async function updateEntireNetwork() {
             const actualDepMs       = plannedMs + delayMs;
             const elapsed           = now - actualDepMs;
 
-            // Noch nicht abgefahren
             if (elapsed < 0) {
                 freshIds.add(tripId);
                 activeSimulations.set(tripId, {
@@ -246,10 +296,8 @@ async function updateEntireNetwork() {
                 continue;
             }
 
-            // Endstation schon erreicht
             if (elapsed >= effectiveDuration) continue;
 
-            // Aktuelles Segment
             let segIdx = 0;
             for (let i = 0; i < cumMs.length - 1; i++) {
                 if (elapsed >= cumMs[i] && elapsed < cumMs[i + 1]) { segIdx = i; break; }
@@ -267,8 +315,6 @@ async function updateEntireNetwork() {
                     : chain[segIdx].waypointOut
             });
         }
-
-        await new Promise(r => setTimeout(r, 30));
     }
 
     for (const id of activeSimulations.keys()) {
@@ -392,7 +438,28 @@ window.runDiagnostic = function() {
     console.groupEnd();
 };
 
-// ─── START ────────────────────────────────────────────────────────────────────
+// ─── LADEBALKEN ───────────────────────────────────────────────────────────────
+
+function setLoadingProgress(fraction) {
+    const bar     = document.getElementById('loadingBar');
+    const fill    = document.getElementById('loadingFill');
+    const label   = document.getElementById('loadingLabel');
+    if (!bar) return;
+
+    const pct = Math.round(fraction * 100);
+    fill.style.width = `${pct}%`;
+    label.textContent = fraction < 1 ? `Fetching API … ${pct}%` : '';
+
+    if (fraction >= 1) {
+        // Kurz warten, dann weich ausblenden
+        setTimeout(() => {
+            bar.style.opacity = '0';
+            setTimeout(() => bar.style.display = 'none', 400);
+        }, 300);
+    }
+}
+
+// ─── RESIZE & START ───────────────────────────────────────────────────────────
 
 function resize() {
     canvas.width  = img.clientWidth;

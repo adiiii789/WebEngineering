@@ -1,0 +1,390 @@
+[
+  {
+    "name": "Ostfildern",
+    "stopId": "de:08116:2974",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08116:2973",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7102470981983906,
+    "pctY": 0.9040807059240094
+  },
+  {
+    "name": "Technische Akademie",
+    "stopId": "de:08116:2973",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08116:2972",
+    "nextOut": "de:08116:2974",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7040874457024853,
+    "pctY": 0.893129952664103
+  },
+  {
+    "name": "Kreuzbrunnen",
+    "stopId": "de:08116:2972",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08116:2971",
+    "nextOut": "de:08116:2973",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6935127821690522,
+    "pctY": 0.8743301045820674
+  },
+  {
+    "name": "Scharnhauser Park",
+    "stopId": "de:08116:2971",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08116:2970",
+    "nextOut": "de:08116:2972",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6830449334187851,
+    "pctY": 0.8557201539554058
+  },
+  {
+    "name": "Parksiedlung",
+    "stopId": "de:08116:2970",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08116:2968",
+    "nextOut": "de:08116:2971",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6725058748130741,
+    "pctY": 0.8369836050251614
+  },
+  {
+    "name": "Zinsholz",
+    "stopId": "de:08116:2968",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08116:2968",
+    "nextOut": "de:08116:2970",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6619668162073631,
+    "pctY": 0.8182470560949171
+  },
+  {
+    "name": "Ruit",
+    "stopId": "de:08116:2968",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:136",
+    "nextOut": "de:08116:2968",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6515701773125401,
+    "pctY": 0.7997637037718383
+  },
+  {
+    "name": "Heumaden",
+    "stopId": "de:08111:136",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6133",
+    "nextOut": "de:08116:2968",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.640995513779107,
+    "pctY": 0.7809638556898025
+  },
+  {
+    "name": "Bockelstraße",
+    "stopId": "de:08111:6133",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6130",
+    "nextOut": "de:08111:136",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.630492060101118,
+    "pctY": 0.7622906059113496
+  },
+  {
+    "name": "Schemppstraße",
+    "stopId": "de:08111:6130",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6134",
+    "nextOut": "de:08111:6133",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.619953001495407,
+    "pctY": 0.7435540569811052
+  },
+  {
+    "name": "Sillenbuch",
+    "stopId": "de:08111:6134",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:129",
+    "nextOut": "de:08111:6130",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.609520757672862,
+    "pctY": 0.725007405506235
+  },
+  {
+    "name": "Silberwald",
+    "stopId": "de:08111:129",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6128",
+    "nextOut": "de:08111:6134",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5989816990671509,
+    "pctY": 0.7062708565759906
+  },
+  {
+    "name": "Ruhbank",
+    "stopId": "de:08111:6128",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:130",
+    "nextOut": "de:08111:129",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5884782453891618,
+    "pctY": 0.6875976067975377
+  },
+  {
+    "name": "Waldau",
+    "stopId": "de:08111:130",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:163",
+    "nextOut": "de:08111:6128",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5801110873744927,
+      "pctY": 0.6727223061265667
+    },
+    "waypointOut": {
+      "pctX": 0.5801110873744927,
+      "pctY": 0.6727223061265667
+    },
+    "pctX": 0.5570034892829168,
+    "pctY": 0.6725324086711926
+  },
+  {
+    "name": "Weinsteige",
+    "stopId": "de:08111:163",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6165",
+    "nextOut": "de:08111:130",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5342163355408388,
+      "pctY": 0.6725324086711926
+    },
+    "waypointOut": {
+      "pctX": 0.5342163355408388,
+      "pctY": 0.6725324086711926
+    },
+    "pctX": 0.5256711528875596,
+    "pctY": 0.6872178118867894
+  },
+  {
+    "name": "Degerloch",
+    "stopId": "de:08111:6165",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:2594",
+    "nextOut": "de:08111:163",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5074058249661754,
+    "pctY": 0.7196902767557602
+  },
+  {
+    "name": "Degerloch Albstraße",
+    "stopId": "de:08111:2594",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6166",
+    "nextOut": "de:08111:6165",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.4981485437584562,
+      "pctY": 0.7361480562215154
+    },
+    "waypointOut": {
+      "pctX": 0.4981485437584562,
+      "pctY": 0.7361480562215154
+    },
+    "pctX": 0.49070711386455884,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "Peregrinastraße",
+    "stopId": "de:08111:6166",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6167",
+    "nextOut": "de:08111:2594",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4685608488214769,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "Sonnenberg",
+    "stopId": "de:08111:6167",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6168",
+    "nextOut": "de:08111:6166",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.44641458377839494,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "Riedsee",
+    "stopId": "de:08111:6168",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6169",
+    "nextOut": "de:08111:6167",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.42455315815708894,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "Möhringen Bahnhof",
+    "stopId": "de:08111:6169",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:170",
+    "nextOut": "de:08111:6168",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.402264473403119,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "Vaihinger Straße",
+    "stopId": "de:08111:170",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:350",
+    "nextOut": "de:08111:6169",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.38026062807092503,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "SSB-Zentrum",
+    "stopId": "de:08111:350",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:355",
+    "nextOut": "de:08111:170",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3514206366161077,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "Wallgraben",
+    "stopId": "de:08111:355",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:356",
+    "nextOut": "de:08111:350",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3243608915473902,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "Jurastraße",
+    "stopId": "de:08111:356",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "de:08111:6002",
+    "nextOut": "de:08111:355",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2973011464786727,
+    "pctY": 0.7364645519804722
+  },
+  {
+    "name": "Vaihingen Bahnhof",
+    "stopId": "de:08111:6002",
+    "lines": [
+      "U8"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:356",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.2671081677704194,
+      "pctY": 0.7364645519804722
+    },
+    "waypointOut": {
+      "pctX": 0.2671081677704194,
+      "pctY": 0.7364645519804722
+    },
+    "pctX": 0.26148258919034395,
+    "pctY": 0.7462126213563426
+  }
+]

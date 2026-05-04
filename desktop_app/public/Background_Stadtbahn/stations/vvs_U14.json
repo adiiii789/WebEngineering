@@ -1,0 +1,500 @@
+[
+  {
+    "name": "Vaihingen Bahnhof",
+    "stopId": "de:08111:6002",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6004",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2588953035709517,
+    "pctY": 0.7417394606912268
+  },
+  {
+    "name": "Vaihingen Schillerplatz",
+    "stopId": "de:08111:6004",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:5",
+    "nextOut": "de:08111:6002",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.27616369351612013,
+    "pctY": 0.7110393720724142
+  },
+  {
+    "name": "Fauststraße",
+    "stopId": "de:08111:5",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6",
+    "nextOut": "de:08111:6004",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2929336144731806,
+    "pctY": 0.6812254715786809
+  },
+  {
+    "name": "Vaihingen Viadukt",
+    "stopId": "de:08111:6",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:8",
+    "nextOut": "de:08111:5",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.30877780730946913,
+      "pctY": 0.653057349031523
+    },
+    "waypointOut": {
+      "pctX": 0.30877780730946913,
+      "pctY": 0.653057349031523
+    },
+    "pctX": 0.3119466458767268,
+    "pctY": 0.6529940498797316
+  },
+  {
+    "name": "Engelboldstraße",
+    "stopId": "de:08111:8",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6009",
+    "nextOut": "de:08111:6",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3406442176206562,
+    "pctY": 0.6529940498797316
+  },
+  {
+    "name": "Kaltental",
+    "stopId": "de:08111:6009",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6010",
+    "nextOut": "de:08111:8",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.36193596439841025,
+    "pctY": 0.6529940498797316
+  },
+  {
+    "name": "Waldeck",
+    "stopId": "de:08111:6010",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:43",
+    "nextOut": "de:08111:6009",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.38315648393550167,
+    "pctY": 0.6529940498797316
+  },
+  {
+    "name": "Heslach Vogelrain",
+    "stopId": "de:08111:43",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:13",
+    "nextOut": "de:08111:6010",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.4038785518697038,
+      "pctY": 0.6529940498797316
+    },
+    "waypointOut": {
+      "pctX": 0.4038785518697038,
+      "pctY": 0.6529940498797316
+    },
+    "pctX": 0.4056587982558036,
+    "pctY": 0.6494492973794151
+  },
+  {
+    "name": "Südheimer Platz",
+    "stopId": "de:08111:13",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:15",
+    "nextOut": "de:08111:43",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4164826962832906,
+    "pctY": 0.6302063552348398
+  },
+  {
+    "name": "Bihlplatz",
+    "stopId": "de:08111:15",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6017",
+    "nextOut": "de:08111:13",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.42727098938305563,
+    "pctY": 0.611026712242056
+  },
+  {
+    "name": "Erwin-Schoettle-Platz",
+    "stopId": "de:08111:6017",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6019",
+    "nextOut": "de:08111:15",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.43809488741054264,
+    "pctY": 0.5917837700974807
+  },
+  {
+    "name": "Marienplatz",
+    "stopId": "de:08111:6019",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6020",
+    "nextOut": "de:08111:6017",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.44984451355880156,
+    "pctY": 0.5708950500063299
+  },
+  {
+    "name": "Österreichischer Platz",
+    "stopId": "de:08111:6020",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6074",
+    "nextOut": "de:08111:6019",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.45856772085069075,
+    "pctY": 0.5553867578174453
+  },
+  {
+    "name": "Rathaus",
+    "stopId": "de:08111:6074",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6075",
+    "nextOut": "de:08111:6020",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.46490539798520614,
+      "pctY": 0.5352576275477908
+    },
+    "waypointOut": {
+      "pctX": 0.46490539798520614,
+      "pctY": 0.5352576275477908
+    },
+    "pctX": 0.47273848208404545,
+    "pctY": 0.5113305481706545
+  },
+  {
+    "name": "Charlottenplatz",
+    "stopId": "de:08111:6075",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6024",
+    "nextOut": "de:08111:6074",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4861971447629602,
+    "pctY": 0.48740346879351815
+  },
+  {
+    "name": "Staatsgalerie",
+    "stopId": "de:08111:6024",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:25",
+    "nextOut": "de:08111:6075",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5126872109881258,
+    "pctY": 0.44030889986074184
+  },
+  {
+    "name": "Neckartor",
+    "stopId": "de:08111:25",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:26",
+    "nextOut": "de:08111:6024",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5233330843770028,
+    "pctY": 0.42138245347512343
+  },
+  {
+    "name": "Stöckach",
+    "stopId": "de:08111:26",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:27",
+    "nextOut": "de:08111:25",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5338721429827138,
+    "pctY": 0.4026459045448791
+  },
+  {
+    "name": "Metzstraße",
+    "stopId": "de:08111:27",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:28",
+    "nextOut": "de:08111:26",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.552635939892206,
+    "pctY": 0.3692872515508292
+  },
+  {
+    "name": "Mineralbäder",
+    "stopId": "de:08111:28",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:254",
+    "nextOut": "de:08111:27",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5620356408108133,
+    "pctY": 0.33409292315482975
+  },
+  {
+    "name": "Wilhelma",
+    "stopId": "de:08111:254",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6253",
+    "nextOut": "de:08111:28",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5674831947522787,
+      "pctY": 0.32440815293075076
+    },
+    "waypointOut": {
+      "pctX": 0.5674831947522787,
+      "pctY": 0.32440815293075076
+    },
+    "pctX": 0.5551282848327459,
+    "pctY": 0.30244334725914673
+  },
+  {
+    "name": "Rosensteinbrücke",
+    "stopId": "de:08111:6253",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:281",
+    "nextOut": "de:08111:254",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5439127326003169,
+      "pctY": 0.2825041144448664
+    },
+    "waypointOut": {
+      "pctX": 0.5439127326003169,
+      "pctY": 0.2825041144448664
+    },
+    "pctX": 0.5476512500111266,
+    "pctY": 0.2750981136852766
+  },
+  {
+    "name": "Mühlsteg",
+    "stopId": "de:08111:281",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:280",
+    "nextOut": "de:08111:6253",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5627121344375312,
+    "pctY": 0.24832257247752887
+  },
+  {
+    "name": "Kraftwerk Münster",
+    "stopId": "de:08111:280",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:278",
+    "nextOut": "de:08111:281",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5729307486937443,
+    "pctY": 0.23015571591340683
+  },
+  {
+    "name": "Münster Viadukt",
+    "stopId": "de:08111:278",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:277",
+    "nextOut": "de:08111:280",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5830425481667914,
+    "pctY": 0.21217875680465892
+  },
+  {
+    "name": "Münster Rathaus",
+    "stopId": "de:08111:277",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:276",
+    "nextOut": "de:08111:278",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5932255574952824,
+    "pctY": 0.19407519939232826
+  },
+  {
+    "name": "Freibergstraße",
+    "stopId": "de:08111:276",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:275",
+    "nextOut": "de:08111:277",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6034797766792174,
+    "pctY": 0.1758450436764148
+  },
+  {
+    "name": "Elbestraße",
+    "stopId": "de:08111:275",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:274",
+    "nextOut": "de:08111:276",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6136271810799865,
+    "pctY": 0.15780478541587545
+  },
+  {
+    "name": "Wagrainäcker",
+    "stopId": "de:08111:274",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6273",
+    "nextOut": "de:08111:275",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.6235253509867016,
+      "pctY": 0.1402076212178757
+    },
+    "waypointOut": {
+      "pctX": 0.6235253509867016,
+      "pctY": 0.1402076212178757
+    },
+    "pctX": 0.6285456457955031,
+    "pctY": 0.13976452715533613
+  },
+  {
+    "name": "Max-Eyth-See",
+    "stopId": "de:08111:6273",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:272",
+    "nextOut": "de:08111:274",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6546796975138859,
+    "pctY": 0.13976452715533613
+  },
+  {
+    "name": "Hofen",
+    "stopId": "de:08111:272",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:271",
+    "nextOut": "de:08111:6273",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6827363805588194,
+    "pctY": 0.13976452715533613
+  },
+  {
+    "name": "Auwiesen",
+    "stopId": "de:08111:271",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "de:08111:6270",
+    "nextOut": "de:08111:272",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7109354833146407,
+    "pctY": 0.13976452715533613
+  },
+  {
+    "name": "Mühlhausen",
+    "stopId": "de:08111:6270",
+    "lines": [
+      "U14"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:271",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7382088579496903,
+    "pctY": 0.13976452715533613
+  }
+]

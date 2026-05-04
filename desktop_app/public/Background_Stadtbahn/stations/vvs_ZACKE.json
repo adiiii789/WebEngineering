@@ -1,0 +1,120 @@
+[
+  {
+    "name": "Degerloch",
+    "stopId": "de:08111:6165",
+    "lines": [
+      "ZACKE"
+    ],
+    "nextIn": "de:08111:6340",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4982553585416222,
+    "pctY": 0.6985694391695151
+  },
+  {
+    "name": "Zahnradbahnhof",
+    "stopId": "de:08111:6340",
+    "lines": [
+      "ZACKE"
+    ],
+    "nextIn": "de:08111:341",
+    "nextOut": "de:08111:6165",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5074414298938973,
+    "pctY": 0.6822382580073427
+  },
+  {
+    "name": "Nägelestraße",
+    "stopId": "de:08111:341",
+    "lines": [
+      "ZACKE"
+    ],
+    "nextIn": "de:08111:165",
+    "nextOut": "de:08111:6340",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.510076194545325,
+      "pctY": 0.6775541207747816
+    },
+    "waypointOut": {
+      "pctX": 0.510076194545325,
+      "pctY": 0.6775541207747816
+    },
+    "pctX": 0.500035604927722,
+    "pctY": 0.6599569565767819
+  },
+  {
+    "name": "Haigst",
+    "stopId": "de:08111:165",
+    "lines": [
+      "ZACKE"
+    ],
+    "nextIn": "de:08111:342",
+    "nextOut": "de:08111:341",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4901730399487289,
+    "pctY": 0.6424230915305735
+  },
+  {
+    "name": "Wielandshöhe",
+    "stopId": "de:08111:342",
+    "lines": [
+      "ZACKE"
+    ],
+    "nextIn": "de:08111:343",
+    "nextOut": "de:08111:165",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.48031047496973583,
+    "pctY": 0.6248892264843651
+  },
+  {
+    "name": "Pfaffenweg",
+    "stopId": "de:08111:343",
+    "lines": [
+      "ZACKE"
+    ],
+    "nextIn": "de:08111:344",
+    "nextOut": "de:08111:342",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4705547247739087,
+    "pctY": 0.6075452588935308
+  },
+  {
+    "name": "Liststraße",
+    "stopId": "de:08111:344",
+    "lines": [
+      "ZACKE"
+    ],
+    "nextIn": "de:08111:6019",
+    "nextOut": "de:08111:343",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.46058534501174964,
+    "pctY": 0.5898214963919484
+  },
+  {
+    "name": "Marienplatz",
+    "stopId": "de:08111:6019",
+    "lines": [
+      "ZACKE"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:344",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4484796695862707,
+    "pctY": 0.5682997847828839
+  }
+]

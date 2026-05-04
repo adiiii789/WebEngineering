@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Waldfriedhof",
+    "stopId": "de:08115:2336",
+    "lines": [
+      "Seilbahn"
+    ],
+    "nextIn": "de:08111:13",
+    "nextOut": "",
+    "travelTimeNext": 240,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.43502100690735596,
+    "pctY": 0.6621091277376883
+  },
+  {
+    "name": "Südheimer Platz",
+    "stopId": "de:08111:13",
+    "lines": [
+      "Seilbahn"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08115:2336",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.41554511144342376,
+    "pctY": 0.6274844917078111
+  }
+]

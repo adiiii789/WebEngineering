@@ -1,0 +1,474 @@
+[
+  {
+    "name": "Heumaden",
+    "stopId": "de:08111:136",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6133",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6459208505238375,
+    "pctY": 0.7706460939478098
+  },
+  {
+    "name": "Bockelstraße",
+    "stopId": "de:08111:6133",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6130",
+    "nextOut": "de:08111:136",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6358802609062344,
+    "pctY": 0.7527957331426446
+  },
+  {
+    "name": "Schemppsrtaße",
+    "stopId": "de:08111:6130",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6134",
+    "nextOut": "de:08111:6133",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6253055973728014,
+    "pctY": 0.733995885060609
+  },
+  {
+    "name": "Sillenbuch",
+    "stopId": "de:08111:6134",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:129",
+    "nextOut": "de:08111:6130",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6148021436948123,
+    "pctY": 0.715322635282156
+  },
+  {
+    "name": "Silberwald",
+    "stopId": "de:08111:129",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6128",
+    "nextOut": "de:08111:6134",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6042986900168233,
+    "pctY": 0.696649385503703
+  },
+  {
+    "name": "Ruhbank",
+    "stopId": "de:08111:6128",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6127",
+    "nextOut": "de:08111:129",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5937596314111123,
+    "pctY": 0.6779128365734587
+  },
+  {
+    "name": "Stelle",
+    "stopId": "de:08111:6127",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:126",
+    "nextOut": "de:08111:6128",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5832917826608452,
+    "pctY": 0.6593028859467971
+  },
+  {
+    "name": "Geroksruhe",
+    "stopId": "de:08111:126",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:125",
+    "nextOut": "de:08111:6127",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.575245068995674,
+    "pctY": 0.6449972776419484
+  },
+  {
+    "name": "Payerstraße",
+    "stopId": "de:08111:125",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:124",
+    "nextOut": "de:08111:126",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5674831947522787,
+    "pctY": 0.6311980625514305
+  },
+  {
+    "name": "Bubenbad",
+    "stopId": "de:08111:124",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:123",
+    "nextOut": "de:08111:125",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5596857155811614,
+    "pctY": 0.6173355483091214
+  },
+  {
+    "name": "Stafflenbergstraße",
+    "stopId": "de:08111:123",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6122",
+    "nextOut": "de:08111:124",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5518882364100441,
+    "pctY": 0.6034730340668123
+  },
+  {
+    "name": "Heidehofstraße",
+    "stopId": "de:08111:6122",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6121",
+    "nextOut": "de:08111:123",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5440551523112048,
+    "pctY": 0.5895472206727117
+  },
+  {
+    "name": "Eugensplatz",
+    "stopId": "de:08111:6121",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6119",
+    "nextOut": "de:08111:6122",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5362932780678096,
+    "pctY": 0.575748005582194
+  },
+  {
+    "name": "Olgaeck",
+    "stopId": "de:08111:6119",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6075",
+    "nextOut": "de:08111:6121",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5100880425718107,
+    "pctY": 0.529159814409854
+  },
+  {
+    "name": "Charlottenplatz",
+    "stopId": "de:08111:6075",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6022",
+    "nextOut": "de:08111:6119",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4880129873841727,
+    "pctY": 0.4899143402992071
+  },
+  {
+    "name": "Schlossplatz",
+    "stopId": "de:08111:6022",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6112",
+    "nextOut": "de:08111:6075",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.47152790584888826,
+    "pctY": 0.4606068330198047
+  },
+  {
+    "name": "Hauptbahnhof",
+    "stopId": "de:08111:6112",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6116",
+    "nextOut": "de:08111:6022",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.45739274954325554,
+    "pctY": 0.43547706975863243
+  },
+  {
+    "name": "Stadtbibliothek",
+    "stopId": "de:08111:6116",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:115",
+    "nextOut": "de:08111:6112",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.452372454734454,
+      "pctY": 0.4265518893560498
+    },
+    "waypointOut": {
+      "pctX": 0.452372454734454,
+      "pctY": 0.4265518893560498
+    },
+    "pctX": 0.45237246342706333,
+    "pctY": 0.3432501901447177
+  },
+  {
+    "name": "Pragfriedhof",
+    "stopId": "de:08111:115",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6261",
+    "nextOut": "de:08111:6116",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.45237246342706333,
+    "pctY": 0.2862809689863828
+  },
+  {
+    "name": "Löwentorbrücke",
+    "stopId": "de:08111:6261",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6113",
+    "nextOut": "de:08111:115",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.45237246342706333,
+      "pctY": 0.27805207925350517
+    },
+    "waypointOut": {
+      "pctX": 0.45237246342706333,
+      "pctY": 0.27805207925350517
+    },
+    "pctX": 0.46625838523864205,
+    "pctY": 0.2534920083584552
+  },
+  {
+    "name": "Pragsattel",
+    "stopId": "de:08111:6113",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:112",
+    "nextOut": "de:08111:6261",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.4927484514638076,
+      "pctY": 0.2063974394256789
+    },
+    "waypointOut": {
+      "pctX": 0.4927484514638076,
+      "pctY": 0.2063974394256789
+    },
+    "pctX": 0.4926060317529196,
+    "pctY": 0.18664810406677268
+  },
+  {
+    "name": "Sieglestraße",
+    "stopId": "de:08111:112",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:111",
+    "nextOut": "de:08111:6113",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4926060317529196,
+    "pctY": 0.1609486484394781
+  },
+  {
+    "name": "Borsigstraße",
+    "stopId": "de:08111:111",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:110",
+    "nextOut": "de:08111:112",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4926060317529196,
+    "pctY": 0.14575684428260302
+  },
+  {
+    "name": "Friedrichswahl",
+    "stopId": "de:08111:110",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6109",
+    "nextOut": "de:08111:111",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4926060317529196,
+    "pctY": 0.13043844954909245
+  },
+  {
+    "name": "Hohensteinstraße",
+    "stopId": "de:08111:6109",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:108",
+    "nextOut": "de:08111:110",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4926060317529196,
+    "pctY": 0.11512005481558188
+  },
+  {
+    "name": "Zuffenhausen Rathaus",
+    "stopId": "de:08111:108",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:107",
+    "nextOut": "de:08111:6109",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.4926060317529196,
+      "pctY": 0.11030931927943806
+    },
+    "waypointOut": {
+      "pctX": 0.4926060317529196,
+      "pctY": 0.11030931927943806
+    },
+    "pctX": 0.4782928508086769,
+    "pctY": 0.09043338561694914
+  },
+  {
+    "name": "Kirchtalstraße",
+    "stopId": "de:08111:107",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:6105",
+    "nextOut": "de:08111:108",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.42153859601981414,
+    "pctY": 0.09043338561694914
+  },
+  {
+    "name": "Salzwiesenstraße",
+    "stopId": "de:08111:6105",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:104",
+    "nextOut": "de:08111:107",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3647843412309514,
+    "pctY": 0.09043338561694914
+  },
+  {
+    "name": "Wimpfener Straße",
+    "stopId": "de:08111:104",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:103",
+    "nextOut": "de:08111:6105",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.3079588939718632,
+    "pctY": 0.09043338561694914
+  },
+  {
+    "name": "Heutingsheimer Straße",
+    "stopId": "de:08111:103",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:102",
+    "nextOut": "de:08111:104",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.25113342932755645,
+    "pctY": 0.09043338561694914
+  },
+  {
+    "name": "Korntaler Straße",
+    "stopId": "de:08111:102",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "de:08111:100",
+    "nextOut": "de:08111:103",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.19437917453869366,
+    "pctY": 0.09043338561694914
+  },
+  {
+    "name": "Stammheim",
+    "stopId": "de:08111:100",
+    "lines": [
+      "U15"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:102",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.1384794293225495,
+    "pctY": 0.09043338561694914
+  }
+]

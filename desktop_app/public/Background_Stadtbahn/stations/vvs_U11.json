@@ -1,0 +1,229 @@
+[
+  {
+    "name": "NeckarPark (Stadion)",
+    "stopId": "de:08111:6330",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:2343",
+    "nextOut": "de:08111:2343",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6223503883718756,
+    "pctY": 0.38561843271300167
+  },
+  {
+    "name": "Cannstatter Wasen",
+    "stopId": "de:08111:2343",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:30",
+    "nextOut": "de:08111:6330",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6054380477039272,
+    "pctY": 0.3555513356121028
+  },
+  {
+    "name": "Mercedesstraße",
+    "stopId": "de:08111:30",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:28",
+    "nextOut": "de:08111:2343",
+    "travelTimeNext": 180,
+    "waypointIn": {
+      "pctX": 0.5857485226736631,
+      "pctY": 0.3205469046714774
+    },
+    "waypointOut": {
+      "pctX": 0.5857485226736631,
+      "pctY": 0.3205469046714774
+    },
+    "pctX": 0.5832561777331232,
+    "pctY": 0.32485124699329027
+  },
+  {
+    "name": "Mineralbäder",
+    "stopId": "de:08111:28",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:27",
+    "nextOut": "de:08111:30",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5699755396928184,
+    "pctY": 0.34846183061146974
+  },
+  {
+    "name": "Metzstraße",
+    "stopId": "de:08111:27",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:26",
+    "nextOut": "de:08111:28",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5650264547394609,
+      "pctY": 0.35726041271046954
+    },
+    "waypointOut": {
+      "pctX": 0.5650264547394609,
+      "pctY": 0.35726041271046954
+    },
+    "pctX": 0.5497875456744463,
+    "pctY": 0.36422331940751995
+  },
+  {
+    "name": "Stöckach",
+    "stopId": "de:08111:26",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:25",
+    "nextOut": "de:08111:27",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5310237487649541,
+    "pctY": 0.39758197240156984
+  },
+  {
+    "name": "Neckartor",
+    "stopId": "de:08111:25",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:6024",
+    "nextOut": "de:08111:26",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.520449085231521,
+    "pctY": 0.4163818204836055
+  },
+  {
+    "name": "Staatsgalerie",
+    "stopId": "de:08111:6024",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:6112",
+    "nextOut": "de:08111:25",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.50991002662581,
+    "pctY": 0.4351183694138498
+  },
+  {
+    "name": "Hauptbahnhof",
+    "stopId": "de:08111:6112",
+    "lines": [
+      "U11"
+    ],
+    "nextIn": "de:08111:6024",
+    "nextOut": "de:08111:229",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5015072636834187,
+      "pctY": 0.4500569692366121
+    },
+    "waypointOut": {
+      "pctX": 0.5015072636834187,
+      "pctY": 0.4500569692366121
+    },
+    "pctX": 0.4753020368800292,
+    "pctY": 0.40308899860741865
+  },
+  {
+    "name": "Börsenplatz",
+    "stopId": "de:08111:229",
+    "lines": [
+      "U11"
+    ],
+    "nextOut": "de:08111:6073",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.4644781388525422,
+      "pctY": 0.3835168885104127
+    },
+    "waypointOut": {
+      "pctX": 0.4644781388525422,
+      "pctY": 0.3835168885104127
+    },
+    "pctX": 0.4275202238771096,
+    "pctY": 0.3835168885104127
+  },
+  {
+    "name": "Berliner Platz (lh)",
+    "stopId": "de:08111:6073",
+    "lines": [
+      "U11"
+    ],
+    "nextOut": "de:08111:6056",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.4161978568615146,
+      "pctY": 0.3835168885104127
+    },
+    "waypointOut": {
+      "pctX": 0.4161978568615146,
+      "pctY": 0.3835168885104127
+    },
+    "pctX": 0.401457416784608,
+    "pctY": 0.409849335655621
+  },
+  {
+    "name": "Rotebühlplatz",
+    "stopId": "de:08111:6056",
+    "lines": [
+      "U11"
+    ],
+    "nextOut": "de:08111:6074",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.43663508537394075,
+    "pctY": 0.4723888976254906
+  },
+  {
+    "name": "Rathaus",
+    "stopId": "de:08111:6074",
+    "lines": [
+      "U11"
+    ],
+    "nextOut": "de:08111:6075",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.4630895466713843,
+      "pctY": 0.5194201674064755
+    },
+    "waypointOut": {
+      "pctX": 0.4630895466713843,
+      "pctY": 0.5194201674064755
+    },
+    "pctX": 0.4701037174326177,
+    "pctY": 0.5068236361999937
+  },
+  {
+    "name": "Charlottenplatz",
+    "stopId": "de:08111:6075",
+    "lines": [
+      "U11"
+    ],
+    "nextOut": "de:08111:6024",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4836335899669764,
+    "pctY": 0.48276995851927457
+  }
+]

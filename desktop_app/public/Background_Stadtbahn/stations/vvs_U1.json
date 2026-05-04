@@ -1,0 +1,422 @@
+[
+  {
+    "name": "Heslach Vogelrain",
+    "stopId": "de:08111:43",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:13",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4031189916684469,
+    "pctY": 0.6445119635396885
+  },
+  {
+    "name": "Südheimer Platz",
+    "stopId": "de:08111:13",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:15",
+    "nextOut": "de:08111:43",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4139072847682119,
+    "pctY": 0.6253323205469047
+  },
+  {
+    "name": "Bihlplatz",
+    "stopId": "de:08111:15",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:6017",
+    "nextOut": "de:08111:13",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4246599729402549,
+    "pctY": 0.6062159767059121
+  },
+  {
+    "name": "Erwin-Schoettle-Platz",
+    "stopId": "de:08111:6017",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:6019",
+    "nextOut": "de:08111:15",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4354126611122979,
+    "pctY": 0.5870996328649196
+  },
+  {
+    "name": "Marienplatz",
+    "stopId": "de:08111:6019",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:6020",
+    "nextOut": "de:08111:6017",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.44723349711600086,
+    "pctY": 0.5660843144701861
+  },
+  {
+    "name": "Österreichischer Platz",
+    "stopId": "de:08111:6020",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:6056",
+    "nextOut": "de:08111:6019",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.45595670440789005,
+    "pctY": 0.5505760222813014
+  },
+  {
+    "name": "Rotebühlplatz",
+    "stopId": "de:08111:6056",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:55",
+    "nextOut": "de:08111:6020",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.46115502385530155,
+      "pctY": 0.5334852512976326
+    },
+    "waypointOut": {
+      "pctX": 0.46115502385530155,
+      "pctY": 0.5334852512976326
+    },
+    "pctX": 0.43423769849747207,
+    "pctY": 0.47702240789973416
+  },
+  {
+    "name": "Berliener Platz (hs)",
+    "stopId": "de:08111:55",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:6073",
+    "nextOut": "de:08111:6056",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4056825464644307,
+    "pctY": 0.4268894796809723
+  },
+  {
+    "name": "Berliner Platz (lh)",
+    "stopId": "de:08111:6073",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:229",
+    "nextOut": "de:08111:55",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.39610482090721355,
+    "pctY": 0.4098620078490948
+  },
+  {
+    "name": "Börsenplatz",
+    "stopId": "de:08111:229",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:6112",
+    "nextOut": "de:08111:6073",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.41469059317809587,
+      "pctY": 0.37681985061400175
+    },
+    "waypointOut": {
+      "pctX": 0.41469059317809587,
+      "pctY": 0.37681985061400175
+    },
+    "pctX": 0.4274727622302927,
+    "pctY": 0.3768831497657931
+  },
+  {
+    "name": "Hauptbahnhof",
+    "stopId": "de:08111:6112",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:6024",
+    "nextOut": "de:08111:229",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.46585487431460515,
+      "pctY": 0.3768831497657931
+    },
+    "waypointOut": {
+      "pctX": 0.46585487431460515,
+      "pctY": 0.3768831497657931
+    },
+    "pctX": 0.47845901872819196,
+    "pctY": 0.3992910494999367
+  },
+  {
+    "name": "Staatsgalerie",
+    "stopId": "de:08111:6024",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:25",
+    "nextOut": "de:08111:6112",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5017802463860999,
+      "pctY": 0.4407519939232814
+    },
+    "waypointOut": {
+      "pctX": 0.5017802463860999,
+      "pctY": 0.4407519939232814
+    },
+    "pctX": 0.5075126397493414,
+    "pctY": 0.4310672236992024
+  },
+  {
+    "name": "Neckartor",
+    "stopId": "de:08111:25",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:26",
+    "nextOut": "de:08111:6024",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5181585131382184,
+    "pctY": 0.41214077731358406
+  },
+  {
+    "name": "Stöckach",
+    "stopId": "de:08111:26",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:27",
+    "nextOut": "de:08111:25",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5286975717439294,
+    "pctY": 0.39340422838333977
+  },
+  {
+    "name": "Metzstraße",
+    "stopId": "de:08111:27",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:28",
+    "nextOut": "de:08111:26",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5474969735811437,
+    "pctY": 0.3599822762374985
+  },
+  {
+    "name": "Mineralbäder",
+    "stopId": "de:08111:28",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:30",
+    "nextOut": "de:08111:27",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5555792921740369,
+      "pctY": 0.3506773009241676
+    },
+    "waypointOut": {
+      "pctX": 0.5555792921740369,
+      "pctY": 0.3506773009241676
+    },
+    "pctX": 0.564765363526312,
+    "pctY": 0.3387770603873908
+  },
+  {
+    "name": "Mercedesstraße",
+    "stopId": "de:08111:30",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:6332",
+    "nextOut": "de:08111:28",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5780103966388949,
+    "pctY": 0.31522977592100265
+  },
+  {
+    "name": "Bad Cannstatt Wilhelmsplatz",
+    "stopId": "de:08111:6332",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:32",
+    "nextOut": "de:08111:30",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5943886633910133,
+    "pctY": 0.2861121660969744
+  },
+  {
+    "name": "Uff-Kirchhof",
+    "stopId": "de:08111:32",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:33",
+    "nextOut": "de:08111:6332",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.597664316741437,
+      "pctY": 0.28028864413216864
+    },
+    "waypointOut": {
+      "pctX": 0.597664316741437,
+      "pctY": 0.28028864413216864
+    },
+    "pctX": 0.6453037100334686,
+    "pctY": 0.28003544752500314
+  },
+  {
+    "name": "Augsburger Platz",
+    "stopId": "de:08111:33",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:34",
+    "nextOut": "de:08111:32",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7008473972797835,
+    "pctY": 0.28003544752500314
+  },
+  {
+    "name": "Nürnberger Straße",
+    "stopId": "de:08111:34",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:35",
+    "nextOut": "de:08111:33",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.7040518407747632,
+      "pctY": 0.28003544752500314
+    },
+    "waypointOut": {
+      "pctX": 0.7040518407747632,
+      "pctY": 0.28003544752500314
+    },
+    "pctX": 0.7295449690237129,
+    "pctY": 0.3262438283327003
+  },
+  {
+    "name": "Antwerpener Straße",
+    "stopId": "de:08111:35",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08111:36",
+    "nextOut": "de:08111:34",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7512995798618529,
+    "pctY": 0.36491961007722495
+  },
+  {
+    "name": "Beskidenstraße",
+    "stopId": "de:08111:36",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08119:37",
+    "nextOut": "de:08111:35",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7715231788079471,
+    "pctY": 0.40087352829472084
+  },
+  {
+    "name": "Höhenstraße",
+    "stopId": "de:08119:37",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08119:38",
+    "nextOut": "de:08111:36",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7917111728263192,
+    "pctY": 0.43676414736042535
+  },
+  {
+    "name": "Esslinger Straße",
+    "stopId": "de:08119:38",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08119:39",
+    "nextOut": "de:08119:37",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8117567471338033,
+    "pctY": 0.4724015698189644
+  },
+  {
+    "name": "Schwabenlandhalle",
+    "stopId": "de:08119:39",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "de:08119:6040",
+    "nextOut": "de:08119:38",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8319447411521754,
+    "pctY": 0.508292188884669
+  },
+  {
+    "name": "Lutherkirche",
+    "stopId": "de:08119:6040",
+    "lines": [
+      "U1"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08119:39",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8517410809656056,
+    "pctY": 0.5434865172806684
+  }
+]

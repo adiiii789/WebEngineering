@@ -1,0 +1,452 @@
+[
+  {
+    "name": "Fellbach Lutherkirche",
+    "stopId": "de:08119:6040",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08119:39",
+    "nextOut": "",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8573429461074913,
+    "pctY": 0.5434865172806684
+  },
+  {
+    "name": "Schwabenlandhalle",
+    "stopId": "de:08119:39",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08119:38",
+    "nextOut": "de:08119:6040",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8348762367149113,
+    "pctY": 0.5035447525003165
+  },
+  {
+    "name": "Esslinger Straße",
+    "stopId": "de:08119:38",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08119:37",
+    "nextOut": "de:08119:39",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.8147238476242612,
+    "pctY": 0.46771743258640336
+  },
+  {
+    "name": "Höhenstraße",
+    "stopId": "de:08119:37",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:36",
+    "nextOut": "de:08119:38",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.794500248678167,
+    "pctY": 0.4317635143689075
+  },
+  {
+    "name": "Beskidenstraße",
+    "stopId": "de:08111:36",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:35",
+    "nextOut": "de:08119:37",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7743122546597949,
+    "pctY": 0.3958728953032029
+  },
+  {
+    "name": "Antwerpener Straße",
+    "stopId": "de:08111:35",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:34",
+    "nextOut": "de:08111:36",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7541242606414228,
+    "pctY": 0.3599822762374984
+  },
+  {
+    "name": "Nürnberger Straße",
+    "stopId": "de:08111:34",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:33",
+    "nextOut": "de:08111:35",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.7317643660320088,
+    "pctY": 0.3202304089125206
+  },
+  {
+    "name": "Augsburger Platz",
+    "stopId": "de:08111:33",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:32",
+    "nextOut": "de:08111:34",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.7055235343008972,
+      "pctY": 0.27357893404228384
+    },
+    "waypointOut": {
+      "pctX": 0.7055235343008972,
+      "pctY": 0.27357893404228384
+    },
+    "pctX": 0.7008948936970377,
+    "pctY": 0.2734523357387011
+  },
+  {
+    "name": "Uff-Kirchhof",
+    "stopId": "de:08111:32",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:6332",
+    "nextOut": "de:08111:33",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.6452087867398348,
+    "pctY": 0.2734523357387011
+  },
+  {
+    "name": "Bad Cannstatt Wilhelmsplatz",
+    "stopId": "de:08111:6332",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:30",
+    "nextOut": "de:08111:32",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.5965012108457061,
+      "pctY": 0.2734523357387011
+    },
+    "waypointOut": {
+      "pctX": 0.5965012108457061,
+      "pctY": 0.2734523357387011
+    },
+    "pctX": 0.5917301505309585,
+    "pctY": 0.28155462716799595
+  },
+  {
+    "name": "Mercedesstraße",
+    "stopId": "de:08111:30",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:254",
+    "nextOut": "de:08111:6332",
+    "travelTimeNext": 180,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.575316278851118,
+    "pctY": 0.31073553614381566
+  },
+  {
+    "name": "Wilhelma",
+    "stopId": "de:08111:254",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:6253",
+    "nextOut": "de:08111:30",
+    "travelTimeNext": 120,
+    "waypointIn": {
+      "pctX": 0.5702959840423164,
+      "pctY": 0.31966071654639827
+    },
+    "waypointOut": {
+      "pctX": 0.5702959840423164,
+      "pctY": 0.31966071654639827
+    },
+    "pctX": 0.5577630494841737,
+    "pctY": 0.2975060134194202
+  },
+  {
+    "name": "Rosensteinbrücke",
+    "stopId": "de:08111:6253",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:263",
+    "nextOut": "de:08111:254",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5465118923240226,
+    "pctY": 0.27750348145334847
+  },
+  {
+    "name": "Glockenstraße",
+    "stopId": "de:08111:263",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:262",
+    "nextOut": "de:08111:6253",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5379311047430214,
+    "pctY": 0.2622483858716293
+  },
+  {
+    "name": "Rosensteinpark",
+    "stopId": "de:08111:262",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:6114",
+    "nextOut": "de:08111:263",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.5295639467283522,
+    "pctY": 0.24737308520065832
+  },
+  {
+    "name": "Löwentor",
+    "stopId": "de:08111:6114",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:6113",
+    "nextOut": "de:08111:262",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.520235455665189,
+    "pctY": 0.2307887074313205
+  },
+  {
+    "name": "Pragsattel",
+    "stopId": "de:08111:6113",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:158",
+    "nextOut": "de:08111:6114",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.49552563582612325,
+      "pctY": 0.1868590960881125
+    },
+    "waypointOut": {
+      "pctX": 0.49552563582612325,
+      "pctY": 0.1868590960881125
+    },
+    "pctX": 0.4926772416083636,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Maybachstraße",
+    "stopId": "de:08111:158",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:6157",
+    "nextOut": "de:08111:6113",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.46625838523864205,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Feuerbach Bahnhof",
+    "stopId": "de:08111:6157",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:6180",
+    "nextOut": "de:08111:158",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.4377032332056007,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Wilhelm-Geiger-Platz",
+    "stopId": "de:08111:6180",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:154",
+    "nextOut": "de:08111:6157",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.40743904464190345,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Föhrich",
+    "stopId": "de:08111:154",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:153",
+    "nextOut": "de:08111:6180",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.37724606593365023,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Sportpark Feuerbach",
+    "stopId": "de:08111:153",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:152",
+    "nextOut": "de:08111:154",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.34712429708084097,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Feuerbach Pfostenwäldle",
+    "stopId": "de:08111:152",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:151",
+    "nextOut": "de:08111:153",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.31693133575780635,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Landauer Straße",
+    "stopId": "de:08111:151",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:6149",
+    "nextOut": "de:08111:152",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.29029884982175286,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Weilimdorf Löwen-Markt",
+    "stopId": "de:08111:6149",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:148",
+    "nextOut": "de:08111:151",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2636663638856993,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Rastatter Straße",
+    "stopId": "de:08111:148",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:147",
+    "nextOut": "de:08111:6149",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.23710508780508974,
+    "pctY": 0.18698569439169516
+  },
+  {
+    "name": "Wolfbusch",
+    "stopId": "de:08111:147",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:146",
+    "nextOut": "de:08111:148",
+    "travelTimeNext": 60,
+    "waypointIn": {
+      "pctX": 0.23247644720123015,
+      "pctY": 0.18698569439169516
+    },
+    "waypointOut": {
+      "pctX": 0.23247644720123015,
+      "pctY": 0.18698569439169516
+    },
+    "pctX": 0.22022835206486327,
+    "pctY": 0.20876060260792506
+  },
+  {
+    "name": "Bergheimer Hof",
+    "stopId": "de:08111:146",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:145",
+    "nextOut": "de:08111:147",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.2060219859037866,
+    "pctY": 0.2340169641726801
+  },
+  {
+    "name": "Salamanderweg",
+    "stopId": "de:08111:145",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "de:08111:144",
+    "nextOut": "de:08111:146",
+    "travelTimeNext": 60,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.19174440554096125,
+    "pctY": 0.2593999317679651
+  },
+  {
+    "name": "Giebel",
+    "stopId": "de:08111:144",
+    "lines": [
+      "U16"
+    ],
+    "nextIn": "",
+    "nextOut": "de:08111:145",
+    "travelTimeNext": 120,
+    "waypointIn": null,
+    "waypointOut": null,
+    "pctX": 0.17821453300660248,
+    "pctY": 0.2834536094486842
+  }
+]

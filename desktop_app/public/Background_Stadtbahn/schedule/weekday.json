@@ -1896,8 +1896,8 @@
     {
     "line": "U8",
     "terminus": "Heumaden",
-    "terminusStopId": "de:08111:6503",
-    "direction": "inbound",
+    "terminusStopId": "de:08119:6671",
+    "direction": "outbound",
     "departures": [
         "04:27",
         "04:38",

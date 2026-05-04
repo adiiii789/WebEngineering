@@ -1,7 +1,7 @@
  * {
     pointer-events: none;
     overflow: hidden;
-    background-color: rgb(50, 50, 50);
+    background-color: rgb(0,0,0);
     margin: 0;
     padding: 0;
 }
@@ -10,19 +10,19 @@
 .center-fit {
     display: block;
     position: absolute;
-    top: 47%;
+    top: 50%; /*war 47*/
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 105%;
     max-height: 105vh;
     z-index: 1; /* Bild im Hintergrund */
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 /* Das Canvas exakt über das Bild legen */
 #mapCanvas {
     position: absolute;
-    top: 47%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 2; /* Canvas im Vordergrund */
@@ -50,7 +50,7 @@
 #loadingFill {
     height: 4px;
     width: 0%;
-    background: linear-gradient(90deg, #E6007E, #007abf);
+    background: rgb(100, 0, 0);
     border-radius: 2px;
     flex: 1;
     transition: width 0.3s ease;

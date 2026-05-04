@@ -397,13 +397,13 @@ function drawMarker(x, y, line, alpha) {
     ctx.beginPath();
     ctx.arc(x, y, 7, 0, Math.PI * 2);
     ctx.fill();
-    ctx.shadowBlur   = 0;
-    ctx.strokeStyle  = "white";
-    ctx.lineWidth    = 2;
-    ctx.stroke();
-    ctx.fillStyle    = "white";
-    ctx.font         = "bold 10px Arial";
-    ctx.fillText(line, x + 10, y + 4);
+    // ctx.shadowBlur   = 0;
+    // ctx.strokeStyle  = "white";
+    // ctx.lineWidth    = 2;
+    // ctx.stroke();
+    // ctx.fillStyle    = "white";
+    // ctx.font         = "bold 10px Arial";
+    // ctx.fillText(line, x + 10, y + 4);
     ctx.restore();
 }
 
@@ -446,7 +446,7 @@ function setLoadingProgress(fraction) {
     const label   = document.getElementById('loadingLabel');
     if (!bar) return;
 
-    const pct = Math.round(fraction * 100);
+    const pct = Math.round(fraction * 1000); // dont ask me why
     fill.style.width = `${pct}%`;
     label.textContent = fraction < 1 ? `Fetching API … ${pct}%` : '';
 
@@ -565,6 +565,7 @@ async function init() {
     setInterval(draw, 40);
     setInterval(updateEntireNetwork, 40_000);
 }
+
 
 window.onload   = init;
 window.onresize = resize;

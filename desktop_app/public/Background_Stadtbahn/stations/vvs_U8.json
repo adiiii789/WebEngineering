@@ -61,7 +61,7 @@
     "lines": [
       "U8"
     ],
-    "nextIn": "de:08116:2968",
+    "nextIn": "de:08116:2969",
     "nextOut": "de:08116:2971",
     "travelTimeNext": 120,
     "waypointIn": null,
@@ -71,7 +71,7 @@
   },
   {
     "name": "Zinsholz",
-    "stopId": "de:08116:2968",
+    "stopId": "de:08116:2969",
     "lines": [
       "U8"
     ],
@@ -89,8 +89,8 @@
     "lines": [
       "U8"
     ],
-    "nextIn": "de:08111:136",
-    "nextOut": "de:08116:2968",
+    "nextIn": "de:08119:6671",
+    "nextOut": "de:08116:2969",
     "travelTimeNext": 120,
     "waypointIn": null,
     "waypointOut": null,
@@ -99,7 +99,7 @@
   },
   {
     "name": "Heumaden",
-    "stopId": "de:08111:136",
+    "stopId": "de:08119:6671",
     "lines": [
       "U8"
     ],
@@ -118,7 +118,7 @@
       "U8"
     ],
     "nextIn": "de:08111:6130",
-    "nextOut": "de:08111:136",
+    "nextOut": "de:08119:6671",
     "travelTimeNext": 60,
     "waypointIn": null,
     "waypointOut": null,

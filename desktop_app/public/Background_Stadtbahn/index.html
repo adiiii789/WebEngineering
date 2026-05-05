@@ -9,7 +9,7 @@
         <span id="loadingLabel">Fetching API … 0%</span>
     </div>
 
-    <img id="mapImage" class="center-fit" src="Stadtbahn_Liniennetz_dark.png">
+    <img id="mapImage" class="center-fit" src="Stadtbahn_Liniennetz.png">
 <!--<img id="mapImage2" class="center-fit" src="Stadtbahn_Liniennetz_white.png"> -->
 
     <canvas id="mapCanvas"></canvas>
@@ -41,6 +41,9 @@
         saturday: "schedule/saturday.json",
         sunday:   "schedule/sunday.json"   // gilt auch für Feiertage
         }
+    
+    const OVERLAY_FILE = "stations_overlay.json";
+    const LABEL_DIR    = "labels/";
 </script>
 <script src="index.js" ></script>
 </body>

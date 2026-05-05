@@ -27,7 +27,7 @@ export const styles = (dark) => ({
         w-full 
         h-full 
         border-none 
-        pointer-events-none         
+        pointer-events-auto        
     `,
 
     appWrapper: `

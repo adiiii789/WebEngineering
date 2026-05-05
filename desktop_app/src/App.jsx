@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion'; // draggable Windows
-import { X, MapPin, Sun, Cloud, CloudRain, Search, CloudSun, CloudFog, CloudDrizzle, Snowflake, CloudSnow, CloudLightning, UserRound } from 'lucide-react'; // Icons
+import { X, MapPin, Sun, Cloud, CloudRain, Search, CloudSun, CloudFog, CloudDrizzle, Snowflake, CloudSnow, CloudLightning, UserRound, Settings, BookMarked } from 'lucide-react'; // Icons
 
 import ReCAPTCHA from 'react-google-recaptcha'
 
@@ -266,21 +266,19 @@ export default function App () {
             )}
             </AnimatePresence>
 
-            <div // Body container
+           <div
                 className={s.body}
                 style={{ filter: `brightness(${brightness}%)` }}
+                onClick={() => setIsWeatherOpen(false)}
             >
-                <iframe // set Dynamic Background
-                    src='Background_Stadtbahn/index.html' 
+                <iframe
+                    src='Background_Stadtbahn/index.html'
                     className={s.iframe}
-                >
-                </iframe>
-                
-                {/* Desktop */}
-                
-                <div // Wrapper of Apps
+                />
+
+                <div
                     className={s.appWrapper}
-                    onClick={() => setIsWeatherOpen(false)} // if open, close tray widget
+                    style={{ pointerEvents: 'none' }}
                 >
                     <Window // function Window defined above
                         title='Wikipedia'
@@ -291,7 +289,8 @@ export default function App () {
                         darkMode={darkMode}
                         style={{
                             top: '10%',
-                            left: '5%'
+                            left: '5%',
+                            pointerEvents: 'auto'
                         }}
                     >
                             <WikiApp /> {/* insert file ./apps/WikiApp.jsx*/}
@@ -326,13 +325,13 @@ export default function App () {
                             onClick={() => toggleApp('settings')}
                             className={s.settingsButton}  
                         >
-                            <img src='/icons/settings-icon.png' alt='S' />
+                            <Settings color='#FFFFFF'/>
                         </button>
                         <button  // Wiki Icon and Button
                             onClick={() => toggleApp('wiki')}
                             className={s.wikiButton}
                         >
-                            <img src='/icons/wiki-icon.png' alt='W' />
+                            <BookMarked color='#FFFFFF'/>
                         </button>
                     </div>
                     

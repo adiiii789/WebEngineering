@@ -39,11 +39,17 @@
     const SCHEDULE_FILES = {
         weekday:  "schedule/weekday.json",
         saturday: "schedule/saturday.json",
-        sunday:   "schedule/sunday.json"   // gilt auch für Feiertage
+        sunday:   "schedule/sunday.json"   // also for holidays (using gaus easter formular)
         }
     
     const OVERLAY_FILE = "stations_overlay.json";
     const LABEL_DIR    = "labels/";
+
+    window.addEventListener('message', (e) => {
+            if (e.data?.darkMode !== undefined) {
+                setColorMode(e.data.darkMode ? 'dark' : 'light');
+            }
+        });
 </script>
 <script src="index.js" ></script>
 </body>

@@ -9,6 +9,19 @@ const LOOKAHEAD_MS   =  900_000;
 const TRAVEL_TIME_MS =  110_000;
 const DELAY_TTL_MS   =   40_000;
 
+// Wichtige Stationen wo auf die API-Abfahrtszeit gewartet wird
+const KEY_STOPS = new Set([
+    'de:08111:6112',  // Hauptbahnhof
+    'de:08111:6075',  // Charlottenplatz
+    'de:08111:6022',  // Schlossplatz
+    'de:08111:6002',  // Vaihingen Bf
+    'de:08111:6169',  // Möhringen Bahnhof
+    'de:08111:6113',  // Pragsattel
+    'de:08111:6157',  // Feuerbach
+    'de:08111:6165',  // Degerloch
+    'de:08111:6056',
+]);
+
 const LINE_COLORS = {
     "U1": "#D3A170", "U2": "#EC6625", "U3": "#955C36",
     "U4": "#8164A9", "U5": "#00B1EB", "U6": "#E6007E",
@@ -19,6 +32,9 @@ const LINE_COLORS = {
 };
 
 const KNOWN_LINES = new Set(Object.keys(LINE_COLORS));
+
+const FERNVERKEHR = ['ICE', 'IC ', 'IC-', 'EC ', 'EC-', 'RJ', 'TGV', 'EN', 'NJ', 'D ', 'MEX'];
+const isFernverkehr = name => FERNVERKEHR.some(p => name.toUpperCase().startsWith(p.trim()));
 
 // ─── DOM ──────────────────────────────────────────────────────────────────────
 
@@ -37,6 +53,7 @@ let colorMode         = 'dark';
 const activeSimulations = new Map();  // tripId → sim
 const delayCache        = new Map();  // cacheKey → { trips, fetchedAt }
 const chainCache        = new Map();  // "terminusId|line|dir" → { chain, cumMs }
+const tripDelayCache    = new Map();  // tripId → delayMs (letzter bekannter Wert)
 
 // ─── PURE: STATION-LOOKUP ─────────────────────────────────────────────────────
 
@@ -122,10 +139,7 @@ function buildStationChain(terminusStopId, line, direction, cutoffName = null) {
     return chain;
 }
 
-/**
- * Pure: Kumulative Fahrzeiten für eine Stationskette.
- * Gecacht zusammen mit der Kette.
- */
+/** Pure: Kumulative Fahrzeiten für eine Stationskette */
 function buildCumMs(chain) {
     const cumMs = [0];
     for (let i = 0; i < chain.length - 1; i++) {
@@ -220,35 +234,60 @@ function findStationByName(name) {
 
 /** Holt alle Abfahrten eines Terminus (gecacht). */
 async function fetchTerminusData(terminusStopId, line) {
-    const cacheKey = `${terminusStopId}|${line}`;
+    return fetchStopData(terminusStopId, line);
+}
+
+/**
+ * Holt Abfahrten an einer beliebigen Haltestelle (gecacht).
+ * Wird für Terminus-Abfragen UND für Schlüsselstations-Abfahrtszeiten genutzt.
+ */
+async function fetchStopData(stopId, line) {
+    const cacheKey = `${stopId}|${line}`;
     const cached   = delayCache.get(cacheKey);
     if (cached && Date.now() - cached.fetchedAt < DELAY_TTL_MS) return cached.trips;
 
     const trips = new Map();
     try {
         const url  = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST?outputFormat=rapidJSON`
-            + `&type_dm=any&name_dm=${terminusStopId}&mode=direct&useRealtime=1&limit=30`
+            + `&type_dm=any&name_dm=${stopId}&mode=direct&useRealtime=1&limit=30`
             + `&itdDate=${getItdDate()}&itdTime=${getItdTime()}&t=${Date.now()}`;
         const data = await fetch(url).then(r => r.json());
         const evts = data.stopEvents || data.departures || [];
 
         for (const e of evts) {
-            const raw    = e?.transportation?.disassembledName || '';
-            const num    = e?.transportation?.number || '';
+            const raw     = e?.transportation?.disassembledName || '';
+            const num     = e?.transportation?.number || '';
             const apiLine = raw.length > 1 ? raw : (num ? `U${num}` : raw);
             if (apiLine !== line) continue;
-
             const planned    = new Date(e.departureTimePlanned || e.arrivalTimePlanned).getTime();
             const estimated  = new Date(e.departureTimeEstimated || e.departureTimePlanned).getTime();
             const actualDest = e.transportation?.destination?.name || null;
-            trips.set(Math.round(planned / 60_000), { delayMs: estimated - planned, actualDest });
+            trips.set(Math.round(planned / 60_000), { delayMs: estimated - planned, actualDest, estimatedMs: estimated });
         }
     } catch (err) {
-        console.warn(`❌ ${terminusStopId} (${line}):`, err);
+        console.warn(`❌ ${stopId} (${line}):`, err);
     }
 
     delayCache.set(cacheKey, { trips, fetchedAt: Date.now() });
     return trips;
+}
+
+/**
+ * Gibt die tatsächliche Abfahrtszeit (ms) eines Zuges an einer Schlüsselstation zurück.
+ * approxMs: berechnete Ankunftszeit des Zuges an dieser Station.
+ * Gibt null zurück wenn kein passender Abgang gefunden.
+ */
+async function fetchKeyStopDeparture(stopId, line, approxMs) {
+    const trips = await fetchStopData(stopId, line);
+    const key   = Math.round(approxMs / 60_000);
+    // Toleranz ±3 Minuten
+    for (let d = 0; d <= 3; d++) {
+        for (const k of [key + d, key - d]) {
+            const entry = trips.get(k);
+            if (entry) return entry.estimatedMs ?? (k * 60_000);
+        }
+    }
+    return null;
 }
 
 /** Für Event-Linien ohne festen Fahrplan: Abfahrtszeiten direkt aus API. */
@@ -301,7 +340,14 @@ async function updateEntireNetwork() {
             if (now > plannedMs + totalDurationMs + 60_000) continue;
             if (plannedMs > now + LOOKAHEAD_MS) continue;
 
-            const { delayMs, actualDest } = getDelayForDep(trips, plannedMs);
+            const { delayMs: freshDelay, actualDest } = getDelayForDep(trips, plannedMs);
+
+            const tripKey      = tripId;
+            const foundInApi   = trips.has(Math.round(plannedMs / 60_000))
+                              || [...Array(5)].some((_,i) =>
+                                  trips.has(Math.round(plannedMs/60_000)+i-2));
+            if (foundInApi) tripDelayCache.set(tripKey, freshDelay);
+            const delayMs = tripDelayCache.get(tripKey) ?? freshDelay;
 
             // Kurzläufer: Chain ggf. kürzen
             const terminus = fullChain[fullChain.length - 1];
@@ -319,10 +365,23 @@ async function updateEntireNetwork() {
             const actualDepMs    = plannedMs + delayMs;
             const elapsed        = now - actualDepMs;
 
+            // Schlüsselstationen: echte Abfahrtszeit aus API vorausberechnen
+            // keyDepartures[segIdx] = absolute ms wann Zug an dieser Station abfährt
+            const keyDepartures = {};
+            for (let i = 0; i < chain.length - 1; i++) {
+                if (KEY_STOPS.has(chain[i].stopId)) {
+                    const approxMs = actualDepMs + cumMs[i];
+                    // Asynchron im Hintergrund – beim nächsten Update verfügbar
+                    fetchKeyStopDeparture(chain[i].stopId, line, approxMs)
+                        .then(depMs => { if (depMs) keyDepartures[i] = depMs; });
+                }
+            }
+
             if (elapsed < 0) {
                 freshIds.add(tripId);
                 activeSimulations.set(tripId, {
                     line, direction, chain, cumMs, actualDepMs, segIdx: 0,
+                    keyDepartures,
                     startStation: chain[0], endStation: chain[1],
                     startTime:    actualDepMs,
                     duration:     cumMs[1] - cumMs[0],
@@ -339,6 +398,7 @@ async function updateEntireNetwork() {
             freshIds.add(tripId);
             activeSimulations.set(tripId, {
                 line, direction, chain, cumMs, actualDepMs, segIdx,
+                keyDepartures,
                 startStation: chain[segIdx], endStation: chain[segIdx + 1],
                 startTime:    actualDepMs + cumMs[segIdx],
                 duration:     cumMs[segIdx + 1] - cumMs[segIdx],
@@ -363,12 +423,24 @@ function draw() {
     const now = Date.now();
 
     for (const [id, train] of activeSimulations) {
-        const progress = (now - train.startTime) / train.duration;
+        // Schlüsselstation: auf API-Abfahrtszeit warten
+        const keyDep = train.keyDepartures?.[train.segIdx];
+        if (keyDep && now < keyDep) {
+            const pos = getPosition(train.startStation, train.endStation, train.waypoint, 0);
+            if (pos) drawMarker(pos.x * canvas.width, pos.y * canvas.height, train.line, 1.0);
+            continue;
+        }
+
+        // Fahrphase: ab keyDep (oder startTime falls kein keyDep)
+        const moveStart = keyDep ?? train.startTime;
+        const progress  = (now - moveStart) / train.duration;
         if (progress < 0) continue;
+
         if (progress >= 1.0) {
             if (!advanceSegment(id, train)) activeSimulations.delete(id);
             continue;
         }
+
         const isFirstSeg = train.startStation.stopId === train.chain[0].stopId;
         const alpha      = isFirstSeg ? Math.min(1, progress / 0.1) : 1.0;
         const pos        = getPosition(train.startStation, train.endStation, train.waypoint, Math.min(1, progress));
@@ -479,6 +551,8 @@ function buildOverlayDOM() {
         el.dataset.pctW = item.pctW ?? 0;
         el.dataset.pctH = item.pctH ?? 0;
         el.title        = item.name;
+        el.dataset.pctH = item.pctH ?? 0;
+        el.title        = item.name;
 
         const imgEl        = document.createElement('img');
         imgEl.src          = labelDir + (item.file ?? (item.name + '.png'));
@@ -486,10 +560,19 @@ function buildOverlayDOM() {
         imgEl.draggable    = false;
         imgEl.style.filter = colorMode === 'dark' ? 'invert(1)' : 'none';
         el.appendChild(imgEl);
+        
 
-        el.addEventListener('mouseenter', () => el.classList.add('hovered'));
-        el.addEventListener('mouseleave', () => el.classList.remove('hovered'));
-        el.addEventListener('click', e => { e.stopPropagation(); openDeparturePopup(item, el); });
+        if (item.type === 'decoration') {
+            el.style.pointerEvents = 'none';
+        } else {
+            el.addEventListener('mouseenter', () => el.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => el.classList.remove('hovered'));
+            el.addEventListener('click', e => {
+                e.stopPropagation();
+                if (item.type === 'venue')    { openVenuePopup(item);             return; }
+                openDeparturePopup(item, el);
+            });
+        }
 
         container.appendChild(el);
     }
@@ -579,7 +662,10 @@ async function openDeparturePopup(item, anchorEl) {
 
         const data = await fetch(url).then(r => r.json());
         const list = (data.stopEvents || data.departures || [])
-            .filter(e => e?.transportation?.disassembledName)
+            .filter(e => {
+                const name = e?.transportation?.disassembledName || '';
+                return name && !isFernverkehr(name);
+            })
             .slice(0, 20);
 
         const body = document.getElementById('popupBody');
@@ -618,6 +704,35 @@ async function openDeparturePopup(item, anchorEl) {
         if (body) body.innerHTML = '<div class="popup-empty">Fehler beim Laden</div>';
     }
 }
+async function openBahnhofPopup(item, anchorEl) {
+    closePopup();
+
+    const popup = document.createElement('div');
+    popup.id = 'stationPopup';
+    popup.innerHTML = `
+        <div class="popup-header">
+            <span class="popup-name">${item.name}</span>
+            <span class="popup-pills">
+                <span class="pill" style="background:#c0392b">DB</span>
+            </span>
+            <button class="popup-close" id="popupClose">✕</button>
+        </div>
+        <div class="dep-header">
+            <span></span><span>Richtung</span><span>Abfahrt</span>
+            <span class="dep-h-delay">Gleis</span>
+        </div>
+        <div class="popup-body" id="popupBody">
+            <div class="popup-loading">Lade Fernverkehr …</div>
+        </div>`;
+
+    document.body.appendChild(popup);
+    activePopup = popup;
+    document.getElementById('popupClose').onclick = closePopup;
+    document.addEventListener('click', closePopup, { once: true });
+    positionPopup(popup, anchorEl);
+
+    await loadBahnhofDeps(item, anchorEl);
+}
 
 function positionPopup(popup, anchorEl) {
     popup.style.visibility = 'hidden';
@@ -636,6 +751,11 @@ function positionPopup(popup, anchorEl) {
         popup.style.top        = `${Math.max(margin, y)}px`;
         popup.style.visibility = 'visible';
     });
+}
+
+// ─── VENUE POPUP ─────────────────────────────────────────────────────────────
+function openVenuePopup(item) {
+    window.open(item.venueLink, '_blank');
 }
 
 // ─── LADEBALKEN ───────────────────────────────────────────────────────────────

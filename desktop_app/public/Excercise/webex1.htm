@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="DHBWWebEngineering.css">
+        <title>DHBW Web Engineering Meine erste Homepage</title>
+    </head>
+
+    <body class="pagegridcontainer">
+        
+            <header class="pagegridheader flexboxheader">
+                    <img src="/images/logodhbw.svg" alt="W3Schools.com" width="300">
+                        <h1 class="headertext">DHBW Stuttgart Web Engineering Header</h1>
+            </header>
+
+            <nav class="pagegridnavigation">
+                <ul class="flexboxnav">
+                        <li><a href="#Informatik">Informatik</a></li>
+                        <li><a href="#Elektrotechnik">Elektrotechnik</a></li>
+                        <li><a href="#Maschinenbau">Maschinenbau</a></li>
+                        <!-- Neuer Eintrag für JavaScript Exercise 1 -->
+                        <li id="PullupServices">Dienste</li>
+                </ul>
+            </nav>
+        
+        
+        
+        <!-- =====================================================
+             POPUP 1: DIENSTE-MENÜ
+             Wird durch Klick auf "Dienste" sichtbar (JS Exercise 1)
+        ===================================================== -->
+        <div id="PullupServices_popup" class="popup">
+            <div class="popup-header">
+                <span>Dienste</span>
+                <button id="btnClosePullup">Zurück</button>
+            </div>
+            <div class="popup-body">
+                <ul>
+                    <li id="btnLeute">Leute</li>
+                </ul>
+                <!-- Wikipedia-Suchzeile (JS Exercise 2) -->
+                <div class="wiki-search-row">
+                    <input id="wikiSearchInput" type="text" placeholder="Wikipedia suchen…" value="">
+                    <button id="btnWikipedia">Suchen</button>
+                </div>
+                <ul>
+                    <li id="btnAndereSachen">Andere Sachen</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- =====================================================
+             POPUP 2: DATEN-POPUP (Leute & Wikipedia-Ergebnisse)
+             Titel und Inhalt werden per JavaScript dynamisch gesetzt
+        ===================================================== -->
+        <div id="showwindow" class="popup">
+            <div class="popup-header">
+                <span class="popup-title">Daten</span>
+                <button id="btnCloseShow">Zurück</button>
+            </div>
+            <div class="popup-body">
+                <div id="showwindowData"></div>
+            </div>
+        </div>
+
+        <div id="scrollpart" class="pagegridscroller">
+        <section>
+            <div>
+                Die DHBW Stuttgart steht für eine einzigartige Verbindung von Theorie und Praxis:
+                Zusammen mit rund 2.000 Unternehmen und sozialen Einrichtungen (den Dualen Partnern)
+                werden über 40 anerkannte Bachelor-Studienrichtungen in den Fakultäten Wirtschaft,
+                Technik und Sozialwesen angeboten.
+            </div>
+            <div style="position:relative; width:100%; max-width:600px; aspect-ratio:16/9; padding:1rem; margin-top:0.5em;">
+                <iframe
+                    style="position:absolute; width:100%; height:100%; left:0; top:0; border:none;"
+                    id="myiframe"
+                    src="https://youtube.com/embed/2dy9fLZEg9A"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </section>
+        
+            <div id="Informatik" class="fakultaet">
+                <div class="fakultaet-titel">Informatik</div>
+                <div class="fakultaet-inhalt">
+                    <img src="/images/Erdbeer-Q.jpeg" alt="Frische und Leckere (rot knallige) Erdbeere in plätscherndem Wasser">
+                    <p>
+                        Informatiker übertragen Vorgänge der realen Welt auf Computersysteme,
+                        indem sie die Aufgabenstellung in geeignete Modelle überführen und diese dann
+                        auf Softwaresystemen abbilden. Die Vielfalt an Anwendungsmöglichkeiten ist dabei
+                        nahezu unbegrenzt und steigt stetig mit der zunehmenden Leistungsfähigkeit der Systeme.
+                    </p>
+                </div>
+            </div>
+        
+            <div id="Elektrotechnik" class="fakultaet">
+                <div class="fakultaet-titel">Elektrotechnik</div>
+                <div class="fakultaet-inhalt">
+                    <img src="/images/Mandarinen-Q.jpeg" alt="Zwei Stücke einer Mandarine auf einem Stück Schale einer Mandarine. Im goldenen Schnitt des Hintergrundes kann man des weiteren eine unscharfe Mandarine erkennen.">
+                    <p>
+                        Die Elektrotechnik bewegt und verändert die Welt:
+                        Smartphones, Assistenzsysteme, Smart Home oder Medizintechnik sind aus
+                        unserem Leben nicht mehr wegzudenken, die Energiewende ist in aller Munde.
+                        Ingenieurinnen und Ingenieure der Elektrotechnik gestalten und entwickeln
+                        die Systeme und haben so einen direkten Einfluss auf unser alltägliches Leben.
+                        Sie befassen sich nicht nur mit elektrischen und elektronischen Systemen, sondern arbeiten
+                        in einem sehr vielfältigen Arbeitsfeld, das von der Entwicklung eines Produkts
+                        über das Projektmanagement bis hin zu Marketing und Vertrieb reicht.
+                    </p>
+                </div>
+            </div>
+            
+
+            <div id="Maschinenbau" class="fakultaet">
+                <div class="fakultaet-titel">Maschinenbau</div>
+                <div class="fakultaet-inhalt">
+                    <img src="/images/Pizza-Q.jpeg" alt="Reingezoomtes Bild auf eine Salami, Peperoni, Bacon Pizza">
+                    <p>
+                        Der Maschinenbau mit seinen zahlreichen Ausprägungen verknüpft Theorie
+                        und Praxis, Naturwissenschaft und Technik. Die umfassende Ausbildung an
+                        der Dualen Hochschule Stuttgart ermöglicht es Absolventinnen und Absolventen
+                        des Studiengangs, Aufgaben in vielen Tätigkeitsfeldern zu übernehmen.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        <footer id="footer" class="pagegridfooter">Copyright &copy; DHBW Stuttgart</footer>
+        <!-- JavaScript laden (muss nach dem HTML stehen, damit alle IDs existieren) -->
+        <script src="myJavaScript.js"></script>
+        <script>document.getElementsByTagName("BODY")[0].onload = Init;</script>
+    </body>
+</html>

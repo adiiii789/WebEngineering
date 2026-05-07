@@ -1,15 +1,9 @@
-/**
- * STUTTGART STADTBAHN RADAR
- * Fahrplan-basierte Positionsberechnung mit Echtzeit-Delay
- */
-
-// ─── KONFIGURATION ────────────────────────────────────────────────────────────
-
+// variables
 const LOOKAHEAD_MS   =  900_000;
 const TRAVEL_TIME_MS =  110_000;
 const DELAY_TTL_MS   =   40_000;
 
-// Wichtige Stationen wo auf die API-Abfahrtszeit gewartet wird
+// Key stops used for waiting until departure time
 const KEY_STOPS = new Set([
     'de:08111:6112',  // Hauptbahnhof
     'de:08111:6075',  // Charlottenplatz
@@ -19,9 +13,10 @@ const KEY_STOPS = new Set([
     'de:08111:6113',  // Pragsattel
     'de:08111:6157',  // Feuerbach
     'de:08111:6165',  // Degerloch
-    'de:08111:6056',
+    'de:08111:6056',  // Rotebühlplatz
 ]);
 
+// all colors of the Metros
 const LINE_COLORS = {
     "U1": "#D3A170", "U2": "#EC6625", "U3": "#955C36",
     "U4": "#8164A9", "U5": "#00B1EB", "U6": "#E6007E",
@@ -31,8 +26,10 @@ const LINE_COLORS = {
     "U19": "#FBB900"
 };
 
+// for matching
 const KNOWN_LINES = new Set(Object.keys(LINE_COLORS));
 
+// filter
 const FERNVERKEHR = ['ICE', 'IC ', 'IC-', 'EC ', 'EC-', 'RJ', 'TGV', 'EN', 'NJ', 'D ', 'MEX'];
 const isFernverkehr = name => FERNVERKEHR.some(p => name.toUpperCase().startsWith(p.trim()));
 
@@ -42,49 +39,44 @@ const canvas = document.getElementById('mapCanvas');
 const ctx    = canvas.getContext('2d');
 const img    = document.getElementById('mapImage');
 
-// ─── STATE (minimal, explizit mutable) ────────────────────────────────────────
-
+// States
 let stations          = [];
 let schedule          = [];
 let overlayItems      = [];
 let activePopup       = null;
 let colorMode         = 'dark';
 
-const activeSimulations = new Map();  // tripId → sim
-const delayCache        = new Map();  // cacheKey → { trips, fetchedAt }
-const chainCache        = new Map();  // "terminusId|line|dir" → { chain, cumMs }
-const tripDelayCache    = new Map();  // tripId → delayMs (letzter bekannter Wert)
+const activeSimulations = new Map();  // tripId -> sim
+const delayCache        = new Map();  // cacheKey -> { trips, fetchedAt }
+const chainCache        = new Map();  // "terminusId|line|dir" -> { chain, cumMs }
+const tripDelayCache    = new Map();  // tripId -> delayMs (letzter bekannter Wert)
 
-// ─── PURE: STATION-LOOKUP ─────────────────────────────────────────────────────
-
-// Index für O(1)-Lookup statt O(n)-find bei jedem Aufruf
-let stationIndex = new Map(); // stopId → Station[]
+// Station Lookup logic
+let stationIndex = new Map();
 
 function buildStationIndex() {
     stationIndex = new Map();
     for (const s of stations) {
-        const list = stationIndex.get(s.stopId) ?? [];
+        const list = stationIndex.get(s.stopId) ?? []; // get stationindex from stopId
         list.push(s);
         stationIndex.set(s.stopId, list);
     }
 }
 
-/** Pure: findet Station für stopId, bevorzugt passende Linie */
+// finds Station for stopId, prefers fitting line
 function findStation(stopId, line) {
     if (!stopId) return null;
     const candidates = stationIndex.get(stopId) ?? [];
-    return candidates.find(s => s.lines?.includes(line)) ?? candidates[0] ?? null;
+    return candidates.find(s => s.lines?.includes(line)) ?? candidates[0] ?? null; // first candidates in line, then candiates, else nothing
 }
 
-// ─── PURE: ZEIT-HILFSFUNKTIONEN ───────────────────────────────────────────────
-
-/** Pure: travelTimeNext (s) → ms, Fallback auf TRAVEL_TIME_MS */
+// get traveltime from schedule, else TRAVEL_TIME_MS as fallback
 const getTravelTime = station =>
     (station.travelTimeNext != null && station.travelTimeNext > 0)
         ? station.travelTimeNext * 1000
         : TRAVEL_TIME_MS;
 
-/** Pure: "HH:MM" → absolute ms für heute, korrigiert Mitternachts-Überlauf */
+// Parse departure time - converts in ms, corrects midnight overflow
 function parseDepTime(timeStr) {
     const [h, m] = timeStr.split(':').map(Number);
     const now    = Date.now();
@@ -96,7 +88,7 @@ function parseDepTime(timeStr) {
     return ms;
 }
 
-/** Pure: heutiges Datum als itdDate-String */
+// current date as itdDate - used by the EFA ("Elektronische Fahrplan-Auskunft")
 const getItdDate = () => {
     const d = new Date();
     return d.getFullYear()
@@ -104,29 +96,24 @@ const getItdDate = () => {
         + d.getDate().toString().padStart(2, '0');
 };
 
-/** Pure: aktuelle Uhrzeit als itdTime-String */
+// current time as itdTime - used by the EFA
 const getItdTime = () => {
     const d = new Date();
     return d.getHours().toString().padStart(2, '0')
          + d.getMinutes().toString().padStart(2, '0');
 };
 
-// ─── PURE: STATIONSKETTE ──────────────────────────────────────────────────────
-
-/**
- * Pure: Baut Kette ab Terminus. Gecacht in chainCache.
- * cutoffName: Kette endet an der Station die diesen Namen enthält.
- */
+//builds chain from terminus defined in schedule, chain ends at cutoffName
 function buildStationChain(terminusStopId, line, direction, cutoffName = null) {
     const cacheKey = `${terminusStopId}|${line}|${direction}|${cutoffName ?? ''}`;
-    if (!cutoffName && chainCache.has(cacheKey)) return chainCache.get(cacheKey).chain;
+    if (!cutoffName && chainCache.has(cacheKey)) return chainCache.get(cacheKey).chain; // if chain already cached - return early
 
     const chain   = [];
     const visited = new Set();
     let   current = findStation(terminusStopId, line);
     if (!current) return chain;
 
-    while (current && !visited.has(current.stopId)) {
+    while (current && !visited.has(current.stopId)) { // logic for building chain
         chain.push(current);
         visited.add(current.stopId);
         if (cutoffName && current.name.toLowerCase().includes(cutoffName.toLowerCase())) break;
@@ -135,11 +122,11 @@ function buildStationChain(terminusStopId, line, direction, cutoffName = null) {
         current = findStation(nextId, line);
     }
 
-    if (!cutoffName) chainCache.set(cacheKey, { chain });
+    if (!cutoffName) chainCache.set(cacheKey, { chain }); // sets cache for chain
     return chain;
 }
 
-/** Pure: Kumulative Fahrzeiten für eine Stationskette */
+// cumulative departure time for chain
 function buildCumMs(chain) {
     const cumMs = [0];
     for (let i = 0; i < chain.length - 1; i++) {
@@ -148,7 +135,7 @@ function buildCumMs(chain) {
     return cumMs;
 }
 
-/** Pure: Liefert gecachtes Paar {chain, cumMs} für einen Schedule-Eintrag */
+// get cached chain for schedule, else run build chain
 function getChainData(terminusStopId, line, direction) {
     const key = `${terminusStopId}|${line}|${direction}|`;
     if (chainCache.has(key)) return chainCache.get(key);
@@ -158,24 +145,22 @@ function getChainData(terminusStopId, line, direction) {
     return { chain, cumMs };
 }
 
-// ─── PURE: POSITION & RENDERING ───────────────────────────────────────────────
-
-/** Pure: interpolierte Position zwischen zwei Stationen (mit optionalem Waypoint) */
-function getPosition(sA, sB, wp, t) {
+// interpolated position between two stations (with waypoint)
+function getPosition(sA, sB, wp, t) { // station A, station B, Waypoint, time
     const hasWp = wp && (wp.pctX !== 0 || wp.pctY !== 0);
     if (!hasWp) return {
-        x: sA.pctX + (sB.pctX - sA.pctX) * t,
+        x: sA.pctX + (sB.pctX - sA.pctX) * t, // if no waypoint, calculate immediatly position at current time
         y: sA.pctY + (sB.pctY - sA.pctY) * t
     };
-    if (t < 0.5) {
+    if (t < 0.5) { // half the time: station A to waypoint
         const lt = t * 2;
         return { x: sA.pctX + (wp.pctX - sA.pctX) * lt, y: sA.pctY + (wp.pctY - sA.pctY) * lt };
     }
-    const lt = (t - 0.5) * 2;
+    const lt = (t - 0.5) * 2; // other half: waypoint to station b
     return { x: wp.pctX + (sB.pctX - wp.pctX) * lt, y: wp.pctY + (sB.pctY - wp.pctY) * lt };
 }
 
-/** Pure: Delay-Lookup mit ±2-Minuten-Toleranz */
+// Delay lookup with +- 2 minutes tolerance
 function getDelayForDep(trips, plannedDepMs) {
     const key = Math.round(plannedDepMs / 60_000);
     if (trips.has(key)) return trips.get(key);
@@ -183,45 +168,45 @@ function getDelayForDep(trips, plannedDepMs) {
         if (trips.has(key + d)) return trips.get(key + d);
         if (trips.has(key - d)) return trips.get(key - d);
     }
-    return { delayMs: 0, actualDest: null };
+    return { delayMs: 0, actualDest: null }; //no delay fallback
 }
 
-/** Pure: Feiertags-korrigierter Fahrplan-Typ */
+// Schedule Type differenciates between Workday, Saturday, and Sunday (with holiday)
 function getScheduleType() {
     const today = new Date();
-    const dow   = today.getDay();
+    const dow   = today.getDay(); // returns day of week as string
     if (dow === 0) return 'sunday';
     if (dow === 6) return 'saturday';
 
-    const mm = today.getMonth() + 1, dd = today.getDate(), y = today.getFullYear();
-    const fixed = [[1,1],[1,6],[5,1],[10,3],[11,1],[12,25],[12,26]];
-    if (fixed.some(([m, d]) => m === mm && d === dd)) return 'sunday';
+    const mm = today.getMonth() + 1, dd = today.getDate(), y = today.getFullYear(); // MM.DD:YYYY
+    const fixed = [[1,1],[1,6],[5,1],[10,3],[11,1],[12,25],[12,26]]; // Fixed holidays
+    if (fixed.some(([m, d]) => m === mm && d === dd)) return 'sunday'; //logic to return sunday on holiday
 
-    const easter  = getEasterDate(y);
-    const movable = [-2, 0, 1, 39, 49, 50, 60].map(n => addDays(easter, n));
-    if (movable.some(d => d.getMonth() + 1 === mm && d.getDate() === dd)) return 'sunday';
+    const easter  = getEasterDate(y); //will be explained below
+    const movable = [-2, 0, 1, 39, 49, 50, 60].map(n => addDays(easter, n)); //holidays relative to eastern
+    if (movable.some(d => d.getMonth() + 1 === mm && d.getDate() === dd)) return 'sunday'; // movable holidays
     return 'weekday';
 }
 
-/** Pure: Ostersonntag nach Gauss */
+// this is pretty interesting: Gauss made an algorithm to determine eastern in any given Year, just a raw implementation (some holidays are relative to eastern)
 function getEasterDate(y) {
     const a=y%19, b=Math.floor(y/100), c=y%100;
     const d=Math.floor(b/4), e=b%4, f=Math.floor((b+8)/25);
     const g=Math.floor((b-f+1)/3), h=(19*a+b-d-g+15)%30;
     const i=Math.floor(c/4), k=c%4, l=(32+2*e+2*i-h-k)%7;
     const m=Math.floor((a+11*h+22*l)/451);
-    return new Date(y, Math.floor((h+l-7*m+114)/31)-1, ((h+l-7*m+114)%31)+1);
+    return new Date(y, Math.floor((h+l-7*m+114)/31)-1, ((h+l-7*m+114)%31)+1); //returns the date of eastern in this year
 }
 
-/** Pure: Datum + N Tage */
+//makes dates out of the offset list (i.e. -2 means eastern date - 2, ...)
 const addDays = (date, days) => { const d = new Date(date); d.setDate(d.getDate()+days); return d; };
 
-/** Pure: Name normalisieren für Vergleich */
+// to accept any input, normalize special characters
 const normalizeName = n => n.toLowerCase()
     .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
     .replace(/[^a-z0-9]/g, '');
 
-/** Pure: Station anhand Overlay-Name suchen */
+// by normalizing - best chance to get a return from API (however API is suprisingly flexible with inputs)
 function findStationByName(name) {
     const norm = normalizeName(name);
     return stations.find(s => normalizeName(s.name) === norm)
@@ -230,17 +215,7 @@ function findStationByName(name) {
         ?? null;
 }
 
-// ─── API ──────────────────────────────────────────────────────────────────────
-
-/** Holt alle Abfahrten eines Terminus (gecacht). */
-async function fetchTerminusData(terminusStopId, line) {
-    return fetchStopData(terminusStopId, line);
-}
-
-/**
- * Holt Abfahrten an einer beliebigen Haltestelle (gecacht).
- * Wird für Terminus-Abfragen UND für Schlüsselstations-Abfahrtszeiten genutzt.
- */
+// gets departures of any stops, is used by terminus and key_station departure times
 async function fetchStopData(stopId, line) {
     const cacheKey = `${stopId}|${line}`;
     const cached   = delayCache.get(cacheKey);
@@ -248,13 +223,20 @@ async function fetchStopData(stopId, line) {
 
     const trips = new Map();
     try {
-        const url  = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST?outputFormat=rapidJSON`
-            + `&type_dm=any&name_dm=${stopId}&mode=direct&useRealtime=1&limit=30`
-            + `&itdDate=${getItdDate()}&itdTime=${getItdTime()}&t=${Date.now()}`;
+        const url  = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST`
+            `?outputFormat=rapidJSON` +
+            `&type_dm=any` +
+            `&name_dm=${stopId}` +
+            `&mode=direct` +
+            `&useRealtime=1` +
+            `&limit=30` +
+            `&itdDate=${getItdDate()}` +
+            `&itdTime=${getItdTime()}` +
+            `&t=${Date.now()}`;
         const data = await fetch(url).then(r => r.json());
         const evts = data.stopEvents || data.departures || [];
 
-        for (const e of evts) {
+        for (const e of evts) { // for every event, get all departure data
             const raw     = e?.transportation?.disassembledName || '';
             const num     = e?.transportation?.number || '';
             const apiLine = raw.length > 1 ? raw : (num ? `U${num}` : raw);
@@ -272,15 +254,11 @@ async function fetchStopData(stopId, line) {
     return trips;
 }
 
-/**
- * Gibt die tatsächliche Abfahrtszeit (ms) eines Zuges an einer Schlüsselstation zurück.
- * approxMs: berechnete Ankunftszeit des Zuges an dieser Station.
- * Gibt null zurück wenn kein passender Abgang gefunden.
- */
+// actual departure time on a key station
 async function fetchKeyStopDeparture(stopId, line, approxMs) {
     const trips = await fetchStopData(stopId, line);
     const key   = Math.round(approxMs / 60_000);
-    // Toleranz ±3 Minuten
+    // tolerance of +- 3 minutes
     for (let d = 0; d <= 3; d++) {
         for (const k of [key + d, key - d]) {
             const entry = trips.get(k);
@@ -290,9 +268,9 @@ async function fetchKeyStopDeparture(stopId, line, approxMs) {
     return null;
 }
 
-/** Für Event-Linien ohne festen Fahrplan: Abfahrtszeiten direkt aus API. */
+// Metro lines like the U11 have no own schedule, so for those the departure time comes from the API
 async function resolveEventLine({ terminusStopId, line }) {
-    const trips = await fetchTerminusData(terminusStopId, line);
+    const trips = await fetchStopData(terminusStopId, line);
     if (!trips.size) return [];
     return [...trips.keys()].map(min => {
         const h = Math.floor((min % 1440) / 60), m = min % 60;
@@ -300,13 +278,12 @@ async function resolveEventLine({ terminusStopId, line }) {
     });
 }
 
-// ─── KERN: FAHRPLAN → SIMULATIONEN ───────────────────────────────────────────
-
+// core of the programm: simulate Metro based on schedule
 async function updateEntireNetwork() {
     const now       = Date.now();
     const freshIds  = new Set();
 
-    // Alle Termini parallel abfragen
+    // fetch terminus in parallel
     const uniqueTermini = [...new Set(
         schedule.filter(e => KNOWN_LINES.has(e.line)).map(e => `${e.terminusStopId}|${e.line}`)
     )];
@@ -315,30 +292,30 @@ async function updateEntireNetwork() {
     let completed = 0;
     await Promise.all(uniqueTermini.map(async key => {
         const [stopId, line] = key.split('|');
-        terminusMap.set(key, await fetchTerminusData(stopId, line));
-        setLoadingProgress(++completed / uniqueTermini.length);
+        terminusMap.set(key, await fetchStopData(stopId, line));
+        setLoadingProgress(++completed / uniqueTermini.length); //visual for loading bar
     }));
 
-    for (const entry of schedule) {
+    for (const entry of schedule) { // for each entry of schedule
         const { line, terminusStopId, direction } = entry;
-        if (!KNOWN_LINES.has(line)) continue;
+        if (!KNOWN_LINES.has(line)) continue; // return early but only next loop
 
         const departures = entry.conditional
-            ? await resolveEventLine(entry)
+            ? await resolveEventLine(entry) // if conditional flag is set
             : entry.departures;
         if (!departures?.length) continue;
 
         const { chain: fullChain, cumMs: fullCumMs } = getChainData(terminusStopId, line, direction);
-        if (fullChain.length < 2) continue;
+        if (fullChain.length < 2) continue; // single element or even less
 
         const totalDurationMs = fullCumMs[fullCumMs.length - 1];
         const trips           = terminusMap.get(`${terminusStopId}|${line}`) ?? new Map();
 
-        for (const depStr of departures) {
+        for (const depStr of departures) { // for each departure in departures
             const tripId    = `${line}_${direction}_${depStr}`;
             const plannedMs = parseDepTime(depStr);
-            if (now > plannedMs + totalDurationMs + 60_000) continue;
-            if (plannedMs > now + LOOKAHEAD_MS) continue;
+            if (now > plannedMs + totalDurationMs + 60_000) continue; //if now is bigger, departure is already completed
+            if (plannedMs > now + LOOKAHEAD_MS) continue;             //if now is lower, departure is coming soon
 
             const { delayMs: freshDelay, actualDest } = getDelayForDep(trips, plannedMs);
 
@@ -346,10 +323,10 @@ async function updateEntireNetwork() {
             const foundInApi   = trips.has(Math.round(plannedMs / 60_000))
                               || [...Array(5)].some((_,i) =>
                                   trips.has(Math.round(plannedMs/60_000)+i-2));
-            if (foundInApi) tripDelayCache.set(tripKey, freshDelay);
-            const delayMs = tripDelayCache.get(tripKey) ?? freshDelay;
+            if (foundInApi) tripDelayCache.set(tripKey, freshDelay); // delay from api set in cache
+            const delayMs = tripDelayCache.get(tripKey) ?? freshDelay; // getr from cache
 
-            // Kurzläufer: Chain ggf. kürzen
+            // cut chain if short 
             const terminus = fullChain[fullChain.length - 1];
             const isShort  = actualDest
                 && !terminus.name.toLowerCase().includes(actualDest.toLowerCase())
@@ -365,8 +342,8 @@ async function updateEntireNetwork() {
             const actualDepMs    = plannedMs + delayMs;
             const elapsed        = now - actualDepMs;
 
-            // Schlüsselstationen: echte Abfahrtszeit aus API vorausberechnen
-            // keyDepartures[segIdx] = absolute ms wann Zug an dieser Station abfährt
+            // Calculate real departure time from API for key_stations
+            // keyDepartures - absolute ms when Metro departs from station
             const keyDepartures = {};
             for (let i = 0; i < chain.length - 1; i++) {
                 if (KEY_STOPS.has(chain[i].stopId)) {
@@ -377,7 +354,7 @@ async function updateEntireNetwork() {
                 }
             }
 
-            if (elapsed < 0) {
+            if (elapsed < 0) { //train will soon start
                 freshIds.add(tripId);
                 activeSimulations.set(tripId, {
                     line, direction, chain, cumMs, actualDepMs, segIdx: 0,
@@ -393,7 +370,7 @@ async function updateEntireNetwork() {
 
             let segIdx = 0;
             for (let i = 0; i < cumMs.length - 1; i++) {
-                if (elapsed >= cumMs[i] && elapsed < cumMs[i + 1]) { segIdx = i; break; }
+                if (elapsed >= cumMs[i] && elapsed < cumMs[i + 1]) { segIdx = i; break; } // if train is on the board, it gets an unique id
             }
             freshIds.add(tripId);
             activeSimulations.set(tripId, {
@@ -410,20 +387,20 @@ async function updateEntireNetwork() {
     }
 
     for (const id of activeSimulations.keys()) {
-        if (!freshIds.has(id)) activeSimulations.delete(id);
+        if (!freshIds.has(id)) activeSimulations.delete(id); // if not in activeSimulations, delete
     }
-    console.log(`✅ ${activeSimulations.size} Züge aktiv`);
+    console.log(`${activeSimulations.size} Züge aktiv`);
 }
 
-// ─── RENDERING ────────────────────────────────────────────────────────────────
 
-function draw() {
-    if (!canvas.width || !img.complete) return;
+// draws (Renders) the circles on canvas
+function draw() {   
+    if (!canvas.width || !img.complete) return; //will not draw if nothings here or img isn't loaded
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const now = Date.now();
 
     for (const [id, train] of activeSimulations) {
-        // Schlüsselstation: auf API-Abfahrtszeit warten
+        // will wait at key_location based on API call
         const keyDep = train.keyDepartures?.[train.segIdx];
         if (keyDep && now < keyDep) {
             const pos = getPosition(train.startStation, train.endStation, train.waypoint, 0);
@@ -431,24 +408,24 @@ function draw() {
             continue;
         }
 
-        // Fahrphase: ab keyDep (oder startTime falls kein keyDep)
-        const moveStart = keyDep ?? train.startTime;
+        // drivephase
+        const moveStart = keyDep ?? train.startTime; // startTime as fallback
         const progress  = (now - moveStart) / train.duration;
-        if (progress < 0) continue;
+        if (progress < 0) continue; // train is initialized, but to early to drive
 
         if (progress >= 1.0) {
-            if (!advanceSegment(id, train)) activeSimulations.delete(id);
+            if (!advanceSegment(id, train)) activeSimulations.delete(id); // if train completed drive, delete it
             continue;
         }
 
-        const isFirstSeg = train.startStation.stopId === train.chain[0].stopId;
-        const alpha      = isFirstSeg ? Math.min(1, progress / 0.1) : 1.0;
-        const pos        = getPosition(train.startStation, train.endStation, train.waypoint, Math.min(1, progress));
+        const isFirstSeg = train.startStation.stopId === train.chain[0].stopId; // if same stationid as first element of chain
+        const alpha      = isFirstSeg ? Math.min(1, progress / 0.1) : 1.0; // fade in for station
+        const pos        = getPosition(train.startStation, train.endStation, train.waypoint, Math.min(1, progress)); // current position between stations
         if (pos) drawMarker(pos.x * canvas.width, pos.y * canvas.height, train.line, alpha);
     }
 }
 
-function advanceSegment(id, sim) {
+function advanceSegment(id, sim) { // boolean - true if it can drive to the next part in the chain
     const { chain, cumMs, actualDepMs, direction, segIdx: curIdx = 0 } = sim;
     const nextIdx = curIdx + 1;
     if (nextIdx >= chain.length - 1) return false;
@@ -466,7 +443,7 @@ function advanceSegment(id, sim) {
     return true;
 }
 
-function drawMarker(x, y, line, alpha) {
+function drawMarker(x, y, line, alpha) { // draw on canvas
     const color = LINE_COLORS[line] || '#999';
     ctx.save();
     ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
@@ -474,23 +451,22 @@ function drawMarker(x, y, line, alpha) {
     ctx.shadowColor = color;
     ctx.fillStyle   = color;
     ctx.beginPath();
-    ctx.arc(x, y, canvas.width * 0.003, 0, Math.PI * 2);
+    ctx.arc(x, y, canvas.width * 0.003, 0, Math.PI * 2); // actual drawn point, relative to screen size
     ctx.fill();
     ctx.restore();
 }
 
-// ─── DIAGNOSE ─────────────────────────────────────────────────────────────────
-
+// Debug - returns start and end of chain for any metro and some more stats
 window.runDiagnostic = function() {
     console.group('🔍 RADAR DIAGNOSE');
     console.log(`Stationen: ${stations.length}, Fahrplan: ${schedule.length} Einträge`);
     schedule.forEach(entry => {
         const { chain, cumMs } = getChainData(entry.terminusStopId, entry.line, entry.direction);
         if (chain.length < 2) {
-            console.error(`🔴 ${entry.line} ${entry.direction}: Kette bricht ab!`);
+            console.error(`${entry.line} ${entry.direction}: Kette bricht ab!`);
         } else {
             const mins = Math.round(cumMs[cumMs.length-1] / 60_000);
-            console.log(`🟢 ${entry.line} ${entry.direction}: ${chain.length} St., ${mins} Min – ${chain[0].name} → ${chain[chain.length-1].name}`);
+            console.log(`${entry.line} ${entry.direction}: ${chain.length} St., ${mins} Min – ${chain[0].name} → ${chain[chain.length-1].name}`);
         }
     });
     const now = Date.now();
@@ -500,8 +476,7 @@ window.runDiagnostic = function() {
     console.groupEnd();
 };
 
-// ─── STATION OVERLAY ──────────────────────────────────────────────────────────
-
+// inverts all labels (dark <=> white)
 function setColorMode(mode) {
     colorMode = mode;
     document.querySelectorAll('.overlay-label img').forEach(el => {
@@ -510,7 +485,7 @@ function setColorMode(mode) {
     document.body.dataset.theme = mode;
 }
 
-function initColorMode() {
+function initColorMode() { // if already set, default dark
     setColorMode(localStorage.getItem('colorMode') || 'dark');
 }
 
@@ -521,15 +496,15 @@ window.toggleColorMode = function() {
 };
 
 async function loadOverlay() {
-    const file = (typeof OVERLAY_FILE !== 'undefined') ? OVERLAY_FILE : null;
+    const file = (typeof OVERLAY_FILE !== 'undefined') ? OVERLAY_FILE : null; // OVERLAY_FILE defined in html
     if (!file) return;
     try {
         const raw = await fetch(file).then(r => r.json());
         overlayItems = Array.isArray(raw) ? raw : (raw.stations ?? raw);
-        console.log(`✅ Overlay: ${overlayItems.length} Stationen`);
+        console.log(`Overlay: ${overlayItems.length} Stationen`);
         buildOverlayDOM();
     } catch(e) {
-        console.warn('⚠️ Overlay konnte nicht geladen werden:', e);
+        console.warn('Overlay konnte nicht geladen werden:', e);
     }
 }
 
@@ -543,9 +518,9 @@ function buildOverlayDOM() {
     container.innerHTML = '';
     const labelDir = (typeof LABEL_DIR !== 'undefined') ? LABEL_DIR : 'labels/';
 
-    for (const item of overlayItems) {
-        const el    = document.createElement('div');
-        el.className    = 'overlay-label';
+    for (const item of overlayItems) { // for every file 
+        const el    = document.createElement('div'); // create new div
+        el.className    = 'overlay-label';      // params of div
         el.dataset.pctX = item.pctX;
         el.dataset.pctY = item.pctY;
         el.dataset.pctW = item.pctW ?? 0;
@@ -554,39 +529,40 @@ function buildOverlayDOM() {
         el.dataset.pctH = item.pctH ?? 0;
         el.title        = item.name;
 
-        const imgEl        = document.createElement('img');
-        imgEl.src          = labelDir + (item.file ?? (item.name + '.png'));
+        const imgEl        = document.createElement('img'); // insert file into div
+        imgEl.src          = labelDir + (item.file ?? (item.name + '.png')); // params of img
         imgEl.alt          = item.name;
         imgEl.draggable    = false;
         imgEl.style.filter = colorMode === 'dark' ? 'invert(1)' : 'none';
-        el.appendChild(imgEl);
+        el.appendChild(imgEl);  // add to list as Child in container/ wrapper
         
 
-        if (item.type === 'decoration') {
+        if (item.type === 'decoration') { // special case, where .png is literally just an image, but needed properties to adapt darkmode
             el.style.pointerEvents = 'none';
         } else {
-            el.addEventListener('mouseenter', () => el.classList.add('hovered'));
+            el.addEventListener('mouseenter', () => el.classList.add('hovered')); // add mouse events
             el.addEventListener('mouseleave', () => el.classList.remove('hovered'));
             el.addEventListener('click', e => {
                 e.stopPropagation();
-                if (item.type === 'venue')    { openVenuePopup(item);             return; }
-                openDeparturePopup(item, el);
+                if (item.type === 'venue') { openVenuePopup(item); return; } // defined in stations_overlay
+                openDeparturePopup(item, el); // redirect
             });
         }
 
-        container.appendChild(el);
+        container.appendChild(el); //appends full container
     }
 
-    positionOverlayLabels();
-    watchImageResize();
+    positionOverlayLabels(); //below
+    watchImageResize(); // below below
     if (!img.complete) img.addEventListener('load', () => requestAnimationFrame(positionOverlayLabels));
 }
 
+// position exctracted from .pdf using seperate python script
 function positionOverlayLabels() {
     const rect = img.getBoundingClientRect();
     if (rect.width === 0) return;
     for (const el of document.querySelectorAll('.overlay-label')) {
-        el.style.left = `${rect.left + parseFloat(el.dataset.pctX) * rect.width}px`;
+        el.style.left = `${rect.left + parseFloat(el.dataset.pctX) * rect.width}px`; //calc px based on rect
         el.style.top  = `${rect.top  + parseFloat(el.dataset.pctY) * rect.height}px`;
         const w = parseFloat(el.dataset.pctW), h = parseFloat(el.dataset.pctH);
         if (w > 0) el.style.width  = `${w * rect.width  * 0.7}px`;
@@ -594,6 +570,7 @@ function positionOverlayLabels() {
     }
 }
 
+// watchdog/observer/listener if any resize happens
 function watchImageResize() {
     if (typeof ResizeObserver === 'undefined') {
         window.addEventListener('resize', positionOverlayLabels);
@@ -603,18 +580,18 @@ function watchImageResize() {
     window.addEventListener('scroll', positionOverlayLabels, { passive: true });
 }
 
-// ─── ABFAHRTS-POPUP ───────────────────────────────────────────────────────────
 
 function closePopup() {
     if (activePopup) { activePopup.remove(); activePopup = null; }
 }
 
+// if any text or symbol is clicked
 async function openDeparturePopup(item, anchorEl) {
-    closePopup();
+    closePopup(); // close previous popup if there is one
 
     let displayName, stopId;
     if (item.name.includes('|')) {
-        [displayName, stopId] = item.name.split('|');
+        [displayName, stopId] = item.name.split('|'); //filename and station_overlay names are different
     } else {
         displayName = item.name;
         stopId      = findStationByName(item.name)?.stopId ?? null;
@@ -627,7 +604,7 @@ async function openDeparturePopup(item, anchorEl) {
         `<span class="pill" style="background:${LINE_COLORS[l]||'#999'}">${l}</span>`
     ).join('');
 
-    const popup = document.createElement('div');
+    const popup = document.createElement('div'); // create popup
     popup.id = 'stationPopup';
     popup.innerHTML = `
         <div class="popup-header">
@@ -645,20 +622,27 @@ async function openDeparturePopup(item, anchorEl) {
 
     document.body.appendChild(popup);
     activePopup = popup;
-    document.getElementById('popupClose').onclick = closePopup;
+    document.getElementById('popupClose').onclick = closePopup; //if popup close is clicked, close
     document.addEventListener('click', closePopup, { once: true });
     positionPopup(popup, anchorEl);
 
-    if (!stopId) {
+    if (!stopId) { // if API or stations_overlay returns no stop id
         document.getElementById('popupBody').innerHTML =
             `<div class="popup-empty">„${displayName}" nicht gefunden</div>`;
         return;
     }
 
-    try {
-        const url = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST?outputFormat=rapidJSON`
-            + `&type_dm=any&name_dm=${stopId}&mode=direct&useRealtime=1&limit=20`
-            + `&itdDate=${getItdDate()}&itdTime=${getItdTime()}&t=${Date.now()}`;
+    try { // content of popup - via API
+        const url = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST` +
+            `?outputFormat=rapidJSON` +
+            `&type_dm=any` +
+            `&name_dm=${stopId}` +
+            `&mode=direct` +
+            `&useRealtime=1` +
+            `&limit=20` +
+            `&itdDate=${getItdDate()}` +
+            `&itdTime=${getItdTime()}` +
+            `&t=${Date.now()}`;
 
         const data = await fetch(url).then(r => r.json());
         const list = (data.stopEvents || data.departures || [])
@@ -669,12 +653,12 @@ async function openDeparturePopup(item, anchorEl) {
             .slice(0, 20);
 
         const body = document.getElementById('popupBody');
-        if (!body) return;
+        if (!body) return; // no body, nothing to do
 
-        if (!list.length) {
+        if (!list.length) { // list !== 0
             body.innerHTML = '<div class="popup-empty">Keine Abfahrten</div>';
         } else {
-            body.innerHTML = list.map(e => {
+            body.innerHTML = list.map(e => { // makes each colum
                 const line     = e.transportation.disassembledName;
                 const dest     = e.transportation.destination?.name || '';
                 const planned  = new Date(e.departureTimePlanned  || e.arrivalTimePlanned);
@@ -686,7 +670,7 @@ async function openDeparturePopup(item, anchorEl) {
                     ? `<span class="dep-delay">+${delay} min</span>`
                     : delay < 0
                     ? `<span class="dep-early">${delay} min</span>`
-                    : `<span class="dep-ontime">pünktlich</span>`;
+                    : `<span class="dep-ontime">pünktlich</span>`; //different styling
                 return `<div class="dep-row">
                     <span class="dep-pill" style="background:${color}">${line}</span>
                     <span class="dep-dest">${dest}</span>
@@ -704,36 +688,8 @@ async function openDeparturePopup(item, anchorEl) {
         if (body) body.innerHTML = '<div class="popup-empty">Fehler beim Laden</div>';
     }
 }
-async function openBahnhofPopup(item, anchorEl) {
-    closePopup();
 
-    const popup = document.createElement('div');
-    popup.id = 'stationPopup';
-    popup.innerHTML = `
-        <div class="popup-header">
-            <span class="popup-name">${item.name}</span>
-            <span class="popup-pills">
-                <span class="pill" style="background:#c0392b">DB</span>
-            </span>
-            <button class="popup-close" id="popupClose">✕</button>
-        </div>
-        <div class="dep-header">
-            <span></span><span>Richtung</span><span>Abfahrt</span>
-            <span class="dep-h-delay">Gleis</span>
-        </div>
-        <div class="popup-body" id="popupBody">
-            <div class="popup-loading">Lade Fernverkehr …</div>
-        </div>`;
-
-    document.body.appendChild(popup);
-    activePopup = popup;
-    document.getElementById('popupClose').onclick = closePopup;
-    document.addEventListener('click', closePopup, { once: true });
-    positionPopup(popup, anchorEl);
-
-    await loadBahnhofDeps(item, anchorEl);
-}
-
+// calculates where the popup should appear, to not stick out of the viewport
 function positionPopup(popup, anchorEl) {
     popup.style.visibility = 'hidden';
     popup.style.top = '0px';
@@ -753,13 +709,12 @@ function positionPopup(popup, anchorEl) {
     });
 }
 
-// ─── VENUE POPUP ─────────────────────────────────────────────────────────────
+// special case for venues
 function openVenuePopup(item) {
     window.open(item.venueLink, '_blank');
 }
 
-// ─── LADEBALKEN ───────────────────────────────────────────────────────────────
-
+// loading bar while fetching Api at initialization
 function setLoadingProgress(fraction) {
     const bar   = document.getElementById('loadingBar');
     const fill  = document.getElementById('loadingFill');
@@ -769,13 +724,13 @@ function setLoadingProgress(fraction) {
     label.textContent   = fraction < 1 ? `Echtzeitdaten werden geladen … ${Math.round(fraction*100)}%` : '';
     if (fraction >= 1) {
         setTimeout(() => { bar.style.opacity = '0'; setTimeout(() => bar.style.display = 'none', 400); }, 300);
-    }
+    } // bar is static, percentages at the right
 }
 
-// ─── START ────────────────────────────────────────────────────────────────────
-
+// at resize (and init) get width/ height
 const resize = () => { canvas.width = img.clientWidth; canvas.height = img.clientHeight; };
 
+// will call the other functions which call other functions
 async function init() {
     const stationFiles  = (typeof STATION_FILES  !== 'undefined') ? STATION_FILES  : [];
     const scheduleFiles = (typeof SCHEDULE_FILES !== 'undefined') ? SCHEDULE_FILES : null;
@@ -787,32 +742,32 @@ async function init() {
         );
         stations = results.flatMap(r => Array.isArray(r) ? r : (r.stations ?? []));
         buildStationIndex();
-        console.log(`✅ ${stations.length} Stationen geladen`);
+        console.log(`${stations.length} Stationen geladen`);
     }
 
     const type         = getScheduleType();
     const scheduleFile = scheduleFiles?.[type] ?? legacyFile;
     const typeLabel    = { weekday: 'Werktag', saturday: 'Samstag', sunday: 'Sonn-/Feiertag' };
-    console.log(`📅 Fahrplan-Typ: ${typeLabel[type]}`);
+    console.log(`Fahrplan-Typ: ${typeLabel[type]}`);
 
-    if (scheduleFile) {
+    if (scheduleFile) { // defined in .html
         try {
             schedule = await fetch(scheduleFile).then(r => r.json());
-            console.log(`✅ Fahrplan (${typeLabel[type]}): ${schedule.length} Einträge`);
-        } catch(e) {
-            console.error('❌ Fahrplan konnte nicht geladen werden:', e);
+            console.log(`Fahrplan (${typeLabel[type]}): ${schedule.length} Einträge`);
+        } catch(e) { // first level errorhandling
+            console.error('Fahrplan konnte nicht geladen werden:', e);
         }
     } else {
-        console.warn('⚠️ Kein Fahrplan für heute konfiguriert.');
+        console.warn('Kein Fahrplan für heute konfiguriert.');
     }
 
     resize();
     initColorMode();
     await loadOverlay();
     await updateEntireNetwork();
-    setInterval(draw, 40);
-    setInterval(updateEntireNetwork, 40_000);
+    setInterval(draw, 17); //draws every 17ms (~60fps/Hz)
+    setInterval(updateEntireNetwork, 40_000); //update every 40s
 }
 
-window.onload   = init;
-window.onresize = resize;
+window.onload   = init; // will start the cycle
+window.onresize = resize; //if resize - resize

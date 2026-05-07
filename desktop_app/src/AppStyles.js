@@ -1,11 +1,6 @@
-/* TODO
-    add more dark/ whitemode features
-    border if settings
-
-*/
 
 export const styles = (dark) => ({ 
-
+    
     // Special Stylesheet because Tailwind kinda works different
 
     body: `
@@ -47,17 +42,24 @@ export const styles = (dark) => ({
     `,
 
     taskbar: `
-        h-16 
-        w-full 
+        h-16
+        w-full
         ${dark ? 'bg-black/10 border-black/20' : 'bg-white/10 border-white/20'}
-        border-t 
-        border-white/20 
-        flex 
-        items-center 
-        justify-between 
-        px-6 
-        sm:px-10 
+        border-t
+        flex
+        items-center
+        justify-between
+        px-6
+        sm:px-10
         z-200
+    `,
+
+    taskbarIcons: `
+        flex
+        gap-4
+        overflow-hidden
+        flex-shrink-0
+        max-w-[55%]
     `,
 
     taskbarButton: `
@@ -73,19 +75,25 @@ export const styles = (dark) => ({
     `,
 
     taskbarTime: `
-        text-center 
-        sm:text-xl 
-        font-light 
-        tracking-tighter 
-        border-l 
+        text-center
+        text-sm
+        sm:text-xl
+        font-light
+        tracking-tighter
+        border-l
         ${dark ? 'border-white/10 text-white' : 'border-black/10 text-gray-800'}
-        pl-4 
-        sm:pl-6 
+        pl-4
+        sm:pl-6
         tabular-nums
+        shrink-0
     `,
 
     taskbarUser: `
-        text-center 
+        text-center
+        text-xs
+        max-w-[60px]
+        sm:max-w-[120px]
+        truncate
         ${dark ? 'text-white/40' : 'text-gray-500'}
     `,
 
@@ -183,17 +191,17 @@ export const weatherStyles = (dark, isWeatherOpen) => ({
     `,
 
     popupWrapper: `
-        absolute 
-        bottom-20 
-        right-0 
-        w-64 
+        absolute
+        bottom-20
+        right-0
+        w-64
         ${dark ? 'bg-black/80 border-white/10' : 'bg-white/90 border-black/10'}
-        backdrop-blur-3xl 
-        rounded-[2.5rem] 
-        p-7 
-        border 
-        shadow-2xl 
-        z-[150]
+        backdrop-blur-3xl
+        rounded-[2.5rem]
+        p-7
+        border
+        shadow-2xl
+        z-[999]
     `,
     
     popupInputWrapper: `
@@ -288,6 +296,7 @@ export const windowStyles = (dark) => ({
         max-h-[55vh] 
         overflow-y-auto 
         custom-scrollbar
+        [font-family:'Comic_Sans_MS',cursive]
     `
 });
 

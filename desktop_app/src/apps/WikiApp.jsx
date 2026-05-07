@@ -6,6 +6,7 @@ import { WikiAppStyles } from '../AppStyles';
 
 export default function WikiApp({darkMode, onLinkClick}) {
 
+  // States
   const [search, setSearch]   = useState('');
   const [results, setResults] = useState([]);
   const [speaking, setSpeaking]   = useState(null);
@@ -13,72 +14,82 @@ export default function WikiApp({darkMode, onLinkClick}) {
   const skipNextEndRef  = useRef(false);
 
   const style = WikiAppStyles(darkMode)
-  
+
+  // API Fetch
   useEffect(() => {
-    if (search.length < 3) return;
+    if (search.length < 3) return; //starts search with 3 characters
     const t = setTimeout(async () => {
-      // ↓ prop um "|info" ergänzt, inprop=url hinzugefügt
       const res = await fetch(
-        `https://de.wikipedia.org/w/api.php?action=query&generator=prefixsearch&gpslimit=4&format=json` +
-        `&prop=extracts|description|info&inprop=url` +
-        `&exintro=1&explaintext=1&exsentences=3&origin=*&gpssearch=${search}`
+        `https://de.wikipedia.org/w/api.php`+
+        `?action=query` +
+        `&generator=prefixsearch` +
+        `&gpslimit=4` +
+        `&format=json` +
+        `&prop=extracts|description|info` +
+        `&inprop=url` +
+        `&exintro=1` +
+        `&explaintext=1` +
+        `&exsentences=3` +
+        `&origin=*` +
+        `&gpssearch=${search}`
       );
       const data = await res.json();
-      if (data.query) setResults(Object.values(data.query.pages));
+      if (data.query) setResults(Object.values(data.query.pages)); //save results
     }, 500);
-    return () => clearTimeout(t);
-  }, [search]);
+    return () => clearTimeout(t); // got response, so no timeout
+  }, [search]); //starts if search is set
 
+  // Web Speech API
   const speakText = (id, text) => {
-    if (speaking === id) {
+    if (speaking === id) { // if the spoken text has the same id as the one before, terminate
       window.speechSynthesis.cancel();
       setSpeaking(null);
       return;
     }
     if (window.speechSynthesis.speaking) {
       skipNextEndRef.current = true;
-      window.speechSynthesis.cancel();
+      window.speechSynthesis.cancel(); // if its already speaking and function gets called again from other button, cancel it
     }
-    const utter   = new SpeechSynthesisUtterance(text);
+    const utter   = new SpeechSynthesisUtterance(text); //function for the speech api
     utter.lang    = 'de-DE';
     utter.rate    = 0.95;
-    utter.onend   = () => {
+    utter.onend   = () => { //when speech ends
       if (skipNextEndRef.current) { skipNextEndRef.current = false; return; }
-      setSpeaking(null);
+      setSpeaking(null); //resets
     };
-    utter.onerror = () => {
+    utter.onerror = () => { // if error
       skipNextEndRef.current = false;
-      setSpeaking(null);
+      setSpeaking(null); // resets
     };
-    setSpeaking(id);
-    window.speechSynthesis.speak(utter);
+    setSpeaking(id); //if passed all conditions, set speech id
+    window.speechSynthesis.speak(utter); // speak
   };
 
-  return (
+  return ( // main return
     <div className={style.wrapper}>
-      <input 
+      <input //at start will only show this
         type="text" placeholder="Suchen..." 
         className={style.searchbar}
         value={search} onChange={(e) => setSearch(e.target.value)} 
       />
-      {results.map((p) => (
-        <div key={p.pageid} className={style.columWrapper}>        {/* border-b, padding */}
-          <div className={style.columTextWrapper}>                  {/* flex justify-between */}
+      {results.map((p) => ( // if results come in, extend
+        <div key={p.pageid} className={style.columWrapper} /*wrapper for each colum*/> 
+          <div className={style.columTextWrapper}>
             <div>
-              <h4 className={style.title}>{p.title}</h4>
+              <h4 className={style.title}>{p.title}</h4> {/*Title in blue*/}
               <p className={style.content}>{p.extract}</p>
             </div>
-            <div className={style.buttonWrapper}>                   {/* flex-col, selbst-streckend */}
+            <div className={style.buttonWrapper} /*Buttons on the side*/> 
               <button
                 onClick={() => speakText(p.pageid, p.extract || p.title)}
                 className={style.speechAPIbutton}
                 title={speaking === p.pageid ? 'Stoppen' : 'Vorlesen'}
               >
-                {speaking === p.pageid ? <Volume2 /> : <Volume />}
+                {speaking === p.pageid ? <Volume2 /> : <Volume /> /*Changes the icon with a similar one, to seam seamless*/}
               </button>
               <a
                 href={p.fullurl}
-                onClick={(e) => { e.preventDefault(); onLinkClick?.(p.fullurl); }}
+                onClick={(e) => { e.preventDefault(); onLinkClick?.(p.fullurl); } /*on Click redirects in a new tab */}
                 className={style.redirectButton}
                 style={{ cursor: 'pointer' }}
                 title="Auf Wikipedia öffnen"

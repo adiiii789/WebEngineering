@@ -1,0 +1,10 @@
+services:
+  stadtbahn:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4011:4011"
+    env_file:
+      - .env
+    restart: unless-stopped

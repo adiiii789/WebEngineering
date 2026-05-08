@@ -153,6 +153,9 @@ const LoginScreen = ({ onLogin, darkMode }) => {
                     style={{ background: '#5a5a5a', border: '1px solid rgba(255,255,255,0.15)' }}>
                     Login
                 </button>
+                <div style={{position: 'absolute', bottom: 0, fontSize: '50px', opacity: 0.3, color: '#FFFFFF', padding: '2%'}}>
+                    adiOS
+                </div>
             </motion.form>
         </motion.div>
     );
@@ -421,7 +424,7 @@ export default function App() { // main function, base of what will be displayed
                     </Window>
 
                     <div className={s.settingsWrapper} /*additional styling*/> 
-                        <Window title='Einstellungen'
+                        <Window title='Settings'
                             isOpen={apps.settings}
                             onClose={() => toggleApp('settings')}
                             zIndex={focusedApp === 'settings' ? 100 : 50}

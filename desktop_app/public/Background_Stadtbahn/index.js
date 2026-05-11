@@ -67,7 +67,7 @@ function buildStationIndex() {
 function findStation(stopId, line) {
     if (!stopId) return null;
     const candidates = stationIndex.get(stopId) ?? [];
-    return candidates.find(s => s.lines?.includes(line)) ?? candidates[0] ?? null; // first candidates in line, then candiates, else nothing
+    return candidates.find(s => s.lines?.includes(line)) ?? candidates[0] ?? null;
 }
 
 // get traveltime from schedule, else TRAVEL_TIME_MS as fallback
@@ -103,7 +103,7 @@ const getItdTime = () => {
          + d.getMinutes().toString().padStart(2, '0');
 };
 
-//builds chain from terminus defined in schedule, chain ends at cutoffName
+// builds chain from terminus defined in schedule, chain ends at cutoffName
 function buildStationChain(terminusStopId, line, direction, cutoffName = null) {
     const cacheKey = `${terminusStopId}|${line}|${direction}|${cutoffName ?? ''}`;
     if (!cutoffName && chainCache.has(cacheKey)) return chainCache.get(cacheKey).chain; // if chain already cached - return early
@@ -145,11 +145,18 @@ function getChainData(terminusStopId, line, direction) {
     return { chain, cumMs };
 }
 
+
+function getWaypoint(chain, segIdx, direction) {
+    return direction === 'inbound'
+        ? chain[segIdx + 1].waypointIn   // Waypoint inbound
+        : chain[segIdx].waypointOut;     // Waypoint outbound
+}
+
 // interpolated position between two stations (with waypoint)
 function getPosition(sA, sB, wp, t) { // station A, station B, Waypoint, time
     const hasWp = wp && (wp.pctX !== 0 || wp.pctY !== 0);
     if (!hasWp) return {
-        x: sA.pctX + (sB.pctX - sA.pctX) * t, // if no waypoint, calculate immediatly position at current time
+        x: sA.pctX + (sB.pctX - sA.pctX) * t, // if no waypoint, calculate immediately position at current time
         y: sA.pctY + (sB.pctY - sA.pctY) * t
     };
     if (t < 0.5) { // half the time: station A to waypoint
@@ -168,37 +175,37 @@ function getDelayForDep(trips, plannedDepMs) {
         if (trips.has(key + d)) return trips.get(key + d);
         if (trips.has(key - d)) return trips.get(key - d);
     }
-    return { delayMs: 0, actualDest: null }; //no delay fallback
+    return { delayMs: 0, actualDest: null }; // no delay fallback
 }
 
-// Schedule Type differenciates between Workday, Saturday, and Sunday (with holiday)
+// Schedule Type differentiates between Workday, Saturday, and Sunday (with holiday)
 function getScheduleType() {
     const today = new Date();
-    const dow   = today.getDay(); // returns day of week as string
+    const dow   = today.getDay(); // returns day of week as number
     if (dow === 0) return 'sunday';
     if (dow === 6) return 'saturday';
 
-    const mm = today.getMonth() + 1, dd = today.getDate(), y = today.getFullYear(); // MM.DD:YYYY
+    const mm = today.getMonth() + 1, dd = today.getDate(), y = today.getFullYear(); // MM.DD.YYYY
     const fixed = [[1,1],[1,6],[5,1],[10,3],[11,1],[12,25],[12,26]]; // Fixed holidays
-    if (fixed.some(([m, d]) => m === mm && d === dd)) return 'sunday'; //logic to return sunday on holiday
+    if (fixed.some(([m, d]) => m === mm && d === dd)) return 'sunday'; // logic to return sunday on holiday
 
-    const easter  = getEasterDate(y); //will be explained below
-    const movable = [-2, 0, 1, 39, 49, 50, 60].map(n => addDays(easter, n)); //holidays relative to eastern
+    const easter  = getEasterDate(y); // will be explained below
+    const movable = [-2, 0, 1, 39, 49, 50, 60].map(n => addDays(easter, n)); // holidays relative to easter
     if (movable.some(d => d.getMonth() + 1 === mm && d.getDate() === dd)) return 'sunday'; // movable holidays
     return 'weekday';
 }
 
-// this is pretty interesting: Gauss made an algorithm to determine eastern in any given Year, just a raw implementation (some holidays are relative to eastern)
+// Gauss algorithm to determine Easter in any given year (some holidays are relative to Easter)
 function getEasterDate(y) {
     const a=y%19, b=Math.floor(y/100), c=y%100;
     const d=Math.floor(b/4), e=b%4, f=Math.floor((b+8)/25);
     const g=Math.floor((b-f+1)/3), h=(19*a+b-d-g+15)%30;
     const i=Math.floor(c/4), k=c%4, l=(32+2*e+2*i-h-k)%7;
     const m=Math.floor((a+11*h+22*l)/451);
-    return new Date(y, Math.floor((h+l-7*m+114)/31)-1, ((h+l-7*m+114)%31)+1); //returns the date of eastern in this year
+    return new Date(y, Math.floor((h+l-7*m+114)/31)-1, ((h+l-7*m+114)%31)+1); // returns the date of Easter this year
 }
 
-//makes dates out of the offset list (i.e. -2 means eastern date - 2, ...)
+// makes dates out of the offset list (i.e. -2 means Easter date - 2, ...)
 const addDays = (date, days) => { const d = new Date(date); d.setDate(d.getDate()+days); return d; };
 
 // to accept any input, normalize special characters
@@ -206,7 +213,7 @@ const normalizeName = n => n.toLowerCase()
     .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
     .replace(/[^a-z0-9]/g, '');
 
-// by normalizing - best chance to get a return from API (however API is suprisingly flexible with inputs)
+// by normalizing - best chance to get a return from API (however API is surprisingly flexible with inputs)
 function findStationByName(name) {
     const norm = normalizeName(name);
     return stations.find(s => normalizeName(s.name) === norm)
@@ -215,7 +222,7 @@ function findStationByName(name) {
         ?? null;
 }
 
-// gets departures of any stops, is used by terminus and key_station departure times
+// gets departures of any stop, used by terminus and key_station departure times
 async function fetchStopData(stopId, line) {
     const cacheKey = `${stopId}|${line}`;
     const cached   = delayCache.get(cacheKey);
@@ -223,16 +230,9 @@ async function fetchStopData(stopId, line) {
 
     const trips = new Map();
     try {
-        const url  = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST`
-            `?outputFormat=rapidJSON` +
-            `&type_dm=any` +
-            `&name_dm=${stopId}` +
-            `&mode=direct` +
-            `&useRealtime=1` +
-            `&limit=30` +
-            `&itdDate=${getItdDate()}` +
-            `&itdTime=${getItdTime()}` +
-            `&t=${Date.now()}`;
+        const url = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST?outputFormat=rapidJSON`
+            + `&type_dm=any&name_dm=${stopId}&mode=direct&useRealtime=1&limit=30`
+            + `&itdDate=${getItdDate()}&itdTime=${getItdTime()}&t=${Date.now()}`;
         const data = await fetch(url).then(r => r.json());
         const evts = data.stopEvents || data.departures || [];
 
@@ -254,7 +254,7 @@ async function fetchStopData(stopId, line) {
     return trips;
 }
 
-// actual departure time on a key station
+// actual departure time at a key station
 async function fetchKeyStopDeparture(stopId, line, approxMs) {
     const trips = await fetchStopData(stopId, line);
     const key   = Math.round(approxMs / 60_000);
@@ -278,7 +278,7 @@ async function resolveEventLine({ terminusStopId, line }) {
     });
 }
 
-// core of the programm: simulate Metro based on schedule
+// core of the program: simulate Metro based on schedule
 async function updateEntireNetwork() {
     const now       = Date.now();
     const freshIds  = new Set();
@@ -293,7 +293,7 @@ async function updateEntireNetwork() {
     await Promise.all(uniqueTermini.map(async key => {
         const [stopId, line] = key.split('|');
         terminusMap.set(key, await fetchStopData(stopId, line));
-        setLoadingProgress(++completed / uniqueTermini.length); //visual for loading bar
+        setLoadingProgress(++completed / uniqueTermini.length); // visual for loading bar
     }));
 
     for (const entry of schedule) { // for each entry of schedule
@@ -314,19 +314,18 @@ async function updateEntireNetwork() {
         for (const depStr of departures) { // for each departure in departures
             const tripId    = `${line}_${direction}_${depStr}`;
             const plannedMs = parseDepTime(depStr);
-            if (now > plannedMs + totalDurationMs + 60_000) continue; //if now is bigger, departure is already completed
-            if (plannedMs > now + LOOKAHEAD_MS) continue;             //if now is lower, departure is coming soon
+            if (now > plannedMs + totalDurationMs + 60_000) continue; // if now is bigger, departure is already completed
+            if (plannedMs > now + LOOKAHEAD_MS) continue;             // if now is lower, departure is coming soon
 
             const { delayMs: freshDelay, actualDest } = getDelayForDep(trips, plannedMs);
 
-            const tripKey      = tripId;
-            const foundInApi   = trips.has(Math.round(plannedMs / 60_000))
-                              || [...Array(5)].some((_,i) =>
-                                  trips.has(Math.round(plannedMs/60_000)+i-2));
-            if (foundInApi) tripDelayCache.set(tripKey, freshDelay); // delay from api set in cache
-            const delayMs = tripDelayCache.get(tripKey) ?? freshDelay; // getr from cache
+            const foundInApi = trips.has(Math.round(plannedMs / 60_000))
+                            || [...Array(5)].some((_,i) =>
+                                trips.has(Math.round(plannedMs/60_000)+i-2));
+            if (foundInApi) tripDelayCache.set(tripId, freshDelay); // delay from api set in cache
+            const delayMs = tripDelayCache.get(tripId) ?? freshDelay; // get from cache
 
-            // cut chain if short 
+            // cut chain if short runner
             const terminus = fullChain[fullChain.length - 1];
             const isShort  = actualDest
                 && !terminus.name.toLowerCase().includes(actualDest.toLowerCase())
@@ -337,32 +336,33 @@ async function updateEntireNetwork() {
                 : fullChain;
             if (chain.length < 2) continue;
 
-            const cumMs          = isShort ? buildCumMs(chain) : fullCumMs;
-            const effectiveDur   = cumMs[cumMs.length - 1];
-            const actualDepMs    = plannedMs + delayMs;
-            const elapsed        = now - actualDepMs;
+            const cumMs        = isShort ? buildCumMs(chain) : fullCumMs;
+            const effectiveDur = cumMs[cumMs.length - 1];
+            const actualDepMs  = plannedMs + delayMs;
+            const elapsed      = now - actualDepMs;
 
             // Calculate real departure time from API for key_stations
-            // keyDepartures - absolute ms when Metro departs from station
+            // keyDepartures: absolute ms when Metro departs from that station
             const keyDepartures = {};
             for (let i = 0; i < chain.length - 1; i++) {
                 if (KEY_STOPS.has(chain[i].stopId)) {
                     const approxMs = actualDepMs + cumMs[i];
-                    // Asynchron im Hintergrund – beim nächsten Update verfügbar
+                    // async in background – available on next update cycle
                     fetchKeyStopDeparture(chain[i].stopId, line, approxMs)
                         .then(depMs => { if (depMs) keyDepartures[i] = depMs; });
                 }
             }
 
-            if (elapsed < 0) { //train will soon start
+            if (elapsed < 0) { // train will soon start
                 freshIds.add(tripId);
                 activeSimulations.set(tripId, {
                     line, direction, chain, cumMs, actualDepMs, segIdx: 0,
                     keyDepartures,
-                    startStation: chain[0], endStation: chain[1],
+                    startStation: chain[0],
+                    endStation:   chain[1],
                     startTime:    actualDepMs,
                     duration:     cumMs[1] - cumMs[0],
-                    waypoint:     direction === 'inbound' ? chain[1].waypointIn : chain[1].waypointOut
+                    waypoint:     getWaypoint(chain, 0, direction)
                 });
                 continue;
             }
@@ -370,32 +370,30 @@ async function updateEntireNetwork() {
 
             let segIdx = 0;
             for (let i = 0; i < cumMs.length - 1; i++) {
-                if (elapsed >= cumMs[i] && elapsed < cumMs[i + 1]) { segIdx = i; break; } // if train is on the board, it gets an unique id
+                if (elapsed >= cumMs[i] && elapsed < cumMs[i + 1]) { segIdx = i; break; }
             }
             freshIds.add(tripId);
             activeSimulations.set(tripId, {
                 line, direction, chain, cumMs, actualDepMs, segIdx,
                 keyDepartures,
-                startStation: chain[segIdx], endStation: chain[segIdx + 1],
+                startStation: chain[segIdx],
+                endStation:   chain[segIdx + 1],
                 startTime:    actualDepMs + cumMs[segIdx],
                 duration:     cumMs[segIdx + 1] - cumMs[segIdx],
-                waypoint:     direction === 'inbound'
-                    ? chain[segIdx + 1].waypointIn
-                    : chain[segIdx + 1].waypointOut
+                waypoint:     getWaypoint(chain, segIdx, direction)
             });
         }
     }
 
     for (const id of activeSimulations.keys()) {
-        if (!freshIds.has(id)) activeSimulations.delete(id); // if not in activeSimulations, delete
+        if (!freshIds.has(id)) activeSimulations.delete(id); // if not in freshIds, delete
     }
     console.log(`${activeSimulations.size} Züge aktiv`);
 }
 
-
-// draws (Renders) the circles on canvas
-function draw() {   
-    if (!canvas.width || !img.complete) return; //will not draw if nothings here or img isn't loaded
+// draws (renders) the circles on canvas
+function draw() {
+    if (!canvas.width || !img.complete) return; // will not draw if nothing's here or img isn't loaded
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const now = Date.now();
 
@@ -408,19 +406,19 @@ function draw() {
             continue;
         }
 
-        // drivephase
+        // drive phase
         const moveStart = keyDep ?? train.startTime; // startTime as fallback
         const progress  = (now - moveStart) / train.duration;
-        if (progress < 0) continue; // train is initialized, but to early to drive
+        if (progress < 0) continue; // train is initialized, but too early to drive
 
         if (progress >= 1.0) {
             if (!advanceSegment(id, train)) activeSimulations.delete(id); // if train completed drive, delete it
             continue;
         }
 
-        const isFirstSeg = train.startStation.stopId === train.chain[0].stopId; // if same stationid as first element of chain
-        const alpha      = isFirstSeg ? Math.min(1, progress / 0.1) : 1.0; // fade in for station
-        const pos        = getPosition(train.startStation, train.endStation, train.waypoint, Math.min(1, progress)); // current position between stations
+        const isFirstSeg = train.startStation.stopId === train.chain[0].stopId; // if same stationId as first element of chain
+        const alpha      = isFirstSeg ? Math.min(1, progress / 0.1) : 1.0; // fade in for first station
+        const pos        = getPosition(train.startStation, train.endStation, train.waypoint, Math.min(1, progress));
         if (pos) drawMarker(pos.x * canvas.width, pos.y * canvas.height, train.line, alpha);
     }
 }
@@ -436,9 +434,7 @@ function advanceSegment(id, sim) { // boolean - true if it can drive to the next
         endStation:   chain[nextIdx + 1],
         startTime:    actualDepMs + cumMs[nextIdx],
         duration:     cumMs[nextIdx + 1] - cumMs[nextIdx],
-        waypoint:     direction === 'inbound'
-            ? chain[nextIdx + 1].waypointIn
-            : chain[nextIdx + 1].waypointOut
+        waypoint:     getWaypoint(chain, nextIdx, direction)  // FIX: use getWaypoint helper
     });
     return true;
 }
@@ -518,51 +514,48 @@ function buildOverlayDOM() {
     container.innerHTML = '';
     const labelDir = (typeof LABEL_DIR !== 'undefined') ? LABEL_DIR : 'labels/';
 
-    for (const item of overlayItems) { // for every file 
-        const el    = document.createElement('div'); // create new div
-        el.className    = 'overlay-label';      // params of div
+    for (const item of overlayItems) { // for every item
+        const el = document.createElement('div'); // create new div
+        el.className    = 'overlay-label';
         el.dataset.pctX = item.pctX;
         el.dataset.pctY = item.pctY;
         el.dataset.pctW = item.pctW ?? 0;
         el.dataset.pctH = item.pctH ?? 0;
         el.title        = item.name;
-        el.dataset.pctH = item.pctH ?? 0;
-        el.title        = item.name;
 
         const imgEl        = document.createElement('img'); // insert file into div
-        imgEl.src          = labelDir + (item.file ?? (item.name + '.png')); // params of img
+        imgEl.src          = labelDir + (item.file ?? (item.name + '.png'));
         imgEl.alt          = item.name;
         imgEl.draggable    = false;
         imgEl.style.filter = colorMode === 'dark' ? 'invert(1)' : 'none';
-        el.appendChild(imgEl);  // add to list as Child in container/ wrapper
-        
+        el.appendChild(imgEl); // add to list as child in container/wrapper
 
-        if (item.type === 'decoration') { // special case, where .png is literally just an image, but needed properties to adapt darkmode
+        if (item.type === 'decoration') { // special case: image only, needed for darkmode but no interaction
             el.style.pointerEvents = 'none';
         } else {
-            el.addEventListener('mouseenter', () => el.classList.add('hovered')); // add mouse events
+            el.addEventListener('mouseenter', () => el.classList.add('hovered'));
             el.addEventListener('mouseleave', () => el.classList.remove('hovered'));
             el.addEventListener('click', e => {
                 e.stopPropagation();
                 if (item.type === 'venue') { openVenuePopup(item); return; } // defined in stations_overlay
-                openDeparturePopup(item, el); // redirect
+                openDeparturePopup(item, el);
             });
         }
 
-        container.appendChild(el); //appends full container
+        container.appendChild(el); // appends full container
     }
 
-    positionOverlayLabels(); //below
-    watchImageResize(); // below below
+    positionOverlayLabels();
+    watchImageResize();
     if (!img.complete) img.addEventListener('load', () => requestAnimationFrame(positionOverlayLabels));
 }
 
-// position exctracted from .pdf using seperate python script
+// position extracted from .psd using separate python script
 function positionOverlayLabels() {
     const rect = img.getBoundingClientRect();
     if (rect.width === 0) return;
     for (const el of document.querySelectorAll('.overlay-label')) {
-        el.style.left = `${rect.left + parseFloat(el.dataset.pctX) * rect.width}px`; //calc px based on rect
+        el.style.left = `${rect.left + parseFloat(el.dataset.pctX) * rect.width}px`;
         el.style.top  = `${rect.top  + parseFloat(el.dataset.pctY) * rect.height}px`;
         const w = parseFloat(el.dataset.pctW), h = parseFloat(el.dataset.pctH);
         if (w > 0) el.style.width  = `${w * rect.width  * 0.7}px`;
@@ -580,7 +573,6 @@ function watchImageResize() {
     window.addEventListener('scroll', positionOverlayLabels, { passive: true });
 }
 
-
 function closePopup() {
     if (activePopup) { activePopup.remove(); activePopup = null; }
 }
@@ -591,7 +583,7 @@ async function openDeparturePopup(item, anchorEl) {
 
     let displayName, stopId;
     if (item.name.includes('|')) {
-        [displayName, stopId] = item.name.split('|'); //filename and station_overlay names are different
+        [displayName, stopId] = item.name.split('|'); // filename and station_overlay names are different
     } else {
         displayName = item.name;
         stopId      = findStationByName(item.name)?.stopId ?? null;
@@ -622,27 +614,20 @@ async function openDeparturePopup(item, anchorEl) {
 
     document.body.appendChild(popup);
     activePopup = popup;
-    document.getElementById('popupClose').onclick = closePopup; //if popup close is clicked, close
+    document.getElementById('popupClose').onclick = closePopup;
     document.addEventListener('click', closePopup, { once: true });
     positionPopup(popup, anchorEl);
 
-    if (!stopId) { // if API or stations_overlay returns no stop id
+    if (!stopId) {
         document.getElementById('popupBody').innerHTML =
             `<div class="popup-empty">„${displayName}" nicht gefunden</div>`;
         return;
     }
 
     try { // content of popup - via API
-        const url = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST` +
-            `?outputFormat=rapidJSON` +
-            `&type_dm=any` +
-            `&name_dm=${stopId}` +
-            `&mode=direct` +
-            `&useRealtime=1` +
-            `&limit=20` +
-            `&itdDate=${getItdDate()}` +
-            `&itdTime=${getItdTime()}` +
-            `&t=${Date.now()}`;
+        const url = `https://www3.vvs.de/mngvvs/XML_DM_REQUEST?outputFormat=rapidJSON`
+            + `&type_dm=any&name_dm=${stopId}&mode=direct&useRealtime=1&limit=20`
+            + `&itdDate=${getItdDate()}&itdTime=${getItdTime()}&t=${Date.now()}`;
 
         const data = await fetch(url).then(r => r.json());
         const list = (data.stopEvents || data.departures || [])
@@ -655,22 +640,22 @@ async function openDeparturePopup(item, anchorEl) {
         const body = document.getElementById('popupBody');
         if (!body) return; // no body, nothing to do
 
-        if (!list.length) { // list !== 0
+        if (!list.length) {
             body.innerHTML = '<div class="popup-empty">Keine Abfahrten</div>';
         } else {
-            body.innerHTML = list.map(e => { // makes each colum
-                const line     = e.transportation.disassembledName;
-                const dest     = e.transportation.destination?.name || '';
-                const planned  = new Date(e.departureTimePlanned  || e.arrivalTimePlanned);
-                const est      = new Date(e.departureTimeEstimated || e.departureTimePlanned);
-                const delay    = Math.round((est - planned) / 60_000);
-                const time     = `${planned.getHours().toString().padStart(2,'0')}:${planned.getMinutes().toString().padStart(2,'0')}`;
-                const color    = LINE_COLORS[line] || '#999';
-                const delayEl  = delay > 0
+            body.innerHTML = list.map(e => { // makes each column
+                const line    = e.transportation.disassembledName;
+                const dest    = e.transportation.destination?.name || '';
+                const planned = new Date(e.departureTimePlanned  || e.arrivalTimePlanned);
+                const est     = new Date(e.departureTimeEstimated || e.departureTimePlanned);
+                const delay   = Math.round((est - planned) / 60_000);
+                const time    = `${planned.getHours().toString().padStart(2,'0')}:${planned.getMinutes().toString().padStart(2,'0')}`;
+                const color   = LINE_COLORS[line] || '#999';
+                const delayEl = delay > 0
                     ? `<span class="dep-delay">+${delay} min</span>`
                     : delay < 0
                     ? `<span class="dep-early">${delay} min</span>`
-                    : `<span class="dep-ontime">pünktlich</span>`; //different styling
+                    : `<span class="dep-ontime">pünktlich</span>`;
                 return `<div class="dep-row">
                     <span class="dep-pill" style="background:${color}">${line}</span>
                     <span class="dep-dest">${dest}</span>
@@ -692,7 +677,7 @@ async function openDeparturePopup(item, anchorEl) {
 // calculates where the popup should appear, to not stick out of the viewport
 function positionPopup(popup, anchorEl) {
     popup.style.visibility = 'hidden';
-    popup.style.top = '0px';
+    popup.style.top  = '0px';
     popup.style.left = '0px';
     requestAnimationFrame(() => {
         const { right, left: aLeft, top } = anchorEl.getBoundingClientRect();
@@ -714,20 +699,111 @@ function openVenuePopup(item) {
     window.open(item.venueLink, '_blank');
 }
 
-// loading bar while fetching Api at initialization
+// ─── STATION SEARCH ───────────────────────────────────────────────────────────
+
+let searchHighlightEl = null; // currently highlighted overlay label element
+
+function buildSearchUI() {
+    const wrapper = document.createElement('div');
+    wrapper.id = 'stationSearch';
+    wrapper.innerHTML = `
+        <input id="searchInput" type="text" placeholder="Station suchen …" autocomplete="off">
+        <div id="searchResults"></div>`;
+    document.body.appendChild(wrapper);
+
+    const input   = document.getElementById('searchInput');
+    const results = document.getElementById('searchResults');
+
+    input.addEventListener('input', () => {
+        const query = input.value.trim();
+        if (query.length < 2) { results.style.display = 'none'; return; }
+
+        const norm = normalizeName(query);
+
+        const score = name => { // categorizes results
+            const n = normalizeName(name.split('|')[0]);
+            if (n.startsWith(norm))                                     return 0; // name starts with query
+            if (n.split(/[^a-z0-9]/).some(w => w.startsWith(norm)))    return 1;  // one word starts with query
+            if (n.includes(norm))                                       return 2; // charater is included in query
+            return Infinity; // no result
+        };
+
+        const matches = overlayItems
+            .filter(item => item.type !== 'decoration' && score(item.name) < Infinity)
+            .sort((a, b) => score(a.name) - score(b.name))
+            .slice(0, 10);
+
+        if (!matches.length) { results.style.display = 'none'; return; }
+
+        results.innerHTML = matches.map((item, i) =>
+            `<div class="search-result" data-idx="${i}">${item.name.split('|')[0]}</div>`
+        ).join('');
+        results.style.display = 'block';
+
+        // click on result
+        results.querySelectorAll('.search-result').forEach((el, i) => {
+            el.addEventListener('click', () => {
+                selectSearchResult(matches[i]);
+                input.value           = '';        // reset input
+                results.style.display = 'none';
+                input.blur();
+            });
+        });
+    });
+
+    // close on outside click
+    document.addEventListener('click', e => {
+        if (!wrapper.contains(e.target)) results.style.display = 'none';
+    });
+}
+
+function selectSearchResult(item) {
+    // remove previous highlight
+    if (searchHighlightEl) {
+        searchHighlightEl.classList.remove('search-highlight');
+        searchHighlightEl = null;
+    }
+
+    // find matching overlay label – title kann "Name|stopId" oder nur "Name" sein
+    const displayName = item.name.split('|')[0];
+    const el = [...document.querySelectorAll('.overlay-label')]
+        .find(el => el.title === item.name || el.title === displayName);
+    if (!el) return;
+
+    el.classList.add('search-highlight');
+    searchHighlightEl = el;
+
+    // remove highlight on click
+    el.addEventListener('click', () => {
+        el.classList.remove('search-highlight');
+        searchHighlightEl = null;
+    }, { once: true });
+
+    // scroll map to station (center viewport on label)
+    const rect = img.getBoundingClientRect();
+    const x    = rect.left + item.pctX * rect.width;
+    const y    = rect.top  + item.pctY * rect.height;
+    window.scrollTo({
+        left: window.scrollX + x - window.innerWidth  / 2,
+        top:  window.scrollY + y - window.innerHeight / 2,
+        behavior: 'smooth'
+    });
+}
+
+// loading bar while fetching API at initialization
 function setLoadingProgress(fraction) {
     const bar   = document.getElementById('loadingBar');
     const fill  = document.getElementById('loadingFill');
     const label = document.getElementById('loadingLabel');
     if (!bar) return;
-    fill.style.width    = `${Math.round(fraction * 100)}%`;
-    label.textContent   = fraction < 1 ? `Echtzeitdaten werden geladen … ${Math.round(fraction*100)}%` : '';
+    fill.style.width  = `${Math.round(fraction * 100)}%`;
+    label.textContent = fraction < 1 ? `Echtzeitdaten werden geladen … ${Math.round(fraction*100)}%` : '';
     if (fraction >= 1) {
         setTimeout(() => { bar.style.opacity = '0'; setTimeout(() => bar.style.display = 'none', 400); }, 300);
-    } // bar is static, percentages at the right
+    }
 }
 
-// at resize (and init) get width/ height
+// at resize (and init) get width/height
 const resize = () => { canvas.width = img.clientWidth; canvas.height = img.clientHeight; };
 
 // will call the other functions which call other functions
@@ -754,7 +830,7 @@ async function init() {
         try {
             schedule = await fetch(scheduleFile).then(r => r.json());
             console.log(`Fahrplan (${typeLabel[type]}): ${schedule.length} Einträge`);
-        } catch(e) { // first level errorhandling
+        } catch(e) {
             console.error('Fahrplan konnte nicht geladen werden:', e);
         }
     } else {
@@ -764,10 +840,11 @@ async function init() {
     resize();
     initColorMode();
     await loadOverlay();
+    buildSearchUI();
     await updateEntireNetwork();
-    setInterval(draw, 17); //draws every 17ms (~60fps/Hz)
-    setInterval(updateEntireNetwork, 40_000); //update every 40s
+    setInterval(draw, 17);             // draws every 17ms (~60fps)
+    setInterval(updateEntireNetwork, 40_000); // update every 40s
 }
 
-window.onload   = init; // will start the cycle
-window.onresize = resize; //if resize - resize
+window.onload   = init;  // will start the cycle
+window.onresize = resize; // if resize - resize

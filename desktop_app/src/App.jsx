@@ -47,6 +47,7 @@ import WikiApp     from './apps/WikiApp';
 import SettingsApp from './apps/SettingsApp';
 import BrowserApp  from './apps/BrowserApp';
 import RSSFeed     from './apps/RSSFeed';
+import Readme      from './apps/Readme';
 
 
 // Cookies
@@ -474,42 +475,7 @@ export default function App() { // main function, base of what will be displayed
                         darkMode={darkMode}
                         style={{ top: '10%', left: '10%', width: '42vh', pointerEvents: 'auto' }}
                     >
-                        <div style={{ // many divs because of many style changes
-                            fontSize: 12, lineHeight: 1.7,
-                            color: !darkMode ? 'rgba(255,255,255,0.75)' : 'rgba(0,0,0,0.75)',
-                            display: 'flex', flexDirection: 'column', gap: 16,
-                        }}>
-                            <div>
-                                <div style={{ fontWeight: 'bold', fontSize: 13, marginBottom: 4 }}>Stuttgart Stadtbahn Radar</div>
-                                <div>Echtzeit-Visualisierung der Stuttgarter Stadtbahn auf Basis von VVS-Fahrplandaten und Live-Delays.</div>
-                            </div>
-                            <div>
-                                <div style={{ fontWeight: 'bold', marginBottom: 4, opacity: 0.5, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Apps</div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                                    {[
-                                        ['Wikipedia',     'Artikel suchen und vorlesen lassen'],
-                                        ['Browser',       'Webseiten eingebettet öffnen'],
-                                        ['News',          'Nachrichten von Tagesschau, SWR, Spiegel & Zeit'],
-                                        ['Einstellungen', 'Dark Mode & Helligkeit'],
-                                    ].map(([name, desc]) => ( // just a list, a little overkill but interesting
-                                        <div key={name} style={{ display: 'flex', gap: 8 }}>
-                                            <span><strong>{name}</strong> — {desc}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div>
-                                <div style={{ fontWeight: 'bold', marginBottom: 4, opacity: 0.5, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Benutzerrollen</div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                                    <div><span style={{ color: '#fb923c', fontWeight: 'bold' }}>Rich (admin123)</span> — Vollzugriff auf alle Apps</div>
-                                    <div><span style={{ color: '#818cf8', fontWeight: 'bold' }}>Poor (guest)</span> — Nur Karte, Uhr & Wetter</div>
-                                </div>
-                            </div>
-                            <div>
-                                <div style={{ fontWeight: 'bold', marginBottom: 4, opacity: 0.5, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Hintergrund</div>
-                                <div>Echtzeit darstellung der Ubahnen - Symbole verweisen zu links</div>
-                            </div>
-                        </div>
+                        <Readme darkMode={darkMode} />
                     </Window>
 
                 </div>

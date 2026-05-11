@@ -1,4 +1,4 @@
-/* ─── RESET ──────────────────────────────────────────────────────────────────── */
+/* -- RESET -- */
 
 * {
     margin: 0;
@@ -17,7 +17,7 @@ body {
 body[data-theme="light"] { background-color: rgb(240, 240, 240); }
 body[data-theme="dark"]  { background-color: rgb(0, 0, 0); }
 
-/* ─── KARTE ──────────────────────────────────────────────────────────────────── */
+/* -- KARTE -- */
 
 .center-fit {
     display: block;
@@ -41,7 +41,7 @@ body[data-theme="dark"]  { background-color: rgb(0, 0, 0); }
     pointer-events: none;
 }
 
-/* ─── STATION OVERLAY ────────────────────────────────────────────────────────── */
+/* -- STATION OVERLAY -- */
 
 #overlayContainer {
     position: fixed;
@@ -76,7 +76,7 @@ body[data-theme="dark"]  { background-color: rgb(0, 0, 0); }
     z-index: 10;
 }
 
-/* ─── ABFAHRTS-POPUP ─────────────────────────────────────────────────────────── */
+/* -- ABFAHRTS-POPUP -- */
 
 #stationPopup {
     position: fixed;
@@ -169,7 +169,7 @@ body[data-theme="dark"]  { background-color: rgb(0, 0, 0); }
 /* Scrollbarer Inhalt */
 .popup-body {
     padding: 4px 0 6px;
-    flex: 1;                 /* ← nimmt restlichen Platz im flex-container */
+    flex: 1;
     overflow-y: auto;
     border-radius: 0 0 14px 14px;
     scrollbar-width: thin;
@@ -242,7 +242,7 @@ body[data-theme="dark"]  { background-color: rgb(0, 0, 0); }
 .dep-early  { color: #69db7c; }
 .dep-ontime { color: rgba(255, 255, 255, 0.25); font-size: 10px; }
 
-/* ─── LADEBALKEN ─────────────────────────────────────────────────────────────── */
+/* -- LADEBALKEN -- */
 
 #loadingBar {
     position: fixed;
@@ -278,7 +278,7 @@ body[data-theme="dark"]  { background-color: rgb(0, 0, 0); }
     text-align: right;
 }
 
-/* ─── UI BUTTONS ─────────────────────────────────────────────────────────────── */
+/* -- UI BUTTONS -- */
 
 .ui-btn {
     position: fixed;
@@ -310,4 +310,71 @@ body[data-theme="dark"]  { background-color: rgb(0, 0, 0); }
 }
 .venue-link:hover {
     color: rgba(255, 255, 255, 0.9);
+}
+
+/* ─── STATION SEARCH ─────────────────────────────────────────────────────────── */
+
+#stationSearch {
+    position: fixed;
+    top: 1%;
+    left: 1%;
+    z-index: 200;
+    width: 10%;
+    pointer-events: all;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(15, 15, 20, 0.92);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: white;
+    font: 13px Arial;
+    outline: none;
+    pointer-events: all;
+    transition: border-color 0.15s;
+}
+
+#searchInput::placeholder { color: rgba(255,255,255,0.35); }
+#searchInput:focus { border-color: rgba(255,255,255,0.4); }
+
+#searchResults {
+    display: none;
+    margin-top: 4px;
+    background: rgba(15, 15, 20, 0.97);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.search-result {
+    padding: 8px 12px;
+    color: rgba(255,255,255,0.8);
+    font: 12px Arial;
+    cursor: pointer;
+    pointer-events: all;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.1s;
+}
+
+.search-result:last-child { border-bottom: none; }
+.search-result:hover { background: rgba(255,255,255,0.08); color: white; }
+
+.overlay-label.search-highlight {
+    z-index: 20;
+    animation: stationPulse 1.2s ease-in-out infinite;
+}
+
+.overlay-label.search-highlight img {
+    filter: invert(1) sepia(1) saturate(8) hue-rotate(10deg) !important;
+}
+
+@keyframes stationPulse {
+    0%   { transform: translate(-50%, -50%) scale(1.0); }
+    50%  { transform: translate(-50%, -50%) scale(1.4); }
+    100% { transform: translate(-50%, -50%) scale(1.0); }
 }

@@ -1,38 +1,50 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { RotateCw, ExternalLink, AlertTriangle } from 'lucide-react';
+import { RotateCw, ExternalLink, AlertTriangle, WifiOff } from 'lucide-react';
 
-
-// you could implement a workaround for sites blocked because they detect an embed, but there is the option to open it in a new tab
+// you could implement a workaround for sites blocked because they detect an embed,
+// but there is the option to open it in a new tab
 // if you really want to make it work, there are browser-extensions
 export default function BrowserApp({ url, onNavigate }) {
-    const [input, setInput]     = useState(url);
-    const [loading, setLoading] = useState(true);
-    const [blocked, setBlocked] = useState(false);
-    const iframeRef             = useRef(null);
-    const timerRef              = useRef(null);
+    const [input,        setInput]        = useState(url);
+    const [loading,      setLoading]      = useState(true);
+    const [blocked,      setBlocked]      = useState(false);
+    const [networkError, setNetworkError] = useState(false);
+    const iframeRef = useRef(null);
+    const timerRef  = useRef(null);
 
-    //if there is an input
     useEffect(() => {
+        if (!url) return;
         setInput(url);
         setLoading(true);
         setBlocked(false);
+        setNetworkError(false);
 
-        // Timeout-Fallback
         clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => {
-            setBlocked(true);
+        timerRef.current = setTimeout(async () => {
+            // navigator.onLine is unreliable, ping a known endpoint instead
+            try {
+                await fetch('https://api.open-meteo.com/v1/forecast?latitude=0&longitude=0&current=temperature_2m',
+                    { signal: AbortSignal.timeout(3000) }
+                );
+                // reachable → site is blocking embed
+                setBlocked(true);
+            } catch {
+                // not reachable → no internet
+                setNetworkError(true);
+            }
             setLoading(false);
-        }, 10000); //after 10s
+        }, 3000);
 
         return () => clearTimeout(timerRef.current);
     }, [url]);
 
     const handleLoad = () => {
-        clearTimeout(timerRef.current); // found something, so no timeout anymore
+        clearTimeout(timerRef.current);
         setLoading(false);
         setBlocked(false);
+        setNetworkError(false);
 
-        // actual logic to catch outgoing links
+        // catch outgoing links
         try {
             const iwin = iframeRef.current?.contentWindow;
             if (!iwin) return;
@@ -50,19 +62,19 @@ export default function BrowserApp({ url, onNavigate }) {
         }
     };
 
-    // if no http, add it
+    // if no http prefix, add it
     const navigate = () => {
         let target = input.trim();
         if (!target.startsWith('http')) target = 'https://' + target;
         onNavigate(target);
     };
 
-    return ( // main Return
+    return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
 
             {/* URL-Bar */}
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                <input 
+                <input
                     value={input}
                     onChange={e => setInput(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && navigate()}
@@ -76,70 +88,129 @@ export default function BrowserApp({ url, onNavigate }) {
                         outline: 'none',
                     }}
                 />
-                <button // refresh site, by re-input
+                <button
                     onClick={() => onNavigate(url)}
                     style={{ opacity: 0.5, cursor: 'pointer', background: 'none', border: 'none' }}
                     title="Neu laden"
                 >
                     <RotateCw size={14} />
                 </button>
-                <a href={url} target="_blank" rel="noopener noreferrer" //opens link in seperate tab
-                    style={{ opacity: 0.5, cursor: 'pointer' }}
-                    title="Im Browser öffnen"
+                <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ opacity: 0.5, cursor: 'pointer' }}
+                title="Im Browser öffnen"
                 >
-                    <ExternalLink size={14} />
-                </a>
+                <ExternalLink size={14} />
+            </a>
+        </div>
+
+    {/* iframe / Fallbacks */}
+    <div style={{ position: 'relative', width: '100%', height: 420 }}>
+
+        {/* loading placeholder */}
+        {loading && !blocked && !networkError && (
+            <div style={{
+                position: 'absolute', inset: 0,
+                display: 'flex', alignItems: 'center',
+                justifyContent: 'center', fontSize: 12, opacity: 0.4
+            }}>
+                Lädt…
             </div>
+        )}
 
-            {/* iframe / Fallback */}
-            <div style={{ position: 'relative', width: '100%', height: 420 }}>
-                {loading && !blocked && ( //placeholder while waiting
-                    <div style={{
-                        position: 'absolute', inset: 0,
-                        display: 'flex', alignItems: 'center',
-                        justifyContent: 'center', fontSize: 12, opacity: 0.4
-                    }}>
-                        Lädt…
-                    </div>
-                )}
-
-                {blocked && ( //should show up, but my browser (Waterfox, Firefox but opensouce) inserts themself before it 
-                    <div style={{
-                        position: 'absolute', inset: 0,
-                        display: 'flex', flexDirection: 'column',
-                        alignItems: 'center', justifyContent: 'center',
-                        gap: 12, padding: 24, textAlign: 'center'
-                    }}>
-                        <AlertTriangle size={28} style={{ opacity: 0.4 }} />
-                        <span style={{ fontSize: 12, opacity: 0.6 }}>
+        {/* site blocks embedding */}
+        {blocked && (
+            <div style={{
+                position: 'absolute', inset: 0,
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                gap: 12, padding: 24, textAlign: 'center'
+            }}>
+                <AlertTriangle size={28} style={{ opacity: 0.4 }} />
+                <span style={{ fontSize: 12, opacity: 0.6 }}>
                             Diese Seite erlaubt keine Einbettung.
                         </span>
-                        <a
-                            href={p.fullurl}
-                            onClick={(e) => { e.preventDefault(); onLinkClick?.(p.fullurl); }}
-                            className={style.redirectButton}
-                            style={{ cursor: 'pointer' }}
-                            title="Auf Wikipedia öffnen"
-                        >
-                            <ExternalLink size={18} />
-                        </a>
-                    </div>
-                )}
-                
-                <iframe // if everything works out, show it
-                    key={url}
-                    ref={iframeRef}
-                    src={url}
-                    onLoad={handleLoad}
-                    style={{
-                        width: '100%', height: '100%',
-                        border: 'none', borderRadius: 10,
-                        opacity: loading || blocked ? 0 : 1,
-                        transition: 'opacity 0.2s',
-                    }}
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                />
+            <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                fontSize: 12, padding: '7px 16px', borderRadius: 10,
+                background: 'rgba(0,0,0,0.08)',
+                border: '1px solid rgba(0,0,0,0.1)',
+                cursor: 'pointer', textDecoration: 'none',
+                color: 'inherit', display: 'flex',
+                alignItems: 'center', gap: 6,
+                }}
+                >
+                <ExternalLink size={12} />
+                In neuem Tab öffnen
+            </a>
             </div>
-        </div>
-    );
+            )}
+
+{/* no internet connection */}
+{networkError && (
+    <div style={{
+        position: 'absolute', inset: 0,
+        display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        gap: 12, padding: 24, textAlign: 'center'
+    }}>
+        <WifiOff size={28} style={{ opacity: 0.4 }} />
+        <span style={{ fontSize: 12, opacity: 0.6 }}>
+                            Keine Internetverbindung
+                        </span>
+        <button
+            onClick={() => {
+                setNetworkError(false);
+                setLoading(true);
+                onNavigate(url);
+            }}
+            style={{
+                fontSize: 12, padding: '7px 16px', borderRadius: 10,
+                background: 'rgba(0,0,0,0.08)',
+                border: '1px solid rgba(0,0,0,0.1)',
+                cursor: 'pointer', color: 'inherit',
+            }}
+        >
+            Erneut versuchen
+        </button>
+    </div>
+)}
+
+{/* iframe — only render if url exists */}
+{url && (
+    <iframe
+        key={url}
+        ref={iframeRef}
+        src={url}
+        onLoad={handleLoad}
+        style={{
+            width: '100%', height: '100%',
+            border: 'none', borderRadius: 10,
+            opacity: loading || blocked || networkError ? 0 : 1,
+            transition: 'opacity 0.2s',
+            pointerEvents: loading || blocked || networkError ? 'none' : 'auto', // ← neu
+        }}
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    />
+)}
+
+{/* no url given */}
+{!url && (
+    <div style={{
+        position: 'absolute', inset: 0,
+        display: 'flex', alignItems: 'center',
+        justifyContent: 'center', fontSize: 12, opacity: 0.4
+    }}>
+        Keine URL angegeben
+    </div>
+)}
+
+</div>
+</div>
+);
 }

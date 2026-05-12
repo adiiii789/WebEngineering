@@ -11,25 +11,25 @@ import {
     AnimatePresence 
 } from 'framer-motion';
 
-import { 
-    X, 
-    MapPin, 
-    Sun, 
-    Cloud, 
-    CloudRain, 
-    CloudSun, 
-    CloudFog, 
+import {
+    X,
+    MapPin,
+    Sun,
+    Cloud,
+    CloudRain,
+    CloudSun,
+    CloudFog,
     CloudDrizzle,
-    Snowflake, 
-    CloudSnow, 
-    CloudLightning, 
-    UserRound, 
-    Settings, 
+    Snowflake,
+    CloudSnow,
+    CloudLightning,
+    UserRound,
+    Settings,
     BookMarked,
-    Globe, 
-    Newspaper, 
-    BookOpen, 
-    LogOut 
+    Globe,
+    Newspaper,
+    BookOpen,
+    LogOut, WifiOff
 } from 'lucide-react';
 
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -100,7 +100,7 @@ const LoginScreen = ({ onLogin, darkMode }) => {
             <div className={ls.clockWrapper}>
                 <span className={ls.clockMain}
                     style={{ fontSize: 56, letterSpacing: '-2px', lineHeight: 1 }}>
-                    {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} {/*sets clock*/}
+                    {time.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} {/*sets clock*/}
                 </span>
                 <span className={ls.clockWeekday}>
                     {time.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })} {/*date below clock*/}
@@ -224,6 +224,8 @@ export default function App() { // main function, base of what will be displayed
     const weatherRef = useRef(null); // avoids re-render
     const iframeRef  = useRef(null);
 
+    const [networkError, setNetworkError] = useState(false);
+
     // Styles
     const s   = styles(darkMode);
     const wes = weatherStyles(darkMode, isWeatherOpen);
@@ -292,7 +294,7 @@ export default function App() { // main function, base of what will be displayed
         )
             .then(r => r.json()) // parse args
             .then(data => setWeather(data)) //passes data into State
-            .catch(console.error); // if error
+            .catch(() => setNetworkError(true)); // if error
     }, [coords]); // reruns if coords change
 
     const handleCitySearch = useCallback(async (e) => {
@@ -540,6 +542,7 @@ export default function App() { // main function, base of what will be displayed
                                     exit={{    opacity: 0, y: 15 }}
                                     className={wes.popupWrapper}
                                 >
+
                                     <div className={wes.popupInputWrapper} /*Frame of input for city*/> 
                                         <MapPin className={wes.popupInputIcon} size={14} />
                                         <input
@@ -549,6 +552,23 @@ export default function App() { // main function, base of what will be displayed
                                             onChange={(e) => setCityInput(e.target.value)}
                                             onKeyDown={handleCitySearch} // after send update from API
                                         />
+                                        {networkError && (
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 4,
+                                                fontSize: 10,
+                                                color: '#f87171',
+                                                fontWeight: 'bold',
+                                                padding: '2px 8px',
+                                                borderRadius: 999,
+                                                background: 'rgba(239,68,68,0.15)',
+                                                border: '1px solid rgba(239,68,68,0.3)',
+                                            }}>
+                                                <WifiOff size={10} />
+                                                Kein Internet
+                                            </div>
+                                        )}
                                     </div>
                                     <div className={wes.forcastWrapper} /* ? to prevent crash if no data */>
                                         {weather?.daily && weather.daily.time.slice(1, 6).map((date, i) => ( // map data to colums
@@ -569,7 +589,7 @@ export default function App() { // main function, base of what will be displayed
 
                         {/*Clock, Username and logout*/}
                         <div className={s.taskbarTime}>
-                            {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) /*feels random, now its not AM/PM*/}
+                            {time.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
                                 <span className={s.taskbarUser}>{currentUser}</span>
                                 <button

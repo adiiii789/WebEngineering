@@ -1,7 +1,7 @@
 // desktop_app/src/apps/WikiApp.jsx
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume, Volume2, ExternalLink } from 'lucide-react'; // ExternalLink neu
+import {Volume, Volume2, ExternalLink, WifiOff} from 'lucide-react'; // ExternalLink neu
 import { WikiAppStyles } from '../AppStyles';
 
 export default function WikiApp({darkMode, onLinkClick}) {
@@ -12,6 +12,7 @@ export default function WikiApp({darkMode, onLinkClick}) {
   const [speaking, setSpeaking]   = useState(null);
   const recognitionRef = useRef(null);
   const skipNextEndRef  = useRef(false);
+  const [networkError, setNetworkError] = useState(false);
 
   const style = WikiAppStyles(darkMode)
 
@@ -19,22 +20,27 @@ export default function WikiApp({darkMode, onLinkClick}) {
   useEffect(() => {
     if (search.length < 3) return; //starts search with 3 characters
     const t = setTimeout(async () => {
-      const res = await fetch(
-        `https://de.wikipedia.org/w/api.php`+
-        `?action=query` +
-        `&generator=prefixsearch` +
-        `&gpslimit=4` +
-        `&format=json` +
-        `&prop=extracts|description|info` +
-        `&inprop=url` +
-        `&exintro=1` +
-        `&explaintext=1` +
-        `&exsentences=3` +
-        `&origin=*` +
-        `&gpssearch=${search}`
-      );
-      const data = await res.json();
-      if (data.query) setResults(Object.values(data.query.pages)); //save results
+      try {
+        const res = await fetch(
+            `https://de.wikipedia.org/w/api.php` +
+            `?action=query` +
+            `&generator=prefixsearch` +
+            `&gpslimit=4` +
+            `&format=json` +
+            `&prop=extracts|description|info` +
+            `&inprop=url` +
+            `&exintro=1` +
+            `&explaintext=1` +
+            `&exsentences=3` +
+            `&origin=*` +
+            `&gpssearch=${search}`
+        );
+        const data = await res.json();
+        if (data.query) setResults(Object.values(data.query.pages)); //save results
+        setNetworkError(false);
+      } catch {
+          setNetworkError(true);
+        }
     }, 500);
     return () => clearTimeout(t); // got response, so no timeout
   }, [search]); //starts if search is set
@@ -72,6 +78,17 @@ export default function WikiApp({darkMode, onLinkClick}) {
         className={style.searchbar}
         value={search} onChange={(e) => setSearch(e.target.value)} 
       />
+      {networkError && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            fontSize: 11, color: '#f87171', fontWeight: 'bold',
+            padding: '6px 12px', borderRadius: 12,
+            background: 'rgba(239,68,68,0.1)',
+            border: '1px solid rgba(239,68,68,0.2)',
+          }}>
+            <WifiOff size={12} /> Keine Verbindung zu Wikipedia
+          </div>
+      )}
       {results.map((p) => ( // if results come in, extend
         <div key={p.pageid} className={style.columWrapper} /*wrapper for each colum*/> 
           <div className={style.columTextWrapper}>

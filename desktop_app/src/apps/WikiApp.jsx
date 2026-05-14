@@ -18,8 +18,10 @@ export default function WikiApp({darkMode, onLinkClick}) {
 
   // API Fetch
   useEffect(() => {
-    if (search.length < 3) return; //starts search with 3 characters
-    const t = setTimeout(async () => {
+    if (search.length < 3) { setResults([]); setNetworkError(false); return; }
+    const controller = new AbortController(); // as in App.jsx -> Abort if no connection (timeout)
+    const debounce = setTimeout(async () => {
+      const tid = setTimeout(() => controller.abort(), 8000);
       try {
         const res = await fetch(
             `https://de.wikipedia.org/w/api.php` +
@@ -33,17 +35,20 @@ export default function WikiApp({darkMode, onLinkClick}) {
             `&explaintext=1` +
             `&exsentences=3` +
             `&origin=*` +
-            `&gpssearch=${search}`
+            `&gpssearch=${search}`,
+            { signal: controller.signal }
         );
         const data = await res.json();
-        if (data.query) setResults(Object.values(data.query.pages)); //save results
+        if (data.query) setResults(Object.values(data.query.pages));
         setNetworkError(false);
-      } catch {
-          setNetworkError(true);
-        }
+      } catch (e) {
+        if (e.name !== 'AbortError') setNetworkError(true);
+      } finally {
+        clearTimeout(tid);
+      }
     }, 500);
-    return () => clearTimeout(t); // got response, so no timeout
-  }, [search]); //starts if search is set
+    return () => { clearTimeout(debounce); controller.abort(); };
+  }, [search]);
 
   // Web Speech API
   const speakText = (id, text) => {

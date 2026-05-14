@@ -8,3 +8,11 @@ services:
     env_file:
       - .env
     restart: unless-stopped
+
+  node-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    ports:
+      - "6001:6001"
+    restart: unless-stopped

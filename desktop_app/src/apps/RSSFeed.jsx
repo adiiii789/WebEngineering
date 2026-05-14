@@ -1,13 +1,16 @@
 // desktop_app/src/apps/RSSFeed.jsx
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, RefreshCw } from 'lucide-react';
+import { ExternalLink, RefreshCw, WifiOff } from 'lucide-react';
+
+const fetchWithTimeout = (url, ms = 8000) =>
+    fetch(url, { signal: AbortSignal.timeout(ms) });
 
 const PROVIDERS = { // function for all news portals - made possible by https://api.rss2json.com (rate limits at ~5000, but no API-Key)
     tagesschau: {
         name: 'Tagesschau',
         color: '#003d80',
         fetch: async () => {
-            const res  = await fetch('https://www.tagesschau.de/api2u/news/?regions=1&ressort=inland'); // Tagesschau has its own API for stuff like this
+            const res  = await fetchWithTimeout('https://www.tagesschau.de/api2u/news/?regions=1&ressort=inland');
             const data = await res.json();
             return (data.news ?? []).map(item => {
 
@@ -37,7 +40,7 @@ const PROVIDERS = { // function for all news portals - made possible by https://
         color: '#009246',
         fetch: async () => {
             const rssUrl = encodeURIComponent('https://www.swr.de/~rss/index.xml');
-            const res    = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`); // here is the magic component
+            const res    = await fetchWithTimeout(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
             const data   = await res.json();
             return (data.items ?? []).map(item => ({
                 title:   item.title,
@@ -53,7 +56,7 @@ const PROVIDERS = { // function for all news portals - made possible by https://
         color: '#cc0000',
         fetch: async () => {
             const rssUrl = encodeURIComponent('https://www.spiegel.de/schlagzeilen/tops/index.rss');
-            const res    = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+            const res    = await fetchWithTimeout(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
             const data   = await res.json();
             return (data.items ?? []).map(item => ({
                 title:   item.title,
@@ -69,7 +72,7 @@ const PROVIDERS = { // function for all news portals - made possible by https://
         color: '#000000',
         fetch: async () => {
             const rssUrl = encodeURIComponent('https://newsfeed.zeit.de/all');
-            const res    = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
+            const res    = await fetchWithTimeout(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`);
             const data   = await res.json();
             return (data.items ?? []).map(item => ({
                 title:   item.title,
@@ -88,14 +91,16 @@ export default function RSSFeed({ darkMode, onNavigate }) {
     const [loading, setLoading]   = useState(false);
     const [error, setError]       = useState(null);
 
-    const load = async (key) => { // will be called as the App is opened
+    const load = async (key) => {
         setLoading(true);
-        setError(null); // if error remained, clear
+        setError(null);
         setResults([]);
         try {
-            setResults(await PROVIDERS[key].fetch()); // key are the providers, initial tagesschau
-        } catch {
-            setError('Fehler beim Laden');
+            setResults(await PROVIDERS[key].fetch());
+        } catch (e) {
+            // TypeError = network failure, TimeoutError/AbortError = timeout
+            const isNetwork = e instanceof TypeError || e.name === 'TimeoutError' || e.name === 'AbortError';
+            setError(isNetwork ? 'network' : 'Fehler beim Laden');
         } finally {
             setLoading(false);
         }
@@ -138,7 +143,15 @@ export default function RSSFeed({ darkMode, onNavigate }) {
                     Lädt…
                 </div>
             )}
-            {error && ( // if error: show error message
+            {error === 'network' && (
+                <div style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    gap: 6, fontSize: 12, padding: 32, color: '#f87171',
+                }}>
+                    <WifiOff size={14} /> Keine Internetverbindung
+                </div>
+            )}
+            {error && error !== 'network' && (
                 <div style={{ textAlign: 'center', opacity: 0.4, fontSize: 12, padding: 32 }}>
                     {error}
                 </div>

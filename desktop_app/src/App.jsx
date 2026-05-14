@@ -50,17 +50,10 @@ import RSSFeed     from './apps/RSSFeed';
 import Readme      from './apps/Readme';
 
 
-// Cookies
-const setCookie    = (name, value) => {
-    document.cookie = `${name}=${value}; path=/; SameSite=Strict`;
-};
-const getCookie    = (name) => {
-    const m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
-    return m ? m[2] : null;
-};
-const deleteCookie = (name) => {
-    document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-};
+// Session storage (cleared on browser/tab close, unlike cookies with session-restore)
+const setCookie    = (name, value) => sessionStorage.setItem(name, value);
+const getCookie    = (name) => sessionStorage.getItem(name);
+const deleteCookie = (name) => sessionStorage.removeItem(name);
 
 const LoginScreen = ({ onLogin, darkMode }) => {
     const [username,    setUsername]    = useState('');
@@ -285,34 +278,42 @@ export default function App() { // main function, base of what will be displayed
 
     // Weather API
     useEffect(() => {
+        const controller = new AbortController(); // abort if no connection
+        const tid = setTimeout(() => controller.abort(), 8000);
         fetch(`https://api.open-meteo.com/v1/forecast` +
             `?latitude=${coords.lat}` +
             `&longitude=${coords.lon}` +
             `&current=temperature_2m,weather_code` +
             `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
-            `&timezone=auto`
+            `&timezone=auto`,
+            { signal: controller.signal }
         )
-            .then(r => r.json()) // parse args
-            .then(data => setWeather(data)) //passes data into State
-            .catch(() => setNetworkError(true)); // if error
-    }, [coords]); // reruns if coords change
+            .then(r => r.json())
+            .then(data => { setWeather(data); setNetworkError(false); })
+            .catch(e => { if (e.name !== 'AbortError') setNetworkError(true); })
+            .finally(() => clearTimeout(tid));
+        return () => { controller.abort(); clearTimeout(tid); };
+    }, [coords]);
 
     const handleCitySearch = useCallback(async (e) => {
-        if (e.key === 'Enter' && cityInput) { //if something is entered into the input in weather
-            const res  = await fetch(`https://geocoding-api.open-meteo.com/v1/search` +
-                                    `?name=${cityInput}` +
-                                    `&count=1&language=de` +
-                                    `&format=json`
-                                );
+        if (e.key !== 'Enter' || !cityInput) return;
+        try {
+            const res  = await fetch(
+                `https://geocoding-api.open-meteo.com/v1/search` +
+                `?name=${cityInput}&count=1&language=de&format=json`,
+                { signal: AbortSignal.timeout(8000) }
+            );
             const data = await res.json();
             if (data.results) {
-                setCoords({ lat: data.results[0].latitude, lon: data.results[0].longitude }); // use data from result
+                setCoords({ lat: data.results[0].latitude, lon: data.results[0].longitude });
                 setCity(data.results[0].name);
-                setCityInput(''); // reset input
-                setIsWeatherOpen(false); // close if set
+                setCityInput('');
+                setIsWeatherOpen(false);
             }
+        } catch {
+            setNetworkError(true);
         }
-    }, [cityInput]); // run if input
+    }, [cityInput]);
 
     // return early 
     const getWeatherIcon = (code) => { // https://open-meteo.com/en/docs - at the bottom the interpretation
@@ -496,7 +497,7 @@ export default function App() { // main function, base of what will be displayed
                                     if (name === 'browser') { // browser is still a special case
                                         if (blocked) return;
                                         if (browser.open) setBrowser(b => ({ ...b, open: false }));
-                                        else openBrowser(browser.url || '/public/Excercise/webex1.htm');
+                                        else openBrowser(browser.url || '/Excercise/webex1.htm');
                                     } else {
                                         toggleApp(name); // every other app
                                     }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { RotateCw, ExternalLink, AlertTriangle, WifiOff } from 'lucide-react';
+import { RotateCw, ExternalLink, AlertTriangle, WifiOff, House } from 'lucide-react';
 
 // you could implement a workaround for sites blocked because they detect an embed,
 // but there is the option to open it in a new tab
@@ -21,7 +21,13 @@ export default function BrowserApp({ url, onNavigate }) {
 
         clearTimeout(timerRef.current);
         timerRef.current = setTimeout(async () => {
-            // navigator.onLine is unreliable, ping a known endpoint instead
+            // fast-path: browser already knows we're offline
+            if (!navigator.onLine) {
+                setNetworkError(true);
+                setLoading(false);
+                return;
+            }
+            // ping a known endpoint to distinguish "site blocks embed" from "no internet"
             try {
                 await fetch('https://api.open-meteo.com/v1/forecast?latitude=0&longitude=0&current=temperature_2m',
                     { signal: AbortSignal.timeout(3000) }
@@ -88,6 +94,13 @@ export default function BrowserApp({ url, onNavigate }) {
                         outline: 'none',
                     }}
                 />
+                <button
+                    onClick={() => onNavigate('/Excercise/webex1.htm')}
+                    style={{ opacity: 0.5, cursor: 'pointer', background: 'none', border: 'none' }}
+                    title="webex1.htm"
+                >
+                    <House size={14} />
+                </button>
                 <button
                     onClick={() => onNavigate(url)}
                     style={{ opacity: 0.5, cursor: 'pointer', background: 'none', border: 'none' }}

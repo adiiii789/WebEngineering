@@ -302,23 +302,25 @@ export const windowStyles = (dark) => ({
 
 export const loginStyles = (dark) => ({
     wrapper: `
-        fixed 
-        inset-0 
-        z-[999] 
-        flex 
-        flex-col 
-        items-center 
-        justify-center 
+        fixed
+        inset-0
+        z-[999]
+        flex
+        flex-col
+        items-center
+        justify-center
         gap-6
+        overflow-y-auto
     `,
 
     clockWrapper: `
-        absolute 
-        top-12 
-        flex 
-        flex-col 
-        items-center 
+        absolute
+        top-12
+        flex
+        flex-col
+        items-center
         select-none
+        [@media(max-height:500px)]:hidden
     `,
 
     clockMain: `

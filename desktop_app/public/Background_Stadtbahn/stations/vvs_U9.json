@@ -153,6 +153,12 @@
     ],
     "nextIn": "de:08111:229",
     "nextOut": "de:08111:6219",
+    "alternativeNext": [
+      {
+        "destination": "Berliner Platz (Liederhalle)",
+        "nextOut": null
+      }
+    ],
     "travelTimeNext": 120,
     "waypointIn": null,
     "waypointOut": null,

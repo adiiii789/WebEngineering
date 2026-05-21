@@ -21,6 +21,12 @@
     ],
     "nextIn": "de:08111:15",
     "nextOut": "de:08111:43",
+    "alternativeNext": [
+      {
+        "destination": "Südheimer Platz",
+        "nextOut": null
+      }
+    ],
     "travelTimeNext": 120,
     "waypointIn": null,
     "waypointOut": null,

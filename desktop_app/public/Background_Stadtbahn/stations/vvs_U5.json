@@ -91,6 +91,16 @@
     ],
     "nextIn": "de:08111:6169",
     "nextOut": "de:08111:183",
+    "alternativeNext": [
+      {
+        "destination": "SSB-Zentrum",
+        "nextOut": "de:08111:350"
+      },
+      {
+        "destination": "Vaihinger Straße",
+        "stopId": null
+      }
+    ],
     "travelTimeNext": 120,
     "waypointIn": {
       "pctX": 0.37559638253934347,

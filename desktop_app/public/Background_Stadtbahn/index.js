@@ -29,7 +29,14 @@ const LINE_COLORS = {
 // for matching
 const KNOWN_LINES = new Set(Object.keys(LINE_COLORS));
 
-// filter
+// Normalize line name if the API returns something fuzzy
+const normalizeLine = raw => {
+    if (!raw) return '';
+    const m = raw.match(/U\s*(\d+)/i);
+    return m ? `U${m[1]}` : raw.trim();
+};
+
+// filter, S-Bahn and Busses are still included
 const FERNVERKEHR = ['ICE', 'IC ', 'IC-', 'EC ', 'EC-', 'RJ', 'TGV', 'EN', 'NJ', 'D ', 'MEX'];
 const isFernverkehr = name => FERNVERKEHR.some(p => name.toUpperCase().startsWith(p.trim()));
 
@@ -103,26 +110,43 @@ const getItdTime = () => {
          + d.getMinutes().toString().padStart(2, '0');
 };
 
-// builds chain from terminus defined in schedule, chain ends at cutoffName
-function buildStationChain(terminusStopId, line, direction, cutoffName = null) {
-    const cacheKey = `${terminusStopId}|${line}|${direction}|${cutoffName ?? ''}`;
-    if (!cutoffName && chainCache.has(cacheKey)) return chainCache.get(cacheKey).chain; // if chain already cached - return early
+// builds chain from terminus defined in schedule, chain ends at cutoffName (some Trains will stop early to return
+// to the depot, this will handle such encounters)
+function buildStationChain(terminusStopId, line, direction, cutoffName = null, destination = null) {
+    const cacheKey = `${terminusStopId}|${line}|${direction}|${cutoffName ?? ''}|${destination ?? ''}`;
+    if (!cutoffName && !destination && chainCache.has(cacheKey)) return chainCache.get(cacheKey).chain;
 
     const chain   = [];
     const visited = new Set();
     let   current = findStation(terminusStopId, line);
-    if (!current) return chain;
-
-    while (current && !visited.has(current.stopId)) { // logic for building chain
+    if (!current) 
+        return chain;
+    while (current && !visited.has(current.stopId)) {
         chain.push(current);
         visited.add(current.stopId);
         if (cutoffName && current.name.toLowerCase().includes(cutoffName.toLowerCase())) break;
-        const nextId = direction === 'inbound' ? current.nextIn : current.nextOut;
+
+        // alternativeNext: station defines branch points for specific destinations
+        // e.g. at Möhringen Bf, U7 going to "SSB-Zentrum" follows a different nextOut
+        let nextId = null;
+        if (destination && current.alternativeNext?.length) {
+            const dest = destination.toLowerCase();
+            const alt  = current.alternativeNext.find(a =>
+                dest.includes(a.destination.toLowerCase()) ||
+                a.destination.toLowerCase().includes(dest)
+            );
+            if (alt) nextId = direction === 'inbound' ? alt.nextIn : alt.nextOut;
+        }
+
+        // fall back to regular nextIn/nextOut if no branch matched
+        if (!nextId) nextId = direction === 'inbound' ? current.nextIn : current.nextOut;
         if (!nextId) break;
-        current = findStation(nextId, line);
+
+        // allow branch to cross into another line's stations (e.g. U3 track for U7 depot)
+        current = findStation(nextId, line) ?? findStation(nextId, null);
     }
 
-    if (!cutoffName) chainCache.set(cacheKey, { chain }); // sets cache for chain
+    if (!cutoffName && !destination) chainCache.set(cacheKey, { chain });
     return chain;
 }
 
@@ -148,15 +172,15 @@ function getChainData(terminusStopId, line, direction) {
 
 function getWaypoint(chain, segIdx, direction) {
     return direction === 'inbound'
-        ? chain[segIdx + 1].waypointIn   // Waypoint inbound
-        : chain[segIdx].waypointOut;     // Waypoint outbound
+        ? chain[segIdx + 1].waypointIn   // Waypoint of destination station
+        : chain[segIdx].waypointOut;     // Waypoint of departure station
 }
 
 // interpolated position between two stations (with waypoint)
 function getPosition(sA, sB, wp, t) { // station A, station B, Waypoint, time
     const hasWp = wp && (wp.pctX !== 0 || wp.pctY !== 0);
     if (!hasWp) return {
-        x: sA.pctX + (sB.pctX - sA.pctX) * t, // if no waypoint, calculate immediately position at current time
+        x: sA.pctX + (sB.pctX - sA.pctX) * t, // if no waypoint, calculate position at current time
         y: sA.pctY + (sB.pctY - sA.pctY) * t
     };
     if (t < 0.5) { // half the time: station A to waypoint
@@ -213,7 +237,7 @@ const normalizeName = n => n.toLowerCase()
     .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
     .replace(/[^a-z0-9]/g, '');
 
-// by normalizing - best chance to get a return from API (however API is surprisingly flexible with inputs)
+//normalizing - best chance to get a return from API (however API is surprisingly flexible with inputs)
 function findStationByName(name) {
     const norm = normalizeName(name);
     return stations.find(s => normalizeName(s.name) === norm)
@@ -237,17 +261,25 @@ async function fetchStopData(stopId, line) {
         const evts = data.stopEvents || data.departures || [];
 
         for (const e of evts) { // for every event, get all departure data
-            const raw     = e?.transportation?.disassembledName || '';
-            const num     = e?.transportation?.number || '';
-            const apiLine = raw.length > 1 ? raw : (num ? `U${num}` : raw);
+            const raw  = e?.transportation?.disassembledName || '';
+            const num  = e?.transportation?.number || '';
+            const tid  = e?.transportation?.id || '';
+
+            const normalized = normalizeLine(raw); // ensure API gives data as expected
+            const fromId     = tid.match(/U\s*(\d+)/i);
+            const apiLine    = normalized.length > 1
+                ? normalized
+                : num
+                    ? `U${num}`
+                    : fromId ? `U${fromId[1]}` : ''; //ensure correct data is processed
             if (apiLine !== line) continue;
+            const dest    = e.transportation?.destination?.name || null;
             const planned    = new Date(e.departureTimePlanned || e.arrivalTimePlanned).getTime();
             const estimated  = new Date(e.departureTimeEstimated || e.departureTimePlanned).getTime();
-            const actualDest = e.transportation?.destination?.name || null;
-            trips.set(Math.round(planned / 60_000), { delayMs: estimated - planned, actualDest, estimatedMs: estimated });
+            trips.set(Math.round(planned / 60_000), { delayMs: estimated - planned, actualDest: dest, estimatedMs: estimated });
         }
     } catch (err) {
-        console.warn(`❌ ${stopId} (${line}):`, err);
+        console.warn(`${stopId} (${line}):`, err);
     }
 
     delayCache.set(cacheKey, { trips, fetchedAt: Date.now() });
@@ -268,7 +300,7 @@ async function fetchKeyStopDeparture(stopId, line, approxMs) {
     return null;
 }
 
-// Metro lines like the U11 have no own schedule, so for those the departure time comes from the API
+// Metro lines like the U11 have no regular schedule, so for those the departure time comes from the API
 async function resolveEventLine({ terminusStopId, line }) {
     const trips = await fetchStopData(terminusStopId, line);
     if (!trips.size) return [];
@@ -325,14 +357,17 @@ async function updateEntireNetwork() {
             if (foundInApi) tripDelayCache.set(tripId, freshDelay); // delay from api set in cache
             const delayMs = tripDelayCache.get(tripId) ?? freshDelay; // get from cache
 
-            // cut chain if short runner
+            // Build chain – pass actualDest so alternativeNext branches are followed
+            // if destination is a regular station on this line: chain ends there (short runner)
+            // if destination triggers an alternativeNext branch: chain follows depot route
+            // if destination unknown: full chain used (train serves full route before depot)
             const terminus = fullChain[fullChain.length - 1];
             const isShort  = actualDest
                 && !terminus.name.toLowerCase().includes(actualDest.toLowerCase())
                 && !actualDest.toLowerCase().includes(terminus.name.toLowerCase());
 
             const chain = isShort
-                ? buildStationChain(terminusStopId, line, direction, actualDest)
+                ? buildStationChain(terminusStopId, line, direction, null, actualDest)
                 : fullChain;
             if (chain.length < 2) continue;
 
@@ -714,41 +749,53 @@ function buildSearchUI() {
     const input   = document.getElementById('searchInput');
     const results = document.getElementById('searchResults');
 
+    let currentMatches = [];
+
+    const confirmResult = (item) => {
+        selectSearchResult(item);
+        input.value           = '';
+        results.style.display = 'none';
+        currentMatches        = [];
+        input.blur();
+    };
+
     input.addEventListener('input', () => {
         const query = input.value.trim();
-        if (query.length < 2) { results.style.display = 'none'; return; }
+        if (query.length < 2) { results.style.display = 'none'; currentMatches = []; return; }
 
         const norm = normalizeName(query);
 
-        const score = name => { // categorizes results
+        // Relevanz-Score: je früher der Treffer im Namen, desto besser
+        // 0 = Name beginnt mit Query (beste), 1 = Wort beginnt mit Query, 2 = enthält Query
+        const score = name => {
             const n = normalizeName(name.split('|')[0]);
-            if (n.startsWith(norm))                                     return 0; // name starts with query
-            if (n.split(/[^a-z0-9]/).some(w => w.startsWith(norm)))    return 1;  // one word starts with query
-            if (n.includes(norm))                                       return 2; // charater is included in query
-            return Infinity; // no result
+            if (n.startsWith(norm))                                     return 0;
+            if (n.split(/[^a-z0-9]/).some(w => w.startsWith(norm)))    return 1;
+            if (n.includes(norm))                                       return 2;
+            return Infinity; // kein Treffer
         };
 
-        const matches = overlayItems
+        currentMatches = overlayItems
             .filter(item => item.type !== 'decoration' && score(item.name) < Infinity)
             .sort((a, b) => score(a.name) - score(b.name))
             .slice(0, 10);
 
-        if (!matches.length) { results.style.display = 'none'; return; }
+        if (!currentMatches.length) { results.style.display = 'none'; return; }
 
-        results.innerHTML = matches.map((item, i) =>
+        // Anzeigename: Teil vor dem "|" (stopId ausblenden)
+        results.innerHTML = currentMatches.map((item, i) =>
             `<div class="search-result" data-idx="${i}">${item.name.split('|')[0]}</div>`
         ).join('');
         results.style.display = 'block';
 
         // click on result
         results.querySelectorAll('.search-result').forEach((el, i) => {
-            el.addEventListener('click', () => {
-                selectSearchResult(matches[i]);
-                input.value           = '';        // reset input
-                results.style.display = 'none';
-                input.blur();
-            });
+            el.addEventListener('click', () => confirmResult(currentMatches[i]));
         });
+    });
+
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && currentMatches.length === 1) confirmResult(currentMatches[0]);
     });
 
     // close on outside click

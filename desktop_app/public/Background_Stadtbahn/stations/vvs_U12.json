@@ -55,6 +55,12 @@
     ],
     "nextIn": "de:08111:170",
     "nextOut": "de:08111:355",
+    "alternativeNext": [
+      {
+        "destination": "SSB-Zentrum",
+        "nextOut": null
+      }
+    ],
     "travelTimeNext": 120,
     "waypointIn": null,
     "waypointOut": null,

@@ -221,6 +221,12 @@
     ],
     "nextIn": "de:08111:25",
     "nextOut": "de:08111:6075",
+    "alternativeNext": [
+      {
+        "destination": "Staatsgalerie",
+        "nextOut": null
+      }
+    ],
     "travelTimeNext": 60,
     "waypointIn": null,
     "waypointOut": null,

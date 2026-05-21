@@ -147,10 +147,10 @@ const LoginScreen = ({ onLogin, darkMode }) => {
                     style={{ background: '#5a5a5a', border: '1px solid rgba(255,255,255,0.15)' }}>
                     Login
                 </button>
-                <div style={{position: 'absolute', bottom: 0, fontSize: '50px', opacity: 0.3, color: '#FFFFFF', padding: '2%'}}>
-                    adiOS
-                </div>
             </motion.form>
+            <div style={{position: 'absolute', bottom: 0, fontSize: '50px', opacity: 0.3, color: '#FFFFFF', padding: '2%', pointerEvents: 'none'}}>
+                adiOS
+            </div>
         </motion.div>
     );
 };
@@ -420,9 +420,11 @@ export default function App() { // main function, base of what will be displayed
                         isOpen={apps.wiki} // pass args to app
                         onClose={() => toggleApp('wiki')}
                         zIndex={focusedApp === 'wiki' ? 100 : 50} //arrange z-index
-                        onFocus={() => setFocusedApp('wiki')} 
+                        onFocus={() => setFocusedApp('wiki')}
                         darkMode={darkMode} // pass darkmode
-                        style={{ top: '10%', left: '5%', width: '40vh', pointerEvents: 'auto' }} //no px
+                        style={isSmallScreen
+                            ? { top: '4%', left: '4%', width: '92vw', pointerEvents: 'auto' }
+                            : { top: '10%', left: '5%', width: '40vh', pointerEvents: 'auto' }} //no px
                     >
                         <WikiApp darkMode={darkMode} onLinkClick={openBrowser} /*icon clickable*//> 
                     </Window>
@@ -434,7 +436,9 @@ export default function App() { // main function, base of what will be displayed
                             zIndex={focusedApp === 'settings' ? 100 : 50}
                             onFocus={() => setFocusedApp('settings')}
                             darkMode={darkMode}
-                            style={{ position: 'relative', width: '36vh', pointerEvents: 'auto' }}
+                            style={isSmallScreen
+                                ? { position: 'relative', width: '92vw', pointerEvents: 'auto' }
+                                : { position: 'relative', width: '36vh', pointerEvents: 'auto' }}
                         >
                             <SettingsApp // definition of a getter/setter
                                 brightness={brightness}
@@ -451,7 +455,9 @@ export default function App() { // main function, base of what will be displayed
                         zIndex={focusedApp === 'browser' ? 100 : 50}
                         onFocus={() => setFocusedApp('browser')}
                         darkMode={darkMode}
-                        style={{ top: '5%', left: '15%', width: '70vw', maxWidth: '90vh', pointerEvents: 'auto' }}
+                        style={isSmallScreen
+                            ? { top: '3%', left: '4%', width: '92vw', pointerEvents: 'auto' }
+                            : { top: '5%', left: '15%', width: '70vw', maxWidth: '90vh', pointerEvents: 'auto' }}
                     >
                         <BrowserApp
                             url={browser.url}
@@ -465,7 +471,9 @@ export default function App() { // main function, base of what will be displayed
                         zIndex={focusedApp === 'news' ? 100 : 50}
                         onFocus={() => setFocusedApp('news')}
                         darkMode={darkMode}
-                        style={{ top: '5%', left: '25%', width: '48vh', pointerEvents: 'auto' }}
+                        style={isSmallScreen
+                            ? { top: '4%', left: '4%', width: '92vw', pointerEvents: 'auto' }
+                            : { top: '5%', left: '25%', width: '48vh', pointerEvents: 'auto' }}
                     >
                         <RSSFeed darkMode={darkMode} onNavigate={openBrowser} />
                     </Window>
@@ -476,7 +484,9 @@ export default function App() { // main function, base of what will be displayed
                         zIndex={focusedApp === 'readme' ? 100 : 50}
                         onFocus={() => setFocusedApp('readme')}
                         darkMode={darkMode}
-                        style={{ top: '10%', left: '10%', width: '42vh', pointerEvents: 'auto' }}
+                        style={isSmallScreen
+                            ? { top: '4%', left: '4%', width: '92vw', pointerEvents: 'auto' }
+                            : { top: '10%', left: '10%', width: '42vh', pointerEvents: 'auto' }}
                     >
                         <Readme darkMode={darkMode} />
                     </Window>
@@ -591,13 +601,14 @@ export default function App() { // main function, base of what will be displayed
                         {/*Clock, Username and logout*/}
                         <div className={s.taskbarTime}>
                             {time.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
-                                <span className={s.taskbarUser}>{currentUser}</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 2 }}>
+                                {!isSmallScreen && <span className={s.taskbarUser}>{currentUser}</span>}
                                 <button
                                     onClick={handleReLogin} //Kills the cookies, which brings login back up
                                     title="Re-Login"
                                     style={{ background: 'none', border: 'none',
-                                             cursor: 'pointer', opacity: 0.4, padding: 2 }}
+                                             cursor: 'pointer', opacity: 0.4,
+                                             padding: isSmallScreen ? '8px' : '2px' }}
                                 >
                                     <LogOut size={12} color={darkMode ? '#fff' : '#1f2937'} />
                                 </button>

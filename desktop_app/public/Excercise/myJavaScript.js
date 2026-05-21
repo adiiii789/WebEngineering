@@ -64,7 +64,7 @@ function zeigePersonen() {
 function sucheWikipedia(suchbegriff) {
     zeigeDaten("Wikipedia: " + suchbegriff, "<p>Lade...</p>");
 
-    var url = "http://localhost:6001/proxy/?url=https://de.wikipedia.org/w/api.php" +
+    var url = "http://localhost:4012/proxy/?url=https://de.wikipedia.org/w/api.php" +
               "?action=query" +
               "&generator=prefixsearch" +
               "&gpslimit=4" +

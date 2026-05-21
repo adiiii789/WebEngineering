@@ -229,6 +229,12 @@
     ],
     "nextIn": "de:08111:6056",
     "nextOut": "de:08111:6075",
+    "alternativeNext": [
+      {
+        "destination": "Rathaus",
+        "nextOut": null
+      }
+    ],
     "travelTimeNext": 120,
     "waypointIn": null,
     "waypointOut": null,

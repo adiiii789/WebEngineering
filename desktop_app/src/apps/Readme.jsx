@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default function Readme(darkMode) {
-
+export default function Readme({ darkMode }) {
 
     return(
         <div style={{ // many divs because of many style changes
@@ -9,6 +8,12 @@ export default function Readme(darkMode) {
             color: !darkMode ? 'rgba(255,255,255,0.75)' : 'rgba(0,0,0,0.75)',
             display: 'flex', flexDirection: 'column', gap: 16,
         }}>
+            <div style={{ fontWeight: 'bold', fontSize: 13, marginBottom: 4 }}>Fenster öffnet sich beim Neuladen erneut!</div>
+            <div>
+                <div style={{ fontWeight: 'bold', fontSize: 13, marginBottom: 4 }}>Windows</div>
+                <div>Die Fenster sind anklickbar und werden dabei auch fokussiert. Ebenfalls kann man diese verschieben ("draggable") und übereinanderlappen. known issues: die z-index logik ist nicht perfekt </div>
+            </div>
+            <div></div>
             <div>
                 <div style={{ fontWeight: 'bold', fontSize: 13, marginBottom: 4 }}>Background</div>
                 <div>Stuttgarter Stadtbahn (Ubahn) welche anhand des Fahrplans und der VVS API die Positionen der Züge interpoliert und als punkt darstellt. Namen der Stationen und Symbole (Stuttgarter Messe, MHPArena, Hauptbahnhof) auf der Karte anklickbar für Abfahrten und Verspätungen (Reine html/css/js eingebunden als iframe)</div>
@@ -18,10 +23,10 @@ export default function Readme(darkMode) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                     {[
                         ['Wikipedia',     'Funktion aus Übungen ohne Proxy, mit Speech API'],
-                        ['Browser',       'Redirect links werden abgefangen und versucht im browser darzustellen'],
+                        ['Browser',       'Redirect links werden abgefangen und versucht im browser darzustellen. unter Home wird die Aufgabe angezeigt. (https:// wird ergänzt, .com aber nicht)'],
                         ['News',          'Nachrichten von Tagesschau, SWR, Spiegel & Zeit, nur SWR und Zeit erlauben eingebettete links'],
                         ['Einstellungen', 'Dark Mode & Helligkeit'],
-                    ].map(([name, desc]) => ( // just a list, a little overkill but interesting
+                    ].map(([name, desc]) => ( // just a list, overkill but interesting
                         <div key={name} style={{ display: 'flex', gap: 8 }}>
                             <span><strong>{name}</strong> — {desc}</span>
                         </div>
@@ -33,6 +38,7 @@ export default function Readme(darkMode) {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                     <div><span style={{ color: '#fb923c', fontWeight: 'bold' }}>Rich (admin123)</span> — Vollzugriff auf alle Apps</div>
                     <div><span style={{ color: '#818cf8', fontWeight: 'bold' }}>Poor (guest)</span> — Nur Karte, Uhr & Wetter</div>
+                    <div>Logout erfolgt über Symbol beim Namen unterhalb der Uhrzeit</div>
                 </div>
             </div>
             <div>

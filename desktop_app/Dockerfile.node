@@ -1,7 +1,7 @@
-FROM node:20-alpine
+﻿FROM node:20-alpine
 WORKDIR /app
 COPY public/Excercise/server-package.json ./package.json
 RUN npm install
 COPY public/Excercise/myWebServer.js ./
-EXPOSE 6001
+EXPOSE 4012
 CMD ["node", "myWebServer.js"]

@@ -4,7 +4,7 @@ import { RotateCw, ExternalLink, AlertTriangle, WifiOff, House } from 'lucide-re
 // you could implement a workaround for sites blocked because they detect an embed,
 // but there is the option to open it in a new tab
 // if you really want to make it work, there are browser-extensions
-export default function BrowserApp({ url, onNavigate }) {
+export default function BrowserApp({ url, onNavigate, darkMode}) {
     const [input,        setInput]        = useState(url);
     const [loading,      setLoading]      = useState(true);
     const [blocked,      setBlocked]      = useState(false);
@@ -75,6 +75,10 @@ export default function BrowserApp({ url, onNavigate }) {
         onNavigate(target);
     };
 
+    const iconColor   = !darkMode ? '#ccc' : 'inherit';
+    const panelBg     = !darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)';
+    const panelBorder = !darkMode ? '1px solid rgba(255,255,255,0.15)' : '1px solid rgba(0,0,0,0.1)';
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
 
@@ -86,24 +90,25 @@ export default function BrowserApp({ url, onNavigate }) {
                     onKeyDown={e => e.key === 'Enter' && navigate()}
                     style={{
                         flex: 1,
-                        background: 'rgba(0,0,0,0.08)',
-                        border: '1px solid rgba(0,0,0,0.1)',
+                        background: panelBg,
+                        border: panelBorder,
                         borderRadius: 10,
                         padding: '6px 10px',
                         fontSize: 11,
                         outline: 'none',
+                        color: iconColor,
                     }}
                 />
                 <button
                     onClick={() => onNavigate('/Excercise/webex1.htm')}
-                    style={{ opacity: 0.5, cursor: 'pointer', background: 'none', border: 'none' }}
+                    style={{ opacity: 0.6, cursor: 'pointer', background: 'none', border: 'none', color: iconColor }}
                     title="webex1.htm"
                 >
                     <House size={14} />
                 </button>
                 <button
                     onClick={() => onNavigate(url)}
-                    style={{ opacity: 0.5, cursor: 'pointer', background: 'none', border: 'none' }}
+                    style={{ opacity: 0.6, cursor: 'pointer', background: 'none', border: 'none', color: iconColor }}
                     title="Neu laden"
                 >
                     <RotateCw size={14} />
@@ -112,7 +117,7 @@ export default function BrowserApp({ url, onNavigate }) {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ opacity: 0.5, cursor: 'pointer' }}
+                style={{ opacity: 0.6, cursor: 'pointer', color: iconColor }}
                 title="Im Browser öffnen"
                 >
                 <ExternalLink size={14} />
@@ -127,7 +132,8 @@ export default function BrowserApp({ url, onNavigate }) {
             <div style={{
                 position: 'absolute', inset: 0,
                 display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: 12, opacity: 0.4
+                justifyContent: 'center', fontSize: 12, opacity: 0.4,
+                color: iconColor,
             }}>
                 Lädt…
             </div>
@@ -139,10 +145,11 @@ export default function BrowserApp({ url, onNavigate }) {
                 position: 'absolute', inset: 0,
                 display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
-                gap: 12, padding: 24, textAlign: 'center'
+                gap: 12, padding: 24, textAlign: 'center',
+                color: iconColor,
             }}>
-                <AlertTriangle size={28} style={{ opacity: 0.4 }} />
-                <span style={{ fontSize: 12, opacity: 0.6 }}>
+                <AlertTriangle size={28} style={{ opacity: 0.5, color: iconColor }} />
+                <span style={{ fontSize: 12, opacity: 0.7 }}>
                             Diese Seite erlaubt keine Einbettung.
                         </span>
             <a
@@ -151,10 +158,10 @@ export default function BrowserApp({ url, onNavigate }) {
                 rel="noopener noreferrer"
                 style={{
                 fontSize: 12, padding: '7px 16px', borderRadius: 10,
-                background: 'rgba(0,0,0,0.08)',
-                border: '1px solid rgba(0,0,0,0.1)',
+                background: panelBg,
+                border: panelBorder,
                 cursor: 'pointer', textDecoration: 'none',
-                color: 'inherit', display: 'flex',
+                color: iconColor, display: 'flex',
                 alignItems: 'center', gap: 6,
                 }}
                 >
@@ -170,10 +177,11 @@ export default function BrowserApp({ url, onNavigate }) {
         position: 'absolute', inset: 0,
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
-        gap: 12, padding: 24, textAlign: 'center'
+        gap: 12, padding: 24, textAlign: 'center',
+        color: iconColor,
     }}>
-        <WifiOff size={28} style={{ opacity: 0.4 }} />
-        <span style={{ fontSize: 12, opacity: 0.6 }}>
+        <WifiOff size={28} style={{ opacity: 0.5, color: iconColor }} />
+        <span style={{ fontSize: 12, opacity: 0.7 }}>
                             Keine Internetverbindung
                         </span>
         <button
@@ -184,9 +192,9 @@ export default function BrowserApp({ url, onNavigate }) {
             }}
             style={{
                 fontSize: 12, padding: '7px 16px', borderRadius: 10,
-                background: 'rgba(0,0,0,0.08)',
-                border: '1px solid rgba(0,0,0,0.1)',
-                cursor: 'pointer', color: 'inherit',
+                background: panelBg,
+                border: panelBorder,
+                cursor: 'pointer', color: iconColor,
             }}
         >
             Erneut versuchen

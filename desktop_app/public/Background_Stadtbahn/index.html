@@ -8,7 +8,7 @@
         <div id="loadingFill"></div>
         <span id="loadingLabel">Fetching API … 0%</span>
     </div>
-
+    <!-- Source: https://www.vvs.de/verbindungen-und-mobilitaet/liniennetze-tarifzonenplan -> https://www.vvs.de/fileadmin/2_Verbindungen_und_Mobilitaet/2.3_Liniennetz_und_Tarifzonenplan/S-Bahn_Stadtbahn/Stadtbahn_Liniennetz.pdf-->
     <img id="mapImage" class="center-fit" src="Stadtbahn_Liniennetz.png">
 
     <canvas id="mapCanvas"></canvas>
@@ -38,7 +38,7 @@
     const SCHEDULE_FILES = {
         weekday:  "schedule/weekday.json",
         saturday: "schedule/saturday.json",
-        sunday:   "schedule/sunday.json"   // also for holidays (using gaus easter formular)
+        sunday:   "schedule/sunday.json"   // also for holidays (using gauss easter formular)
         }
     
     const OVERLAY_FILE = "stations_overlay.json";

@@ -16,6 +16,13 @@ export default function WikiApp({darkMode, onLinkClick}) {
 
   const style = WikiAppStyles(darkMode)
 
+  // stop TTS when window is closed (component unmounts)
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis.cancel();
+    };
+  }, []); // Dependency Array is empty -> run only on Cleanup 
+
   // API Fetch
   useEffect(() => {
     if (search.length < 3) { setResults([]); setNetworkError(false); return; }

@@ -131,6 +131,12 @@
     ],
     "nextIn": "de:08111:15",
     "nextOut": "de:08111:43",
+    "alternativeNext": [
+      {
+        "destination": "Südheimer Platz",
+        "nextOut": null
+      }
+    ],
     "travelTimeNext": 120,
     "waypointIn": null,
     "waypointOut": null,
@@ -291,6 +297,12 @@
     ],
     "nextIn": "de:08111:254",
     "nextOut": "de:08111:27",
+    "alternativeNext": [
+      {
+        "destination": "Mineralbäder",
+        "nextOut": null
+      }
+    ],
     "travelTimeNext": 120,
     "waypointIn": null,
     "waypointOut": null,

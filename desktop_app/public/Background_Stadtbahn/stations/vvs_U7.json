@@ -209,6 +209,16 @@
     ],
     "nextIn": "de:08111:159",
     "nextOut": "de:08111:130",
+    "alternativeNext": [
+      {
+        "destination": "SSB-Zentrum",
+        "nextOut": "de:08111:350"
+      },
+      {
+        "destination": "Bopser",
+        "nextOut": null
+      }
+    ],
     "travelTimeNext": 60,
     "waypointIn": {
       "pctX": 0.5305229153871146,

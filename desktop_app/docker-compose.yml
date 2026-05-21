@@ -14,5 +14,5 @@ services:
       context: .
       dockerfile: Dockerfile.node
     ports:
-      - "6001:6001"
+      - "4012:4012"
     restart: unless-stopped

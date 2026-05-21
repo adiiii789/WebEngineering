@@ -177,8 +177,8 @@ const Window = ({ title, isOpen, onClose, children, zIndex, onFocus, style, dark
                             <X size={16} />
                         </button>
                     </div>
-                    <div className={wis.content} /*content of window will be inserted from main*/>
-                        {children} 
+                    <div className={wis.content} onPointerDown={(e) => e.stopPropagation()} /*content of window will be inserted from main*/>
+                        {children}
                     </div>
                 </motion.div>
             )}
@@ -206,7 +206,7 @@ export default function App() { // main function, base of what will be displayed
     const [browser, setBrowser] = useState({ open: false, url: '' });
 
     //iframe
-    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640);
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 640 || window.innerHeight < 500);
 
     // Wetter
     const [weather,       setWeather]       = useState(null); // current weather
@@ -253,7 +253,7 @@ export default function App() { // main function, base of what will be displayed
 
     // resize for change from .html to .png
     useEffect(() => {
-        const handleResize = () => setIsSmallScreen(window.innerWidth < 640);
+        const handleResize = () => setIsSmallScreen(window.innerWidth < 640 || window.innerHeight < 500);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
@@ -462,6 +462,8 @@ export default function App() { // main function, base of what will be displayed
                         <BrowserApp
                             url={browser.url}
                             onNavigate={(url) => setBrowser(b => ({ ...b, url }))}
+                            darkMode={darkMode}
+                            isSmallScreen={isSmallScreen}
                         />
                     </Window>
 

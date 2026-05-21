@@ -40,7 +40,7 @@ const normalizeLine = raw => {
 const FERNVERKEHR = ['ICE', 'IC ', 'IC-', 'EC ', 'EC-', 'RJ', 'TGV', 'EN', 'NJ', 'D ', 'MEX'];
 const isFernverkehr = name => FERNVERKEHR.some(p => name.toUpperCase().startsWith(p.trim()));
 
-// ─── DOM ──────────────────────────────────────────────────────────────────────
+// --- DOM ---
 
 const canvas = document.getElementById('mapCanvas');
 const ctx    = canvas.getContext('2d');

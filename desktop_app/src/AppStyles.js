@@ -292,9 +292,12 @@ export const windowStyles = (dark) => ({
     `,
 
     content: `
-        p-8 
-        max-h-[55vh] 
-        overflow-y-auto 
+        p-4
+        sm:p-8
+        [@media(max-width:639px)]:max-h-[72vh]
+        sm:max-h-[55vh]
+        overflow-y-auto
+        touch-auto
         custom-scrollbar
         [font-family:'Comic_Sans_MS',cursive]
     `
@@ -528,24 +531,26 @@ export const WikiAppStyles = (dark) => ({
     `,
 
     speechAPIbutton: `
-        ${dark ? 
-        `   text-black/40 
+        ${dark ?
+        `   text-black/40
             hover:text-black`
-        : 
-        `   text-white/40 
+        :
+        `   text-white/40
             hover:text-white
         `}
         transition-colors
+        p-2
     `,
 
     redirectButton: `
-        ${dark ? 
-        `   text-black/40 
-            hover:text-black` 
-        : 
-        `   text-white/40 
+        ${dark ?
+        `   text-black/40
+            hover:text-black`
+        :
+        `   text-white/40
             hover:text-white
         `}
         transition-colors
+        p-2
     `,
 });

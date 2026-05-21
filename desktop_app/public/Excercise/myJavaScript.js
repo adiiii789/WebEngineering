@@ -145,7 +145,7 @@ function zeigeDaten(titel, inhalt) {
     }
     document.getElementById('showwindowData').innerHTML = inhalt;
     document.getElementById('showwindow').style.display = "block";
-    document.getElementById('showwindow').style.top = "50%";
+    document.getElementById('showwindow').style.top = "8%";
 }
 
 function schliesseDaten() {

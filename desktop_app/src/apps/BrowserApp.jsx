@@ -4,7 +4,7 @@ import { RotateCw, ExternalLink, AlertTriangle, WifiOff, House } from 'lucide-re
 // you could implement a workaround for sites blocked because they detect an embed,
 // but there is the option to open it in a new tab
 // if you really want to make it work, there are browser-extensions
-export default function BrowserApp({ url, onNavigate, darkMode}) {
+export default function BrowserApp({ url, onNavigate, darkMode, isSmallScreen }) {
     const [input,        setInput]        = useState(url);
     const [loading,      setLoading]      = useState(true);
     const [blocked,      setBlocked]      = useState(false);
@@ -125,7 +125,7 @@ export default function BrowserApp({ url, onNavigate, darkMode}) {
         </div>
 
     {/* iframe / Fallbacks */}
-    <div style={{ position: 'relative', width: '100%', height: 420 }}>
+    <div style={{ position: 'relative', width: '100%', height: isSmallScreen && window.innerWidth >= 640 ? 'min(280px, calc(55vh - 60px))' : 420 }}>
 
         {/* loading placeholder */}
         {loading && !blocked && !networkError && (
@@ -214,6 +214,7 @@ export default function BrowserApp({ url, onNavigate, darkMode}) {
             border: 'none', borderRadius: 10,
             opacity: loading || blocked || networkError ? 0 : 1,
             transition: 'opacity 0.2s',
+            touchAction: 'auto',
             pointerEvents: loading || blocked || networkError ? 'none' : 'auto', // ← neu
         }}
         sandbox="allow-scripts allow-same-origin allow-forms allow-popups"

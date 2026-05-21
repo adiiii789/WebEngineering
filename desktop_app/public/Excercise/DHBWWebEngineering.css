@@ -8,6 +8,8 @@ In our CSS exercise we will take this a step further and
 */
 html, body {
     height: 100%;
+    background-color: white;
+    color-scheme: light;
 }
 * {margin:0;padding:0;box-sizing: border-box;}
 header,footer {color: white;  background-color: black; padding:1em;width:100%;}
@@ -69,6 +71,12 @@ td img {width:100%;min-width: 200px;}
   .headertext {font-size: 1.8em;}
   section p {font-size: 0.8em;}
   nav li {border-bottom: 1px solid white; border-left:none;}
+}
+@media only screen and (max-width: 449px) {
+  header { max-height: 52px; overflow: hidden; }
+  footer { padding: 0.3em 1em; font-size: 0.8em; }
+  nav li a { padding: 0.5rem 0.2rem; font-size: 0.72em; }
+  .popup { max-height: 55vh; overflow-y: auto; }
 }
     /* For small  tablets: 450-700  */
 
@@ -145,6 +153,8 @@ nav li {border-left: 1px solid white; border-bottom: none;}
     "footer";
     position: fixed;
     height: 100%;
+    width: 100%;
+    background-color: white;
     }
     .pagegridheader {grid-area: header}
     .pagegridnavigation {grid-area: navigation}
@@ -265,7 +275,8 @@ nav li {border-left: 1px solid white; border-bottom: none;}
 #showwindow {
     max-height: 65vh;
     overflow-y: auto;
-    min-width: 340px;
+    min-width: min(340px, 88vw);
+    width: min(340px, 88vw);
 }
 
 #showwindow table   { width: 100%; border-collapse: collapse; font-size: 0.85em; }

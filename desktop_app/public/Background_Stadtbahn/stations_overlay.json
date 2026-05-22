@@ -4,1470 +4,1470 @@
   "stations": [
     {
       "name": "Zuffenhausen Rathaus|de:08111:108",
-      "file": "Zuffenhausen Rathaus.png",
+      "file": "Zuffenhausen Rathaus.webp",
       "pctX": 0.473581,
       "pctY": 0.077035,
       "pctW": 0.032543
     },
     {
       "name": "Zuffenhausen Kelterplatz|de:08111:6294",
-      "file": "Zuffenhausen Kelterplatz.png",
+      "file": "Zuffenhausen Kelterplatz.webp",
       "pctX": 0.516058,
       "pctY": 0.078048,
       "pctW": 0.032472
     },
     {
       "name": "Salzwiesenstraße|de:08111:6105",
-      "file": "Salzwiesenstraße.png",
+      "file": "Salzwiesenstrasse.webp",
       "pctX": 0.364416,
       "pctY": 0.081909,
       "pctW": 0.033967
     },
     {
       "name": "Fürfelder Straße|de:08111:6292",
-      "file": "Fürfelder Straße.png",
+      "file": "Fuerfelder Strasse.webp",
       "pctX": 0.607349,
       "pctY": 0.081909,
       "pctW": 0.030905
     },
     {
       "name": "Himmelsleiter|de:08111:289",
-      "file": "Himmelsleiter.png",
+      "file": "Himmelsleiter.webp",
       "pctX": 0.704942,
       "pctY": 0.081972,
       "pctW": 0.033113
     },
     {
       "name": "Heutingsheimer Straße|de:08111:103",
-      "file": "Heutingsheimer Straße.png",
+      "file": "Heutingsheimer Strasse.webp",
       "pctX": 0.250979,
       "pctY": 0.082985,
       "pctW": 0.047924
     },
     {
       "name": "Freiberg|de:08111:6287",
-      "file": "Freiberg.png",
+      "file": "Freiberg.webp",
       "pctX": 0.802321,
       "pctY": 0.083048,
       "pctW": 0.019227
     },
     {
       "name": "Mönchfeld|de:08111:6288",
-      "file": "Mönchfeld.png",
+      "file": "Moenchfeld.webp",
       "pctX": 0.863954,
       "pctY": 0.098557,
       "pctW": 0.02471
     },
     {
       "name": "Korntaler Straße|de:08111:102",
-      "file": "Korntaler Straße.png",
+      "file": "Korntaler Strasse.webp",
       "pctX": 0.194154,
       "pctY": 0.098873,
       "pctW": 0.031546
     },
     {
       "name": "Suttnerstraße|de:08111:288",
-      "file": "Suttnerstraße.png",
+      "file": "Suttnerstrasse.webp",
       "pctX": 0.753471,
       "pctY": 0.098873,
       "pctW": 0.024781
     },
     {
       "name": "Kirchtalstraße|de:08111:107",
-      "file": "Kirchtalstraße.png",
+      "file": "Kirchtalstrasse.webp",
       "pctX": 0.421278,
       "pctY": 0.098937,
       "pctW": 0.025208
     },
     {
       "name": "Schozacher Straße|de:08111:6293",
-      "file": "Schozacher Straße.png",
+      "file": "Schozacher Strasse.webp",
       "pctX": 0.558463,
       "pctY": 0.098937,
       "pctW": 0.036958
     },
     {
       "name": "Stammheim|de:08111:100",
-      "file": "Stammheim.png",
+      "file": "Stammheim.webp",
       "pctX": 0.121876,
       "pctY": 0.099759,
       "pctW": 0.02884
     },
     {
       "name": "Wimpfener Straße|de:08111:104",
-      "file": "Wimpfener Straße.png",
+      "file": "Wimpfener Strasse.webp",
       "pctX": 0.307627,
       "pctY": 0.099886,
       "pctW": 0.036602
     },
     {
       "name": "Tapachstraße|de:08111:6291",
-      "file": "Tapachstraße.png",
+      "file": "Tapachstrasse.webp",
       "pctX": 0.655914,
       "pctY": 0.099949,
       "pctW": 0.024496
     },
     {
       "name": "Hohensteinstraße|de:08111:6109",
-      "file": "Hohensteinstraße.png",
+      "file": "Hohensteinstrasse.webp",
       "pctX": 0.515773,
       "pctY": 0.115331,
       "pctW": 0.034323
     },
     {
       "name": "Wagrainäcker|de:08111:274",
-      "file": "Wagrainäcker.png",
+      "file": "Wagrainaecker.webp",
       "pctX": 0.628391,
       "pctY": 0.120142,
       "pctW": 0.021861
     },
     {
       "name": "Hofen|de:08111:272",
-      "file": "Hofen.png",
+      "file": "Hofen.webp",
       "pctX": 0.682689,
       "pctY": 0.125016,
       "pctW": 0.01353
     },
     {
       "name": "Hornbach|de:08118:3570",
-      "file": "Hornbach.png",
+      "file": "Hornbach.webp",
       "pctX": 0.766823,
       "pctY": 0.125079,
       "pctW": 0.022574
     },
     {
       "name": "Brückenstraße|de:08118:3572",
-      "file": "Brückenstraße.png",
+      "file": "Brueckenstrasse.webp",
       "pctX": 0.822972,
       "pctY": 0.125079,
       "pctW": 0.02649
     },
     {
       "name": "Hallschlag|de:08111:2473",
-      "file": "Hallschlag.png",
+      "file": "Hallschlag.webp",
       "pctX": 0.55914,
       "pctY": 0.129194,
       "pctW": 0.024069
     },
     {
       "name": "Friedrichswahl|de:08111:110",
-      "file": "Friedrichswahl.png",
+      "file": "Friedrichswahl.webp",
       "pctX": 0.51588,
       "pctY": 0.131726,
       "pctW": 0.034394
     },
     {
       "name": "Mühle|de:08118:3571",
-      "file": "Mühle.png",
+      "file": "Muehle.webp",
       "pctX": 0.795058,
       "pctY": 0.143246,
       "pctW": 0.014669
     },
     {
       "name": "Bottroper Straße|de:08111:2260",
-      "file": "Bottroper Straße.png",
+      "file": "Bottroper Strasse.webp",
       "pctX": 0.599302,
       "pctY": 0.146854,
       "pctW": 0.02236
     },
     {
       "name": "Remseck|de:08118:3573",
-      "file": "Remseck.png",
+      "file": "Remseck.webp",
       "pctX": 0.872071,
       "pctY": 0.146917,
       "pctW": 0.040946
     },
     {
       "name": "Auwiesen|de:08111:271",
-      "file": "Auwiesen.png",
+      "file": "Auwiesen.webp",
       "pctX": 0.710496,
       "pctY": 0.148563,
       "pctW": 0.023286
     },
     {
       "name": "Borsigstraße|de:08111:111",
-      "file": "Borsigstraße.png",
+      "file": "Borsigstrasse.webp",
       "pctX": 0.509791,
       "pctY": 0.149196,
       "pctW": 0.02236
     },
     {
       "name": "Max-Eryth-See|de:08111:6273",
-      "file": "Max-Eryth-See.png",
+      "file": "Max-Eryth-See.webp",
       "pctX": 0.654739,
       "pctY": 0.149513,
       "pctW": 0.033255
     },
     {
       "name": "Mühlhausen|de:08111:6270",
-      "file": "Mühlhausen.png",
+      "file": "Muehlhausen.webp",
       "pctX": 0.754611,
       "pctY": 0.157108,
       "pctW": 0.029054
     },
     {
       "name": "Elbestraße|de:08111:275",
-      "file": "Elbestraße.png",
+      "file": "Elbestrasse.webp",
       "pctX": 0.626148,
       "pctY": 0.161033,
       "pctW": 0.017375
     },
     {
       "name": "Siegelstraße|de:08111:112",
-      "file": "Siegelstraße.png",
+      "file": "Siegelstrasse.webp",
       "pctX": 0.509471,
       "pctY": 0.165464,
       "pctW": 0.022004
     },
     {
       "name": "Sportpark Feuerbach|de:08111:153",
-      "file": "Sportpark Feuerbach.png",
+      "file": "Sportpark Feuerbach.webp",
       "pctX": 0.347148,
       "pctY": 0.1673,
       "pctW": 0.024354
     },
     {
       "name": "Wilhelm-Geiger-Platz|de:08111:6180",
-      "file": "Wilhelm-Geiger-Platz.png",
+      "file": "Wilhelm-Geiger-Platz.webp",
       "pctX": 0.407641,
       "pctY": 0.1673,
       "pctW": 0.029267
     },
     {
       "name": "Maybachstraße|de:08111:158",
-      "file": "Maybachstraße.png",
+      "file": "Maybachstrasse.webp",
       "pctX": 0.465997,
       "pctY": 0.17325,
       "pctW": 0.028911
     },
     {
       "name": "Raststatter Straße|de:08111:148",
-      "file": "Raststatter Straße.png",
+      "file": "Raststatter Strasse.webp",
       "pctX": 0.237164,
       "pctY": 0.173946,
       "pctW": 0.021149
     },
     {
       "name": "Landauer Straße|de:08111:151",
-      "file": "Landauer Straße.png",
+      "file": "Landauer Strasse.webp",
       "pctX": 0.290358,
       "pctY": 0.173946,
       "pctW": 0.022289
     },
     {
       "name": "Gnesener Straße|de:08111:321",
-      "file": "Gnesener Straße.png",
+      "file": "Gnesener Strasse.webp",
       "pctX": 0.690878,
       "pctY": 0.175275,
       "pctW": 0.032329
     },
     {
       "name": "Riethmüllerhaus|de:08111:2493",
-      "file": "Riethmüllerhaus.png",
+      "file": "Riethmuellerhaus.webp",
       "pctX": 0.571281,
       "pctY": 0.175972,
       "pctW": 0.034822
     },
     {
       "name": "Hauptfriedhof|de:08111:2492",
-      "file": "Hauptfriedhof.png",
+      "file": "Hauptfriedhof.webp",
       "pctX": 0.771167,
       "pctY": 0.176288,
       "pctW": 0.03297
     },
     {
       "name": "Freibergstraße|de:08111:276",
-      "file": "Freibergstraße.png",
+      "file": "Freibergstrasse.webp",
       "pctX": 0.622303,
       "pctY": 0.177428,
       "pctW": 0.026917
     },
     {
       "name": "Pragsattel|de:08111:6113",
-      "file": "Pragsattel.png",
+      "file": "Pragsattel.webp",
       "pctX": 0.514883,
       "pctY": 0.181985,
       "pctW": 0.023286
     },
     {
       "name": "Münster Rathaus|de:08111:277",
-      "file": "Münster Rathaus.png",
+      "file": "Muenster Rathaus.webp",
       "pctX": 0.607171,
       "pctY": 0.196734,
       "pctW": 0.024995
     },
     {
       "name": "Steinhaldenfeld|de:08111:2490",
-      "file": "Steinhaldenfeld.png",
+      "file": "Steinhaldenfeld.webp",
       "pctX": 0.810795,
       "pctY": 0.19781,
       "pctW": 0.037172
     },
     {
       "name": "Kursaal|de:08111:322",
-      "file": "Kursaal.png",
+      "file": "Kursaal.webp",
       "pctX": 0.668055,
       "pctY": 0.198823,
       "pctW": 0.017304
     },
     {
       "name": "Obere Ziegelei|de:08111:6320",
-      "file": "Obere Ziegelei.png",
+      "file": "Obere Ziegelei.webp",
       "pctX": 0.730969,
       "pctY": 0.199013,
       "pctW": 0.034608
     },
     {
       "name": "Wolfbusch|de:08111:147",
-      "file": "Wolfbusch.png",
+      "file": "Wolfbusch.webp",
       "pctX": 0.205262,
       "pctY": 0.201481,
       "pctW": 0.025137
     },
     {
       "name": "Föhrich|de:08111:154",
-      "file": "Föhrich.png",
+      "file": "Foehrich.webp",
       "pctX": 0.377163,
       "pctY": 0.201861,
       "pctW": 0.017162
     },
     {
       "name": "Züricher Straße|de:08111:2494",
-      "file": "Züricher Straße.png",
+      "file": "Zuericher Strasse.webp",
       "pctX": 0.554119,
       "pctY": 0.206292,
       "pctW": 0.029552
     },
     {
       "name": "Weilimdorf Löwen-Markt|de:08111:6149",
-      "file": "Weilimdorf Löwen-Markt.png",
+      "file": "Weilimdorf Loewen-Markt.webp",
       "pctX": 0.263583,
       "pctY": 0.206798,
       "pctW": 0.031119
     },
     {
       "name": "Feuerbach|de:08111:6157",
-      "file": "Feuerbach.png",
+      "file": "Feuerbach.webp",
       "pctX": 0.436516,
       "pctY": 0.206798,
       "pctW": 0.024354
     },
     {
       "name": "Neugereut|de:08111:2484",
-      "file": "Neugereut.png",
+      "file": "Neugereut.webp",
       "pctX": 0.864096,
       "pctY": 0.208064,
       "pctW": 0.024852
     },
     {
       "name": "Münster Viadukt|de:08111:6",
-      "file": "Münster Viadukt.png",
+      "file": "Muenster Viadukt.webp",
       "pctX": 0.605747,
       "pctY": 0.216863,
       "pctW": 0.039521
     },
     {
       "name": "Feuerbach Pfostenwäldle|de:08111:152",
-      "file": "Feuerbach Pfostenwäldle.png",
+      "file": "Feuerbach Pfostenwaeldle.webp",
       "pctX": 0.335149,
       "pctY": 0.22218,
       "pctW": 0.033967
     },
     {
       "name": "Bergheimer Hof|de:08111:146",
-      "file": "Bergheimer Hof.png",
+      "file": "Bergheimer Hof.webp",
       "pctX": 0.185324,
       "pctY": 0.227814,
       "pctW": 0.03824
     },
     {
       "name": "Löwentor|de:08111:6261",
-      "file": "Löwentor.png",
+      "file": "Loewentor.webp",
       "pctX": 0.503062,
       "pctY": 0.229459,
       "pctW": 0.022431
     },
     {
       "name": "Rosensteinpark|de:08111:262",
-      "file": "Rosensteinpark.png",
+      "file": "Rosensteinpark.webp",
       "pctX": 0.545467,
       "pctY": 0.236359,
       "pctW": 0.027914
     },
     {
       "name": "Kraftwerk Münster|de:08111:280",
-      "file": "Kraftwerk Münster.png",
+      "file": "Kraftwerk Muenster.webp",
       "pctX": 0.586057,
       "pctY": 0.237055,
       "pctW": 0.028484
     },
     {
       "name": "Daimlerplatz|de:08111:323",
-      "file": "Daimlerplatz.png",
+      "file": "Daimlerplatz.webp",
       "pctX": 0.653386,
       "pctY": 0.237372,
       "pctW": 0.030122
     },
     {
       "name": "Löwentorbrücke|de:08111:6114",
-      "file": "Löwentorbrücke.png",
+      "file": "Loewentorbruecke.webp",
       "pctX": 0.441465,
       "pctY": 0.242372,
       "pctW": 0.038525
     },
     {
       "name": "Salamanderweg|de:08111:145",
-      "file": "Salamanderweg.png",
+      "file": "Salamanderweg.webp",
       "pctX": 0.169657,
       "pctY": 0.25307,
       "pctW": 0.038667
     },
     {
       "name": "Mühlsteg|de:08111:281",
-      "file": "Mühlsteg.png",
+      "file": "Muehlsteg.webp",
       "pctX": 0.574129,
       "pctY": 0.258387,
       "pctW": 0.021719
     },
     {
       "name": "Uff-Kirchhof|de:08111:32",
-      "file": "Uff-Kirchhof.png",
+      "file": "Uff-Kirchhof.webp",
       "pctX": 0.645268,
       "pctY": 0.258577,
       "pctW": 0.028982
     },
     {
       "name": "Glockenstraße|de:08111:263",
-      "file": "Glockenstraße.png",
+      "file": "Glockenstrasse.webp",
       "pctX": 0.521719,
       "pctY": 0.262691,
       "pctW": 0.026561
     },
     {
       "name": "Nordbahnhof|de:08111:6295",
-      "file": "Nordbahnhof.png",
+      "file": "Nordbahnhof.webp",
       "pctX": 0.479349,
       "pctY": 0.272566,
       "pctW": 0.019725
     },
     {
       "name": "Augsburger Platz|de:08111:33",
-      "file": "Augsburger Platz.png",
+      "file": "Augsburger Platz.webp",
       "pctX": 0.731468,
       "pctY": 0.272946,
       "pctW": 0.042441
     },
     {
       "name": "Rosensteinbrücke|de:08111:6253",
-      "file": "Rosensteinbrücke.png",
+      "file": "Rosensteinbruecke.webp",
       "pctX": 0.528591,
       "pctY": 0.282567,
       "pctW": 0.027772
     },
     {
       "name": "Pragfriedhof|de:08111:115",
-      "file": "Pragfriedhof.png",
+      "file": "Pragfriedhof.webp",
       "pctX": 0.427402,
       "pctY": 0.286429,
       "pctW": 0.029623
     },
     {
       "name": "Killesberg|de:08111:2235",
-      "file": "Killesberg.png",
+      "file": "Killesberg.webp",
       "pctX": 0.329773,
       "pctY": 0.287821,
       "pctW": 0.023214
     },
     {
       "name": "Giebel|de:08111:144",
-      "file": "Giebel.png",
+      "file": "Giebel.webp",
       "pctX": 0.16599,
       "pctY": 0.28991,
       "pctW": 0.014812
     },
     {
       "name": "Ebitzweg|de:08111:1604",
-      "file": "Ebitzweg.png",
+      "file": "Ebitzweg.webp",
       "pctX": 0.693157,
       "pctY": 0.30314,
       "pctW": 0.020936
     },
     {
       "name": "Wilhelma|de:08111:254",
-      "file": "Wilhelma.png",
+      "file": "Wilhelma.webp",
       "pctX": 0.540981,
       "pctY": 0.304532,
       "pctW": 0.022645
     },
     {
       "name": "Milchhof|de:08111:297",
-      "file": "Milchhof.png",
+      "file": "Milchhof.webp",
       "pctX": 0.470662,
       "pctY": 0.304722,
       "pctW": 0.014456
     },
     {
       "name": "Mittnachtstraße|de:08111:296",
-      "file": "Mittnachtstraße.png",
+      "file": "Mittnachtstrasse.webp",
       "pctX": 0.496226,
       "pctY": 0.305862,
       "pctW": 0.020152
     },
     {
       "name": "Breitwiesen|de:08118:143",
-      "file": "Breitwiesen.png",
+      "file": "Breitwiesen.webp",
       "pctX": 0.150217,
       "pctY": 0.308457,
       "pctW": 0.027416
     },
     {
       "name": "Bad Cannstatt Wilhelmsplatz|de:08111:6332",
-      "file": "Bad Cannstatt Wilhelmsplatz.png",
+      "file": "Bad Cannstatt Wilhelmsplatz.webp",
       "pctX": 0.626362,
       "pctY": 0.310103,
       "pctW": 0.034323
     },
     {
       "name": "Nürnberger Straße|de:08111:34",
-      "file": "Nürnberger Straße.png",
+      "file": "Nuernberger Strasse.webp",
       "pctX": 0.752047,
       "pctY": 0.31428,
       "pctW": 0.037456
     },
     {
       "name": "Kienbachstraße|de:08111:264",
-      "file": "Kienbachstraße.png",
+      "file": "Kienbachstrasse.webp",
       "pctX": 0.69718,
       "pctY": 0.332067,
       "pctW": 0.029267
     },
     {
       "name": "Mineralbäder|de:08111:28",
-      "file": "Mineralbäder.png",
+      "file": "Mineralbaeder.webp",
       "pctX": 0.54269,
       "pctY": 0.332257,
       "pctW": 0.03176
     },
     {
       "name": "Siedlung|de:08118:141",
-      "file": "Siedlung.png",
+      "file": "Siedlung.webp",
       "pctX": 0.138752,
       "pctY": 0.334599,
       "pctW": 0.020722
     },
     {
       "name": "Stadtbibliothek|de:08111:6116",
-      "file": "Stadtbibliothek.png",
+      "file": "Stadtbibliothek.webp",
       "pctX": 0.424019,
       "pctY": 0.340676,
       "pctW": 0.036246
     },
     {
       "name": "Budapester Platz|de:08111:299",
-      "file": "Budapester Platz.png",
+      "file": "Budapester Platz.webp",
       "pctX": 0.485224,
       "pctY": 0.343335,
       "pctW": 0.02706
     },
     {
       "name": "Mercedesstraße|de:08111:30",
-      "file": "Mercedesstraße.png",
+      "file": "Mercedesstrasse.webp",
       "pctX": 0.589226,
       "pctY": 0.346689,
       "pctW": 0.015453
     },
     {
       "name": "Blick|de:08111:265",
-      "file": "Blick.png",
+      "file": "Blick.webp",
       "pctX": 0.688101,
       "pctY": 0.35264,
       "pctW": 0.011109
     },
     {
       "name": "Antwerpener Straße|de:08111:35",
-      "file": "Antwerpener Straße.png",
+      "file": "Antwerpener Strasse.webp",
       "pctX": 0.776579,
       "pctY": 0.354349,
       "pctW": 0.041231
     },
     {
       "name": "Rosenberg-  Seidenstraße|de:08111:6072",
-      "file": "Rosenberg-  Seidenbergstraße.png",
+      "file": "Rosenberg-  Seidenbergstrasse.webp",
       "pctX": 0.337713,
       "pctY": 0.356058,
       "pctW": 0.028982
     },
     {
       "name": "Börsenplatz|de:08111:229",
-      "file": "Börsenplatz.png",
+      "file": "Boersenplatz.webp",
       "pctX": 0.427651,
       "pctY": 0.362514,
       "pctW": 0.02827
     },
     {
       "name": "Cannstatter Wasen|de:08111:2343",
-      "file": "Cannstatter Wasen.png",
+      "file": "Cannstatter Wasen.webp",
       "pctX": 0.602969,
       "pctY": 0.370363,
       "pctW": 0.021434
     },
     {
       "name": "Eszet|de:08111:267",
-      "file": "Eszel.png",
+      "file": "Eszel.webp",
       "pctX": 0.688671,
       "pctY": 0.373148,
       "pctW": 0.011963
     },
     {
       "name": "Metzstraße|de:08111:27",
-      "file": "Metzstraße.png",
+      "file": "Metzstrasse.webp",
       "pctX": 0.565869,
       "pctY": 0.380555,
       "pctW": 0.018443
     },
     {
       "name": "Hauptbahnhof|de:08111:6112",
-      "file": "Hauptbahnhof.png",
+      "file": "Hauptbahnhof.webp",
       "pctX": 0.500427,
       "pctY": 0.381757,
       "pctW": 0.038952
     },
     {
       "name": "Russische Kirche|de:08111:6071",
-      "file": "Russische Kirche.png",
+      "file": "Russische Kirche.webp",
       "pctX": 0.306594,
       "pctY": 0.38296,
       "pctW": 0.023713
     },
     {
       "name": "Gerlingen|de:08118:7140",
-      "file": "Gerlingen.png",
+      "file": "Gerlingen.webp",
       "pctX": 0.125009,
       "pctY": 0.388024,
       "pctW": 0.023001
     },
     {
       "name": "Hölderlinplatz|de:08111:6070",
-      "file": "Hölderlinplatz.png",
+      "file": "Hoelderlinplatz.webp",
       "pctX": 0.257495,
       "pctY": 0.38853,
       "pctW": 0.033469
     },
     {
       "name": "Beskidenstraße|de:08111:36",
-      "file": "Beskidenstraße.png",
+      "file": "Beskidenstrasse.webp",
       "pctX": 0.790572,
       "pctY": 0.389543,
       "pctW": 0.028769
     },
     {
       "name": "Schlotterbeckstraße|de:08111:268",
-      "file": "Schlotterbeckstraße.png",
+      "file": "Schlotterbeckstrasse.webp",
       "pctX": 0.702414,
       "pctY": 0.393594,
       "pctW": 0.039878
     },
     {
       "name": "Berliner Platz|de:08111:6073",
-      "file": "Berliner Platz.png",
+      "file": "Berliner Platz.webp",
       "pctX": 0.370362,
       "pctY": 0.408976,
       "pctW": 0.032187
     },
     {
       "name": "Karl-Olga-Krankenhaus|de:08111:76",
-      "file": "Karl-Olga-Krankenhaus.png",
+      "file": "Karl-Olga-Krankenhaus.webp",
       "pctX": 0.579007,
       "pctY": 0.412394,
       "pctW": 0.036602
     },
     {
       "name": "Neckarpark (Stadion)|de:08111:6330",
-      "file": "Neckarpark (Stadion).png",
+      "file": "Neckarpark (Stadion).webp",
       "pctX": 0.615787,
       "pctY": 0.41328,
       "pctW": 0.027273
     },
     {
       "name": "Stöckach|de:08111:26",
-      "file": "Stöckach.png",
+      "file": "Stoeckach.webp",
       "pctX": 0.546286,
       "pctY": 0.425117,
       "pctW": 0.01474
     },
     {
       "name": "Höhenstraße|de:08119:37",
-      "file": "Höhenstraße.png",
+      "file": "Hoehenstrasse.webp",
       "pctX": 0.807627,
       "pctY": 0.42518,
       "pctW": 0.022716
     },
     {
       "name": "Bergfriedhof|de:08111:77",
-      "file": "Bergfriedhof.png",
+      "file": "Bergfriedhof.webp",
       "pctX": 0.589867,
       "pctY": 0.434359,
       "pctW": 0.029837
     },
     {
       "name": "Schloss-/ Johannesstraße|de:08111:6219",
-      "file": "Schloss-  Johannesstraße.png",
+      "file": "Schloss-  Johannesstrasse.webp",
       "pctX": 0.342306,
       "pctY": 0.437777,
       "pctW": 0.05241
     },
     {
       "name": "Neckartor|de:08111:25",
-      "file": "Neckartor.png",
+      "file": "Neckartor.webp",
       "pctX": 0.539771,
       "pctY": 0.440752,
       "pctW": 0.023072
     },
     {
       "name": "Untertürkheim|de:08111:6085",
-      "file": "Untertürkheim.png",
+      "file": "Untertuerkheim.webp",
       "pctX": 0.65246,
       "pctY": 0.444613,
       "pctW": 0.042797
     },
     {
       "name": "Raitelsberg|de:08111:222",
-      "file": "Raitelsberg.png",
+      "file": "Raitelsberg.webp",
       "pctX": 0.600228,
       "pctY": 0.456324,
       "pctW": 0.026348
     },
     {
       "name": "Staatsgalerie|de:08111:6024",
-      "file": "Staatsgalerie.png",
+      "file": "Staatsgalerie.webp",
       "pctX": 0.533753,
       "pctY": 0.459045,
       "pctW": 0.031119
     },
     {
       "name": "Esslinger Straße|de:08119:38",
-      "file": "Esslinger Straße.png",
+      "file": "Esslinger Strasse.webp",
       "pctX": 0.832194,
       "pctY": 0.462147,
       "pctW": 0.031119
     },
     {
       "name": "Schwab-/ Bebelstraße|de:08111:6206",
-      "file": "Schwab-  Bebelstraße.png",
+      "file": "Schwab-  Bebelstrasse.webp",
       "pctX": 0.331233,
       "pctY": 0.466895,
       "pctW": 0.043082
     },
     {
       "name": "Ostendplatz|de:08111:6060",
-      "file": "Ostendplatz.png",
+      "file": "Ostendplatz.webp",
       "pctX": 0.557146,
       "pctY": 0.472465,
       "pctW": 0.028626
     },
     {
       "name": "Schlachthof|de:08111:6223",
-      "file": "Schlachthof.png",
+      "file": "Schlachthof.webp",
       "pctX": 0.609058,
       "pctY": 0.480504,
       "pctW": 0.022075
     },
     {
       "name": "Schlossplatz|de:08111:6022",
-      "file": "Schlossplatz.png",
+      "file": "Schlossplatz.webp",
       "pctX": 0.456704,
       "pctY": 0.482403,
       "pctW": 0.023286
     },
     {
       "name": "Rotebühlplatz|de:08111:6056",
-      "file": "Rotebühlplatz.png",
+      "file": "Rotebuehlplatz.webp",
       "pctX": 0.405576,
       "pctY": 0.486074,
       "pctW": 0.03297
     },
     {
       "name": "Charlottenplatz|de:08111:6075",
-      "file": "Charlottenplatz.png",
+      "file": "Charlottenplatz.webp",
       "pctX": 0.519512,
       "pctY": 0.4881,
       "pctW": 0.036531
     },
     {
       "name": "Brendle (Großmarkt)|de:08111:81",
-      "file": "Brendle (Großmarkt).png",
+      "file": "Brendle (Grossmarkt).webp",
       "pctX": 0.633625,
       "pctY": 0.489429,
       "pctW": 0.01823
     },
     {
       "name": "Ostheim Leo-Vetter-Bad|de:08111:78",
-      "file": "Ostheim Leo-Vetter-Bad.png",
+      "file": "Ostheim Leo-Vetter-Bad.webp",
       "pctX": 0.565121,
       "pctY": 0.491012,
       "pctW": 0.035178
     },
     {
       "name": "Eltinger Straße|de:08111:6210",
-      "file": "Eltinger Straße.png",
+      "file": "Eltinger Strasse.webp",
       "pctX": 0.167308,
       "pctY": 0.493354,
       "pctW": 0.018159
     },
     {
       "name": "Beethovenstraße|de:08111:212",
-      "file": "Beethovenstraße.png",
+      "file": "Beethovenstrasse.webp",
       "pctX": 0.226483,
       "pctY": 0.493354,
       "pctW": 0.021861
     },
     {
       "name": "Inselstraße|de:08111:83",
-      "file": "Inselstraße.png",
+      "file": "Inselstrasse.webp",
       "pctX": 0.660044,
       "pctY": 0.493354,
       "pctW": 0.012533
     },
     {
       "name": "Schwabenlandhalle|de:08119:39",
-      "file": "Schwabenlandhalle.png",
+      "file": "Schwabenlandhalle.webp",
       "pctX": 0.85961,
       "pctY": 0.496962,
       "pctW": 0.046927
     },
     {
       "name": "Herderplatz|de:08111:216",
-      "file": "Herderplatz.png",
+      "file": "Herderplatz.webp",
       "pctX": 0.286264,
       "pctY": 0.499304,
       "pctW": 0.027629
     },
     {
       "name": "Wasenstraße|de:08111:84",
-      "file": "Wasenstraße.png",
+      "file": "Wasenstrasse.webp",
       "pctX": 0.694652,
       "pctY": 0.504811,
       "pctW": 0.023499
     },
     {
       "name": "Gaisburg|de:08111:79",
-      "file": "Gaisburg.png",
+      "file": "Gaisburg.webp",
       "pctX": 0.581785,
       "pctY": 0.511457,
       "pctW": 0.021363
     },
     {
       "name": "Arndt-/Spittastraße|de:08111:218",
-      "file": "Arndt- Spittastraße.png",
+      "file": "Arndt- Spittastrasse.webp",
       "pctX": 0.360144,
       "pctY": 0.515255,
       "pctW": 0.038097
     },
     {
       "name": "Olgaeck|de:08111:6119",
-      "file": "Olgaeck.png",
+      "file": "Olgaeck.webp",
       "pctX": 0.528057,
       "pctY": 0.518737,
       "pctW": 0.019155
     },
     {
       "name": "Wangener-/ Landhausstraße|de:08111:80",
-      "file": "Wangener-  Landhausstraße.png",
+      "file": "Wangener-  Landhausstrasse.webp",
       "pctX": 0.610874,
       "pctY": 0.526079,
       "pctW": 0.030407
     },
     {
       "name": "Millöckerstraße|de:08111:211",
-      "file": "Millöckerstraße.png",
+      "file": "Milloeckerstrasse.webp",
       "pctX": 0.196966,
       "pctY": 0.526776,
       "pctW": 0.023357
     },
     {
       "name": "Lindpaintnerstraße|de:08111:6213",
-      "file": "Lindpaintnerstraße.png",
+      "file": "Lindpaintnerstrasse.webp",
       "pctX": 0.256142,
       "pctY": 0.527788,
       "pctW": 0.026917
     },
     {
       "name": "Im Degen|de:08111:82",
-      "file": "Im Degen.png",
+      "file": "Im Degen.webp",
       "pctX": 0.645624,
       "pctY": 0.527788,
       "pctW": 0.01474
     },
     {
       "name": "Rathaus|de:08111:6074",
-      "file": "Rathaus.png",
+      "file": "Rathaus.webp",
       "pctX": 0.487609,
       "pctY": 0.531143,
       "pctW": 0.018443
     },
     {
       "name": "Botnang|de:08111:6503",
-      "file": "Botnang.png",
+      "file": "Botnang.webp",
       "pctX": 0.12686,
       "pctY": 0.53127,
       "pctW": 0.019725
     },
     {
       "name": "Vogelsang|de:08111:217",
-      "file": "Vogelsang.png",
+      "file": "Vogelsang.webp",
       "pctX": 0.3302,
       "pctY": 0.538486,
       "pctW": 0.025208
     },
     {
       "name": "Marienplatz|de:08111:6019",
-      "file": "Marienplatz.png",
+      "file": "Marienplatz.webp",
       "pctX": 0.430642,
       "pctY": 0.560134,
       "pctW": 0.028413
     },
     {
       "name": "Österreichischer Platz|de:08111:6020",
-      "file": "Österreichischer Platz.png",
+      "file": "Oesterreichischer Platz.webp",
       "pctX": 0.483764,
       "pctY": 0.561717,
       "pctW": 0.046927
     },
     {
       "name": "Wangen Marktplatz|de:08111:225",
-      "file": "Wangen Marktplatz.png",
+      "file": "Wangen Marktplatz.webp",
       "pctX": 0.67717,
       "pctY": 0.562856,
       "pctW": 0.04707
     },
     {
       "name": "Eugensplatz|de:08111:6121",
-      "file": "Eugensplatz.png",
+      "file": "Eugensplatz.webp",
       "pctX": 0.549776,
       "pctY": 0.565641,
       "pctW": 0.029125
     },
     {
       "name": "Fellbach Lutherkirche|de:08119:6040",
-      "file": "Fellbach Lutherkirche.png",
+      "file": "Fellbach Lutherkirche.webp",
       "pctX": 0.866588,
       "pctY": 0.571338,
       "pctW": 0.029979
     },
     {
       "name": "Dobelstraße|de:08111:159",
-      "file": "Dobelstraße.png",
+      "file": "Dobelstrasse.webp",
       "pctX": 0.506587,
       "pctY": 0.579187,
       "pctW": 0.020936
     },
     {
       "name": "Heidehofstraße|de:08111:6122",
-      "file": "Heidehofstraße.png",
+      "file": "Heidehofstrasse.webp",
       "pctX": 0.557858,
       "pctY": 0.579567,
       "pctW": 0.028626
     },
     {
       "name": "Liststraße|de:08111:344",
-      "file": "Liststraße.png",
+      "file": "Liststrasse.webp",
       "pctX": 0.468525,
       "pctY": 0.580643,
       "pctW": 0.01531
     },
     {
       "name": "Erwin-Schoettle-Platz|de:08111:6017",
-      "file": "Erwin-Schoettle-Platz.png",
+      "file": "Erwin-Schoettle-Platz.webp",
       "pctX": 0.414085,
       "pctY": 0.58634,
       "pctW": 0.03945
     },
     {
       "name": "Stafflenbergstraße|de:08111:123",
-      "file": "Stafflenbergstraße.png",
+      "file": "Stafflenbergstrasse.webp",
       "pctX": 0.569714,
       "pctY": 0.595645,
       "pctW": 0.036673
     },
     {
       "name": "Pfaffenweg|de:08111:343",
-      "file": "Pfaffenweg.png",
+      "file": "Pfaffenweg.webp",
       "pctX": 0.483551,
       "pctY": 0.599316,
       "pctW": 0.026276
     },
     {
       "name": "Stadtwerke Stuttgart|de:08111:226",
-      "file": "Stadtwerke Stuttgart.png",
+      "file": "Stadtwerke Stuttgart.webp",
       "pctX": 0.699138,
       "pctY": 0.602735,
       "pctW": 0.049562
     },
     {
       "name": "Bubenbad|de:08111:124",
-      "file": "Bubenbad.png",
+      "file": "Bubenbad.webp",
       "pctX": 0.572314,
       "pctY": 0.609697,
       "pctW": 0.023784
     },
     {
       "name": "Wielandshöhe|de:08111:342",
-      "file": "Wielandshöhe.png",
+      "file": "Wielandshoehe.webp",
       "pctX": 0.497899,
       "pctY": 0.618496,
       "pctW": 0.034323
     },
     {
       "name": "Bihlplatz|de:08111:15",
-      "file": "Bihlplatz.png",
+      "file": "Bihlplatz.webp",
       "pctX": 0.440006,
       "pctY": 0.619445,
       "pctW": 0.020508
     },
     {
       "name": "Südheimer Platz|de:08111:13",
-      "file": "Südheimer Platz.png",
+      "file": "Suedheimer Platz.webp",
       "pctX": 0.399345,
       "pctY": 0.623307,
       "pctW": 0.026205
     },
     {
       "name": "Payerstraße|de:08111:125",
-      "file": "Payerstraße.png",
+      "file": "Payerstrasse.webp",
       "pctX": 0.579221,
       "pctY": 0.625839,
       "pctW": 0.020508
     },
     {
       "name": "Bopser|de:08111:6160",
-      "file": "Bopser.png",
+      "file": "Bopser.webp",
       "pctX": 0.542049,
       "pctY": 0.62894,
       "pctW": 0.016521
     },
     {
       "name": "Haigst|de:08111:165",
-      "file": "Haigst.png",
+      "file": "Haigst.webp",
       "pctX": 0.498398,
       "pctY": 0.63622,
       "pctW": 0.014669
     },
     {
       "name": "Vaihingen Viadukt|de:08111:6",
-      "file": "Vaihingen Viadukt.png",
+      "file": "Vaihingen Viadukt.webp",
       "pctX": 0.311436,
       "pctY": 0.639575,
       "pctW": 0.023713
     },
     {
       "name": "Kaltental|de:08111:6009",
-      "file": "Kaltental.png",
+      "file": "Kaltental.webp",
       "pctX": 0.361924,
       "pctY": 0.639575,
       "pctW": 0.016592
     },
     {
       "name": "Waldeck|de:08111:6010",
-      "file": "Waldeck.png",
+      "file": "Waldeck.webp",
       "pctX": 0.382967,
       "pctY": 0.639575,
       "pctW": 0.013957
     },
     {
       "name": "Geroksruhe|de:08111:126",
-      "file": "Geroksruhe.png",
+      "file": "Geroksruhe.webp",
       "pctX": 0.590294,
       "pctY": 0.639765,
       "pctW": 0.027701
     },
     {
       "name": "Nägelestraße|de:08111:341",
-      "file": "Nägelestraße.png",
+      "file": "Naegelestrasse.webp",
       "pctX": 0.508367,
       "pctY": 0.654387,
       "pctW": 0.01823
     },
     {
       "name": "Stelle|de:08111:6127",
-      "file": "Stelle.png",
+      "file": "Stelle.webp",
       "pctX": 0.591896,
       "pctY": 0.654766,
       "pctW": 0.013245
     },
     {
       "name": "Waldau|de:08111:130",
-      "file": "Waldau.png",
+      "file": "Waldau.webp",
       "pctX": 0.556683,
       "pctY": 0.657552,
       "pctW": 0.017731
     },
     {
       "name": "Hedelfingen|de:08111:227",
-      "file": "Hedelfingen.png",
+      "file": "Hedelfingen.webp",
       "pctX": 0.761198,
       "pctY": 0.6604,
       "pctW": 0.02827
     },
     {
       "name": "Engelboldstraße|de:08111:8",
-      "file": "Engelboldstraße.png",
+      "file": "Engelboldstrasse.webp",
       "pctX": 0.341985,
       "pctY": 0.666287,
       "pctW": 0.017589
     },
     {
       "name": "Fauststraße|de:08111:5",
-      "file": "Fauststraße.png",
+      "file": "Fauststrasse.webp",
       "pctX": 0.281742,
       "pctY": 0.67363,
       "pctW": 0.019868
     },
     {
       "name": "Heslach Vogelrain|de:08111:43",
-      "file": "Vogelrain.png",
+      "file": "Vogelrain.webp",
       "pctX": 0.406145,
       "pctY": 0.677934,
       "pctW": 0.023143
     },
     {
       "name": "Zahnradbahnhof|de:08111:6340",
-      "file": "Zahlradbahnhof.png",
+      "file": "Zahlradbahnhof.webp",
       "pctX": 0.492772,
       "pctY": 0.678061,
       "pctW": 0.021648
     },
     {
       "name": "Ruhbank (Fernsehturm)|de:08111:6128",
-      "file": "Ruhbank (Fernsehturm).png",
+      "file": "Ruhbank (Fernsehturm).webp",
       "pctX": 0.628213,
       "pctY": 0.680023,
       "pctW": 0.05711
     },
     {
       "name": "Waldfriedhof|de:08111:6102",
-      "file": "Waldfriedhof.png",
+      "file": "Waldfriedhof.webp",
       "pctX": 0.44823,
       "pctY": 0.681732,
       "pctW": 0.031261
     },
     {
       "name": "Weinsteige|de:08111:163",
-      "file": "Weinsteige.png",
+      "file": "Weinsteige.webp",
       "pctX": 0.540874,
       "pctY": 0.694961,
       "pctW": 0.026704
     },
     {
       "name": "Silberwald|de:08111:129",
-      "file": "Silberwald.png",
+      "file": "Silberwald.webp",
       "pctX": 0.621092,
       "pctY": 0.695721,
       "pctW": 0.024923
     },
     {
       "name": "Vaihinger Straße|de:08111:170",
-      "file": "Vaihinger Straße.png",
+      "file": "Vaihinger Strasse.webp",
       "pctX": 0.380011,
       "pctY": 0.703127,
       "pctW": 0.023001
     },
     {
       "name": "Peregrinastraße|de:08111:6166",
-      "file": "Peregrinastraße.png",
+      "file": "Peregrinastrasse.webp",
       "pctX": 0.468596,
       "pctY": 0.703127,
       "pctW": 0.024567
     },
     {
       "name": "Riedsee|de:08111:6168",
-      "file": "Riedsee.png",
+      "file": "Riedsee.webp",
       "pctX": 0.424446,
       "pctY": 0.707938,
       "pctW": 0.018586
     },
     {
       "name": "Vaihingen Schillerplatz|de:08111:6004",
-      "file": "Vaihingen Schillerplatz.png",
+      "file": "Vaihingen Schillerplatz.webp",
       "pctX": 0.254219,
       "pctY": 0.710723,
       "pctW": 0.029481
     },
     {
       "name": "Sillenbuch|de:08111:6134",
-      "file": "Sillenbuch.png",
+      "file": "Sillenbuch.webp",
       "pctX": 0.630314,
       "pctY": 0.712685,
       "pctW": 0.02471
     },
     {
       "name": "SSB am Wallgraben|de:08111:355",
-      "file": "SSB am Wallgraben.png",
+      "file": "SSB am Wallgraben.webp",
       "pctX": 0.324254,
       "pctY": 0.712812,
       "pctW": 0.021292
     },
     {
       "name": "SSB Zentrum|de:08111:350",
-      "file": "SSB Zentrum.png",
+      "file": "SSB Zentrum.webp",
       "pctX": 0.350993,
       "pctY": 0.716483,
       "pctW": 0.019796
     },
     {
       "name": "Schemppstraße|de:08111:6130",
-      "file": "Schemppstraße.png",
+      "file": "Schemppstrasse.webp",
       "pctX": 0.643025,
       "pctY": 0.730662,
       "pctW": 0.029908
     },
     {
       "name": "Degerloch|de:08111:6165",
-      "file": "Degerloch.png",
+      "file": "Degerloch.webp",
       "pctX": 0.521114,
       "pctY": 0.743828,
       "pctW": 0.023784
     },
     {
       "name": "Bockelstraße|de:08111:6133",
-      "file": "Bockelstraße.png",
+      "file": "Bockelstrasse.webp",
       "pctX": 0.648971,
       "pctY": 0.746677,
       "pctW": 0.022716
     },
     {
       "name": "Degerloch Albstraße|de:08111:2594",
-      "file": "Degerloch Albstraße.png",
+      "file": "Degerloch Albstrasse.webp",
       "pctX": 0.490458,
       "pctY": 0.750348,
       "pctW": 0.023713
     },
     {
       "name": "Sonnenberg|de:08111:6167",
-      "file": "Sonnenberg.png",
+      "file": "Sonnenberg.webp",
       "pctX": 0.44645,
       "pctY": 0.750918,
       "pctW": 0.020152
     },
     {
       "name": "Jurastraße|de:08111:356",
-      "file": "Jurastraße.png",
+      "file": "Jurastrasse.webp",
       "pctX": 0.291462,
       "pctY": 0.751551,
       "pctW": 0.017802
     },
     {
       "name": "Möhringen Bahnhof|de:08111:6169",
-      "file": "Möhringen Bahnhof.png",
+      "file": "Moehringen Bahnhof.webp",
       "pctX": 0.401802,
       "pctY": 0.756298,
       "pctW": 0.025564
     },
     {
       "name": "Vaihingen|de:08111:6002",
-      "file": "Vaihingen.png",
+      "file": "Vaihingen.webp",
       "pctX": 0.24781,
       "pctY": 0.773642,
       "pctW": 0.031617
     },
     {
       "name": "Sigmaringer Straße|de:08111:354",
-      "file": "Sigmaringer Straße.png",
+      "file": "Sigmaringer Strasse.webp",
       "pctX": 0.456669,
       "pctY": 0.773706,
       "pctW": 0.039593
     },
     {
       "name": "Heumaden|de:08111:136",
-      "file": "Heumaden.png",
+      "file": "Heumaden.webp",
       "pctX": 0.660578,
       "pctY": 0.774022,
       "pctW": 0.025422
     },
     {
       "name": "Lapp Kabel|de:08111:2599",
-      "file": "Lapp Kabel.png",
+      "file": "Lapp Kabel.webp",
       "pctX": 0.314392,
       "pctY": 0.774085,
       "pctW": 0.02649
     },
     {
       "name": "Rohrer Weg|de:08111:183",
-      "file": "Rohrer Weg.png",
+      "file": "Rohrer Weg.webp",
       "pctX": 0.368048,
       "pctY": 0.774845,
       "pctW": 0.028128
     },
     {
       "name": "Möhringen Freibad|de:08111:6171",
-      "file": "Möhringen Freibad.png",
+      "file": "Moehringen Freibad.webp",
       "pctX": 0.36755,
       "pctY": 0.791936,
       "pctW": 0.046215
     },
     {
       "name": "Ruit|de:08116:2968.png",
-      "file": "Ruit.png",
+      "file": "Ruit.webp",
       "pctX": 0.662786,
       "pctY": 0.792632,
       "pctW": 0.009044
     },
     {
       "name": "Leinfelden Frank|de:08116:7173",
-      "file": "Leinfelden Frank.png",
+      "file": "Leinfelden Frank.webp",
       "pctX": 0.314819,
       "pctY": 0.798139,
       "pctW": 0.024354
     },
     {
       "name": "Plieninger Straße|de:08111:353",
-      "file": "Plieninger Straße.png",
+      "file": "Plieninger Strasse.webp",
       "pctX": 0.470377,
       "pctY": 0.802507,
       "pctW": 0.03354
     },
     {
       "name": "Fasanenhof|de:08111:364",
-      "file": "Fasanenhof.png",
+      "file": "Fasanenhof.webp",
       "pctX": 0.353415,
       "pctY": 0.80833,
       "pctW": 0.027772
     },
     {
       "name": "Dürrlewang|de:08111:2613",
-      "file": "Dürrlewang.png",
+      "file": "Duerrlewang.webp",
       "pctX": 0.291177,
       "pctY": 0.809596,
       "pctW": 0.027629
     },
     {
       "name": "Zinsholz|de:08116:2969",
-      "file": "Zinsholz.png",
+      "file": "Zinsholz.webp",
       "pctX": 0.678844,
       "pctY": 0.811305,
       "pctW": 0.020224
     },
     {
       "name": "Europaplatz|de:08111:2584",
-      "file": "Europaplatz.png",
+      "file": "Europaplatz.webp",
       "pctX": 0.353771,
       "pctY": 0.82694,
       "pctW": 0.028484
     },
     {
       "name": "Parksiedlung|de:08116:2970",
-      "file": "Parksiedlung.png",
+      "file": "Parksiedlung.webp",
       "pctX": 0.694225,
       "pctY": 0.831055,
       "pctW": 0.030335
     },
     {
       "name": "Salzäcker|de:08111:360",
-      "file": "Salzacker.png",
+      "file": "Salzacker.webp",
       "pctX": 0.482803,
       "pctY": 0.83403,
       "pctW": 0.022502
     },
     {
       "name": "EnBW City|de:08111:2586",
-      "file": "EnBW City.png",
+      "file": "EnBW City.webp",
       "pctX": 0.352026,
       "pctY": 0.844537,
       "pctW": 0.024995
     },
     {
       "name": "Unteraichen|de:08116:174",
-      "file": "Unteraichen.png",
+      "file": "Unteraichen.webp",
       "pctX": 0.318593,
       "pctY": 0.844917,
       "pctW": 0.015239
     },
     {
       "name": "Scharnhauser Park|de:08116:2971",
-      "file": "Scharnhauser Park.png",
+      "file": "Scharnhauser Park.webp",
       "pctX": 0.712063,
       "pctY": 0.848525,
       "pctW": 0.04593
     },
     {
       "name": "Leinfelden Bahnhof|de:08116:175",
-      "file": "Leinfelden Bahnhof.png",
+      "file": "Leinfelden Bahnhof.webp",
       "pctX": 0.274016,
       "pctY": 0.856944,
       "pctW": 0.03176
     },
     {
       "name": "Schelmenwasen|de:08111:363",
-      "file": "Schelmenwasen.png",
+      "file": "Schelmenwasen.webp",
       "pctX": 0.358791,
       "pctY": 0.861312,
       "pctW": 0.038952
     },
     {
       "name": "Landhaus|de:08111:6352",
-      "file": "Landhaus.png",
+      "file": "Landhaus.webp",
       "pctX": 0.500534,
       "pctY": 0.864287,
       "pctW": 0.023072
     },
     {
       "name": "Kreuzbrunnen|de:08116:2972",
-      "file": "Kreuzbrunnen.png",
+      "file": "Kreuzbrunnen.webp",
       "pctX": 0.716478,
       "pctY": 0.867262,
       "pctW": 0.033113
     },
     {
       "name": "Stadionstraße|de:08116:7180",
-      "file": "Stadionstraße.png",
+      "file": "Stadionstrasse.webp",
       "pctX": 0.352133,
       "pctY": 0.878909,
       "pctW": 0.025636
     },
     {
       "name": "Technische Akademie|de:08116:2973",
-      "file": "Technische Akademie.png",
+      "file": "Technische Akademie.webp",
       "pctX": 0.735776,
       "pctY": 0.885935,
       "pctW": 0.052482
     },
     {
       "name": "Messe West|de:08116:7182",
-      "file": "Messe West.png",
+      "file": "Messe West.webp",
       "pctX": 0.353877,
       "pctY": 0.896569,
       "pctW": 0.028698
     },
     {
       "name": "Leinfelden Neuer Markt|de:08116:2069",
-      "file": "Leinfelden Neuer Markt.png",
+      "file": "Leinfelden Neuer Markt.webp",
       "pctX": 0.25486,
       "pctY": 0.901,
       "pctW": 0.056541
     },
     {
       "name": "Flughafen/ Messe|de:08116:2103",
-      "file": "Flughafen Messe.png",
+      "file": "Flughafen Messe.webp",
       "pctX": 0.37054,
       "pctY": 0.923218,
       "pctW": 0.061169
     },
     {
       "name": "Nellingen Ostfildern|de:08116:2974",
-      "file": "Nellingen Ostfildern.png",
+      "file": "Nellingen Ostfildern.webp",
       "pctX": 0.733711,
       "pctY": 0.926763,
       "pctW": 0.048067
     },
     {
       "name": "Plieningen|de:08111:6555",
-      "file": "Plieningen.png",
+      "file": "Plieningen.webp",
       "pctX": 0.517055,
       "pctY": 0.926889,
       "pctW": 0.024639
     },
     {
       "name": "MHPArena",
-      "file": "Stadion.png",
+      "file": "Stadion.webp",
       "type": "venue", 
       "venueLink": "https://www.mhparena-stuttgart.de/events-tickets/",
       "pctX": 0.637791,
@@ -1476,7 +1476,7 @@
     },
     {
       "name": "Stuttgart Hbf",
-      "file": "Bahnhof.png",
+      "file": "Bahnhof.webp",
       "type": "venue",
       "venueLink": "https://www.bahnhof.de/stuttgart-hbf/abfahrt",
       "pctX": 0.469878,
@@ -1485,7 +1485,7 @@
     },
     {
       "name": "Arrow",
-      "file": "Arrow.png",
+      "file": "Arrow.webp",
       "type": "decoration",
       "pctX": 0.459588,
       "pctY": 0.421889,
@@ -1493,7 +1493,7 @@
     },
     {
       "name": "Messe Stuttgart",
-      "file": "Messe.png",
+      "file": "Messe.webp",
       "type": "venue", 
       "venueLink": "https://www.messe-stuttgart.de/veranstaltungen-tickets/",
       "pctX": 0.405137,

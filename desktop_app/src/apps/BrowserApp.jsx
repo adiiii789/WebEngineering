@@ -107,7 +107,12 @@ export default function BrowserApp({ url, onNavigate, darkMode, isSmallScreen })
                     <House size={14} />
                 </button>
                 <button
-                    onClick={() => onNavigate(url)}
+                    onClick={() => {
+                        setLoading(true);
+                        setBlocked(false);
+                        setNetworkError(false);
+                        if (iframeRef.current) iframeRef.current.src = iframeRef.current.src;
+                    }}
                     style={{ opacity: 0.6, cursor: 'pointer', background: 'none', border: 'none', color: iconColor }}
                     title="Neu laden"
                 >
@@ -125,7 +130,7 @@ export default function BrowserApp({ url, onNavigate, darkMode, isSmallScreen })
         </div>
 
     {/* iframe / Fallbacks */}
-    <div style={{ position: 'relative', width: '100%', height: isSmallScreen && window.innerWidth >= 640 ? 'min(280px, calc(55vh - 60px))' : 420 }}>
+    <div style={{ position: 'relative', width: '100%', height: isSmallScreen && window.innerWidth >= 640 ? 'min(280px, calc(60vh - 40px))' : 420 }}>
 
         {/* loading placeholder */}
         {loading && !blocked && !networkError && (

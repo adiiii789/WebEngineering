@@ -230,6 +230,29 @@ export const weatherStyles = (dark, isWeatherOpen) => ({
         transition-all
     `,
 
+    suggestionList: `
+        absolute
+        top-full
+        left-0
+        right-0
+        mt-1
+        ${dark ? 'bg-black/90 border-white/10' : 'bg-white/95 border-black/10'}
+        border
+        rounded-xl
+        overflow-hidden
+        z-50
+        shadow-lg
+    `,
+
+    suggestionItem: `
+        px-3
+        py-2
+        text-xs
+        cursor-pointer
+        ${dark ? 'text-white/80 hover:bg-white/10' : 'text-gray-700 hover:bg-black/5'}
+        transition-colors
+    `,
+
     forcastWrapper: `
         space-y-4
     `,
@@ -297,7 +320,6 @@ export const windowStyles = (dark) => ({
         [@media(max-width:639px)]:max-h-[72vh]
         sm:max-h-[55vh]
         overflow-y-auto
-        touch-auto
         custom-scrollbar
         [font-family:'Comic_Sans_MS',cursive]
     `

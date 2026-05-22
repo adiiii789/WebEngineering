@@ -559,7 +559,7 @@ function buildOverlayDOM() {
         el.title        = item.name;
 
         const imgEl        = document.createElement('img'); // insert file into div
-        imgEl.src          = labelDir + (item.file ?? (item.name + '.png'));
+        imgEl.src          = labelDir + (item.file ?? (item.name + '.webp'));
         imgEl.alt          = item.name;
         imgEl.draggable    = false;
         imgEl.style.filter = colorMode === 'dark' ? 'invert(1)' : 'none';

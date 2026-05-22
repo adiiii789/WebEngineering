@@ -78,6 +78,12 @@ td img {width:100%;min-width: 200px;}
   nav li a { padding: 0.5rem 0.2rem; font-size: 0.72em; }
   .popup { max-height: 55vh; overflow-y: auto; }
 }
+@media only screen and (max-height: 300px) {
+  header { max-height: 52px; overflow: hidden; }
+  footer { display: none; }
+  nav li a { padding: 0.5rem 0.2rem; font-size: 0.72em; }
+  .popup { max-height: 55vh; overflow-y: auto; }
+}
     /* For small  tablets: 450-700  */
 
 @media only screen and (min-width: 450px) {

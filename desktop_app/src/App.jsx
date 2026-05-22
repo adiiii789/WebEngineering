@@ -6,9 +6,10 @@ import React, {
     useCallback 
 } from 'react';
 
-import { 
-    motion, 
-    AnimatePresence 
+import {
+    motion,
+    AnimatePresence,
+    useDragControls
 } from 'framer-motion';
 
 import {
@@ -158,12 +159,15 @@ const LoginScreen = ({ onLogin, darkMode }) => {
 
 // Window is the blueprint for all apps, sets the frame with draggable windows
 const Window = ({ title, isOpen, onClose, children, zIndex, onFocus, style, darkMode }) => {
-    const wis = windowStyles(darkMode); // seperate part of stylesheet
+    const wis      = windowStyles(darkMode);
+    const controls = useDragControls();
     return (
-        <AnimatePresence /*Framer-Motion enable*/> 
+        <AnimatePresence>
             {isOpen && (
-                <motion.div // div + animation purpose
+                <motion.div
                     drag dragMomentum={false}
+                    dragControls={controls}
+                    dragListener={false}
                     onMouseDown={onFocus}
                     initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1,    opacity: 1 }}
@@ -171,13 +175,17 @@ const Window = ({ title, isOpen, onClose, children, zIndex, onFocus, style, dark
                     className={wis.wrapper}
                     style={{ ...style, zIndex }}
                 >
-                    <div className={wis.header} /*Wrapper of Titlename and exit button*/> 
+                    <div
+                        className={wis.header}
+                        onPointerDown={(e) => controls.start(e)}
+                        style={{ cursor: 'grab', touchAction: 'none' }}
+                    >
                         <span className={wis.title}>{title}</span>
-                        <button onClick={onClose} className={wis.closeBtn} /*return onclose to handle in main*/> 
+                        <button onClick={onClose} className={wis.closeBtn}>
                             <X size={16} />
                         </button>
                     </div>
-                    <div className={wis.content} onPointerDown={(e) => e.stopPropagation()} /*content of window will be inserted from main*/>
+                    <div className={wis.content}>
                         {children}
                     </div>
                 </motion.div>
@@ -212,6 +220,7 @@ export default function App() { // main function, base of what will be displayed
     const [weather,       setWeather]       = useState(null); // current weather
     const [city,          setCity]          = useState('Stuttgart'); //city default
     const [cityInput,     setCityInput]     = useState(''); //input from window
+    const [suggestions,   setSuggestions]   = useState([]);
     const [coords,        setCoords]        = useState({ lat: 48.78232, lon: 9.17702 }); //default coords, will be overwritten
     const [isWeatherOpen, setIsWeatherOpen] = useState(false); // if window is displayerd
     const weatherRef = useRef(null); // avoids re-render
@@ -295,12 +304,37 @@ export default function App() { // main function, base of what will be displayed
         return () => { controller.abort(); clearTimeout(tid); };
     }, [coords]);
 
+    // Location Fetch dropdown
+    useEffect(() => {
+        if (cityInput.length < 2) { setSuggestions([]); return; }
+        const controller = new AbortController();
+        const t = setTimeout(async () => {
+            try {
+                const res  = await fetch(
+                    `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityInput)}&count=5&language=de&format=json`,
+                    { signal: controller.signal }
+                );
+                const data = await res.json();
+                setSuggestions(data.results || []);
+            } catch {}
+        }, 300);
+        return () => { clearTimeout(t); controller.abort(); };
+    }, [cityInput]);
+
+    const selectCity = (result) => {
+        setCoords({ lat: result.latitude, lon: result.longitude });
+        setCity(result.name);
+        setCityInput('');
+        setSuggestions([]);
+        setIsWeatherOpen(false);
+    };
+
     const handleCitySearch = useCallback(async (e) => {
         if (e.key !== 'Enter' || !cityInput) return;
+        if (suggestions.length > 0) { selectCity(suggestions[0]); return; }
         try {
             const res  = await fetch(
-                `https://geocoding-api.open-meteo.com/v1/search` +
-                `?name=${cityInput}&count=1&language=de&format=json`,
+                `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityInput)}&count=1&language=de&format=json`,
                 { signal: AbortSignal.timeout(8000) }
             );
             const data = await res.json();
@@ -308,12 +342,13 @@ export default function App() { // main function, base of what will be displayed
                 setCoords({ lat: data.results[0].latitude, lon: data.results[0].longitude });
                 setCity(data.results[0].name);
                 setCityInput('');
+                setSuggestions([]);
                 setIsWeatherOpen(false);
             }
         } catch {
             setNetworkError(true);
         }
-    }, [cityInput]);
+    }, [cityInput, suggestions]);
 
     // return early 
     const getWeatherIcon = (code) => { // https://open-meteo.com/en/docs - at the bottom the interpretation
@@ -563,8 +598,23 @@ export default function App() { // main function, base of what will be displayed
                                             className={wes.popupInput}
                                             value={cityInput}
                                             onChange={(e) => setCityInput(e.target.value)}
-                                            onKeyDown={handleCitySearch} // after send update from API
+                                            onKeyDown={handleCitySearch}
                                         />
+                                        {suggestions.length > 0 && (
+                                            <div className={wes.suggestionList}>
+                                                {suggestions.map((s) => (
+                                                    <div
+                                                        key={`${s.latitude}-${s.longitude}`}
+                                                        onMouseDown={() => selectCity(s)}
+                                                        className={wes.suggestionItem}
+                                                    >
+                                                        <span style={{ fontWeight: 600 }}>{s.name}</span>
+                                                        {s.admin1 && <span style={{ opacity: 0.5 }}>, {s.admin1}</span>}
+                                                        <span style={{ opacity: 0.35 }}> · {s.country_code}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                         {networkError && (
                                             <div style={{
                                                 display: 'flex',

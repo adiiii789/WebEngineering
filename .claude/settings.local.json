@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"C:\\\\Users\\\\Adrian\\\\Downloads\\\\WebEngineering\\\\desktop_app\\\\public\\\\Background_Stadtbahn\\\\webp_labels\")",
+      "Bash(findstr /i \"sterr\")"
+    ]
+  }
+}

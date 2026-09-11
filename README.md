@@ -11,6 +11,10 @@ Nach dem starten ist die Seite unter `http://localhost:4011/` erreichbar
 
 Technisch handelt es sich hierbei um eine React Website. Der hintergrund ist in html/css/js geschrieben und wird per iframe hinzugefügt.
 
+Dieser hintergrund befindet sich in `desktop_app/public/Background_Stadtbahn` darin befinden sich alle Ressourcen.
+
+Anzumerken hierbei, die Koordinaten wurden durch das `ubahn_koordinaten_picker.html` händisch eingetragen und exportiert. Die Fahrpläne wurden alle abgeschreiben (händische sachen kann man bestimmt automatisieren, plan selbst bleibt erstmal fest). Die stationen wurden aus dem ursprungsdokument der pdf genommen und per skript die positionen ermittelt.
+
 ## Beschreibung der Seite
 
 Das Ziel dieser Anwendung war es, eine Linux Oberfläche nachzubilden. Anmeldedaten sind beliebiger Nutzername und als Passwort entweder `guest` für eingeschränkte Rechte und `admin123` für vollen zugriff.
